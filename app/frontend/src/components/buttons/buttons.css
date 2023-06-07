@@ -1,8 +1,32 @@
-* {
-    position:absolute;
+button{
+    width: 325px;
+    height: 57px;
+    border-radius: 16px;
     font-style: normal;
     align-items: center;
     text-align: center;
-    letter-spacing: 0.5px;
-    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}  
+
+.size-default {
+    width: 325px;
+    height: 57px;
+}
+  
+.size-half {
+    width: 155px;
+    height: 57px;
+}
+
+.size-mini {
+    width: 48px;
+    height: 48px;
 }

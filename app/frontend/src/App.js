@@ -8,6 +8,7 @@ import './App.css';
 const App = () => {
   return (
     <div className='App'>
+        <Header></Header>
         <Buttons context="continue"></Buttons>
         <Buttons context="payment"></Buttons>
         <Buttons context="guest"></Buttons>
@@ -16,6 +17,7 @@ const App = () => {
         <Buttons context="plus"></Buttons>
         <Buttons context="minus"></Buttons>
         <Buttons context="cart"></Buttons>
+        <Popups></Popups>
         <Navigation></Navigation>
     </div>
   );

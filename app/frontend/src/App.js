@@ -18,6 +18,7 @@ const App = () => {
         <Buttons context="minus"></Buttons>
         <Buttons context="cart"></Buttons>
         <Popups></Popups>
+        <Navigation></Navigation>
     </div>
   );
 }

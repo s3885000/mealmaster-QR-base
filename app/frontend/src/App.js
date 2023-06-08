@@ -8,6 +8,7 @@ import './App.css';
 const App = () => {
   return (
     <div className='App'>
+        <Header></Header>
         <Buttons context="continue"></Buttons>
         <Buttons context="payment"></Buttons>
         <Buttons context="guest"></Buttons>

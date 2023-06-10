@@ -1,1 +1,0 @@
-# mealmaster-QR-base

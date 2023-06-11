@@ -1,21 +1,17 @@
-import { Body, Controller, ValidationPipe, Post } from '@nestjs/common';
+import { Body, Controller, ValidationPipe, Post, HttpCode, HttpStatus } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { LoginUserDto } from './dto/login-user.dto';
+
 
 @Controller('users')
 export class UsersController {
-    constructor(private readonly usersService: UsersService) { }
-    
-    @Post('register')
-    async register(@Body(ValidationPipe) createUserDto: CreateUserDto): Promise<string> {
-        await this.usersService.registerUser(createUserDto);
-        return 'Registration successful';
-    }
+  constructor(private readonly usersService: UsersService) {}
 
-    @Post('login')
-    async login(@Body(ValidationPipe) LoginUserDto: LoginUserDto): Promise<{ token: string }> {
-        const token = await this.usersService.loginUser(LoginUserDto);
-        return {token}
-    }
+  @Post('register')
+  async register(@Body(ValidationPipe) createUserDto: CreateUserDto): Promise<any> {
+    const user = await this.usersService.registerUser(createUserDto);
+    return { message: 'Registration successful', user };
+  }
+
+
 }

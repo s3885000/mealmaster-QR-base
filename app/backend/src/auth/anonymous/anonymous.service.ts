@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { v4 as uuid } from 'uuid';
-import { JwtPayload } from '../jwt/jwt-payload.interface';
+import { JwtPayload } from '../../jwt/jwt-payload.interface';
 
 @Injectable()
 export class AnonymousService {

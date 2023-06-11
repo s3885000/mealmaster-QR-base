@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './navigation.css';
-import { HomeNav, CartNav, ScanQRNav, OnGoingNav, ProfileNav,HomeNavActive, CartNavActive, ScanQRNavActive, OnGoingNavActive, ProfileNavActive} from '../../asset/icons/index.js';
+import { HomeNav, CartNav, ScanQRNav, OnGoingNav, ProfileNav,HomeNavActive, CartNavActive, ScanQRNavActive, OnGoingNavActive, ProfileNavActive} from '../../asset/icons/navigation/index.js';
 
 const navItems = [
   { name: 'Home', Icon: HomeNav, ActiveIcon: HomeNavActive },

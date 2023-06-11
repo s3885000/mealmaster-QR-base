@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './buttons.css';
-import { PlusIcon, MinusIcon, CartIcon } from '../../asset/icons/index.js';
+import { PlusIcon, MinusIcon, CartIcon, BackIcon } from '../../asset/icons/button/index.js';
 
 
 const Buttons = ({ type, className, style, onClick, context, count, setCount = () => {} }) => {
@@ -9,6 +9,7 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
   // Context for button content
   const buttonContentContexts = {
     guest: 'Access as a Guest',
+    apply: 'Apply',
     continue: 'Continue',
     add_card: 'Add Card',
     popup: 'Apply',
@@ -20,6 +21,7 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     plus: <PlusIcon />,
     minus: <MinusIcon />,
     cart:  <CartIcon />,
+    back:  <BackIcon />
   };
 
   // Context for button styles
@@ -31,6 +33,7 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     plus: 'bg-primary',
     minus: 'bg-primary2',
     cart: 'bg-primary2 text-primary',
+    back: 'bg-secondary text-primary',
     default: 'bg-primary text-white'
   };
 
@@ -41,7 +44,8 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     default: 'size-default',
     plus: 'size-mini',
     minus: 'size-mini',
-    cart: 'size-mini'
+    cart: 'size-mini',
+    back: 'size-mini'
   };
 
   let buttonContent = buttonContentContexts[context] || 'Default Content';
@@ -52,11 +56,11 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
   buttonSize = buttonSizeContexts[context] || buttonSizeContexts.default;
 
   const handleClick = () => {
-    setIsClicked(!isClicked); // toggle isClicked
+    setIsClicked(!isClicked);
     if (context === 'plus') {
-      setCount(count + 1); // Increase count
+      setCount(count + 1);
     } else if (context === 'minus' && count > 0) {
-      setCount(count - 1); // Decrease count
+      setCount(count - 1);
     }
     if (onClick) {
       onClick();

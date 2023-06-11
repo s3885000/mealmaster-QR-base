@@ -1,6 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-type UserRole = 'client' | 'resOwner';
 
 @Entity()
 export class User {
@@ -13,15 +12,7 @@ export class User {
     @Column()
     password: string;
 
-    @Column()
-    role: UserRole;
+    @Column({ nullable: true })
+    refreshToken: string;
 
-    @Column()
-    email: string;
-
-    @Column()
-    firstName: string;
-
-    @Column()
-    lastName: string;
 }

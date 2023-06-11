@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './buttons.css';
-import { PlusIcon, MinusIcon, CartIcon } from '../../asset/icons/index.js';
+import { PlusIcon, MinusIcon, CartIcon } from '../../asset/icons/button/index.js';
 
 
 const Buttons = ({ type, className, style, onClick, context, count, setCount = () => {} }) => {

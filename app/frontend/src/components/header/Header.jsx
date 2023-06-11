@@ -1,25 +1,25 @@
 import React from 'react'
 import './header.css'
-import {Buttons} from '../../components'
-import { ProfilePic} from '../../asset/images/index.js';
+import { Buttons } from '../../components'
+import { ProfilePic } from '../../asset/images/index.js';
 
 const Header = () => {
   return (
-    <div className='flex flex-row'>
-      <div className='flex basis-1/2 justify-start flex-row'>
-        <div className='w-14 h-14 bg-primary rounded-lg'>
-          <ProfilePic className='w-14 h-14'/>
+    <div className='flex justify-between items-center px-4 py-2 sm:px-6 sm:py-4'>
+      <div className='flex items-center space-x-4 sm:space-x-6'>
+        <div className='w-14 h-14 sm:w-16 sm:h-16 bg-primary rounded-xl'>
+          <ProfilePic className='w-full h-full rounded-xl'/>
         </div>
         <div className='flex flex-col'>
-          <p>text</p>
-          <p>text</p>
+          <p className='text-sm sm:text-base'>HELLO</p>
+          <p className='text-sm sm:text-base'>Guest User</p>
         </div>
       </div>
-      <div className='flex basis-1/2 justify-end'>
-        <Buttons context="cart"></Buttons>
+      <div>
+        <Buttons context="cart" className='w-8 h-8 sm:w-12 sm:h-12'></Buttons>
       </div>
     </div>
   )
 }
 
-export default Header
+export default Header;

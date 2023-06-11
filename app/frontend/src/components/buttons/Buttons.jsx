@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import './buttons.css';
-<<<<<<< HEAD
-import { PlusIcon, MinusIcon, CartIcon } from '../../asset/icons/button/index.js';
-=======
-import { PlusIcon, MinusIcon, CartIcon, BackIcon } from '../../asset/icons/index.js';
->>>>>>> main
+import { PlusIcon, MinusIcon, CartIcon, BackIcon } from '../../asset/icons/button/index.js';
 
 
 const Buttons = ({ type, className, style, onClick, context, count, setCount = () => {} }) => {
@@ -13,6 +9,7 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
   // Context for button content
   const buttonContentContexts = {
     guest: 'Access as a Guest',
+    apply: 'Apply',
     continue: 'Continue',
     add_card: 'Add Card',
     popup: 'Apply',

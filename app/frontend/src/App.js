@@ -17,7 +17,9 @@ const App = () => {
         <Buttons context="plus"></Buttons>
         <Buttons context="minus"></Buttons>
         <Buttons context="cart"></Buttons>
+        <Boxes/>
         <Popups></Popups>
+        <Navigation></Navigation>
     </div>
   );
 }

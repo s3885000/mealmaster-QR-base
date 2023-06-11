@@ -1,6 +1,10 @@
 # compiled output
 /dist
 /node_modules
+/generate_key
+.dockerignore
+docker-compose.yml
+
 
 # Logs
 logs

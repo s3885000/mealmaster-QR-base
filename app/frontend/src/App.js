@@ -16,6 +16,7 @@ const App = () => {
         <Buttons context='back'></Buttons>
         <Buttons context='self_pickup'></Buttons>
         <Buttons context='serve_to_table'></Buttons>
+        <Boxes/>
         <Categories></Categories>
         <Navigation></Navigation>
     </div>

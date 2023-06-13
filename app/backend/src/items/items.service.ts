@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Item } from "./entity/item.entity";
+import { CreateMenuItemDto } from "./dto/CreateMenuItem.dto";
 
 @Injectable()
 export class ItemsService {
@@ -18,9 +19,17 @@ export class ItemsService {
         return this.itemRepository.findOne({ where: {id} })
     }
 
-    async create(item: Partial<Item>): Promise<Item> {
-        const newitem = this.itemRepository.create(item);
-        return this.itemRepository.save(newitem);
+    async create(createMenuItemDto: CreateMenuItemDto): Promise<string> {
+        const {name, description, price} = createMenuItemDto;
+
+        const item = new Item();
+        item.name = name;
+        item.description = description;
+        item.price = price;
+
+        await this.itemRepository.save(item);
+
+        return 'Item Added';
     }
 
     async update(id: number, item: Partial<Item>): Promise<Item> {

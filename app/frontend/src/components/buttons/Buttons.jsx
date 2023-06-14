@@ -12,6 +12,7 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     apply: 'Apply',
     continue: 'Continue',
     add_card: 'Add Card',
+    scan_me: 'Scan Me',
     popup: 'Apply',
     checkout: 'Checkout',
     add_to_cart: 'Add to Cart',

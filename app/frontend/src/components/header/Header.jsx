@@ -1,7 +1,7 @@
 import React from 'react'
 import './header.css'
 import { Buttons } from '../../components'
-import { ProfilePic } from '../../asset/images/index.js';
+import { ProfilePic } from '../../asset/images/user_profile/index.js';
 
 const Header = () => {
   return (

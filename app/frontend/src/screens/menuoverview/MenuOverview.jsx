@@ -1,10 +1,14 @@
-import React from 'react'
-import './menuoverview.css'
+import React from 'react';
+import { Buttons, Information } from '../../components';
+import './menuoverview.css';
 
 const MenuOverview = () => {
   return (
-    <div>Menu Overview</div>
-  )
-}
+    <div className="menu-overview">
+      <Information type="table_number" />
+      <Information type="address" />
+    </div>
+  );
+};
 
-export default MenuOverview
+export default MenuOverview;

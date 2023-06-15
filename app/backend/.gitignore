@@ -2,8 +2,8 @@
 /dist
 /node_modules
 /generate_key
-.dockerignore
-docker-compose.yml
+.env
+database.config.ts
 
 
 # Logs

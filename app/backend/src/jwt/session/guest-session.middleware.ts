@@ -1,5 +1,5 @@
 import { Injectable, NestMiddleware } from "@nestjs/common";
-import { AnonymousService } from "src/users/anonymous/anonymous.service";
+import { AnonymousService } from "src/user/anonymous/anonymous.service";
 import { SessionService } from "./session.service";
 import { NextFunction, Request, Response } from "express";
 import { GuestSession } from "./entity/guest-session.entity";

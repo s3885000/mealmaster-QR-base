@@ -1,10 +1,10 @@
 import { Global, Module } from '@nestjs/common';
-import { AnonymousService } from '../users/anonymous/anonymous.service';
+import { AnonymousService } from '../user/anonymous/anonymous.service';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from 'src/user/users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'src/users/entity/user.entity';
+import { User } from 'src/user/entity/user.entity';
 import { GuestSession } from 'src/jwt/session/entity/guest-session.entity';
 import { TokenService } from '../jwt/token/token.service';
 import { AuthService } from './auth.service';

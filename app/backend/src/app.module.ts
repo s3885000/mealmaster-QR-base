@@ -3,26 +3,30 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from 'generate_key/SecretKey-constants';
+import { configFactory } from 'config/configFactory';
+import { ConfigModule } from 'config/config.module';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3309,
-      username: 'admin',
-      password: 'mealmaster',
-      database: 'mealmaster_db',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: configFactory,
+      inject: [ConfigService],
+      
     }),
     UsersModule,
     AuthModule,
-    JwtModule.register({
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '7d' },
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get<string>('auth.jwtSecret'),
+        signOptions: { expiresIn: configService.get<string>('auth.accessTokenExpiration') },
+      }),
+      inject: [ConfigService],
     }),
+    ConfigModule,
+    
   ],
   controllers: [],
   providers: [],

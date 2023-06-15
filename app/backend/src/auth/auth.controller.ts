@@ -1,16 +1,16 @@
 import { Body, Controller, Get, Query, Post, HttpCode, UseGuards, ValidationPipe, HttpStatus, Req, UnauthorizedException, Res } from '@nestjs/common';
-import { AnonymousService } from '../users/anonymous/anonymous.service';
-import { AnonymousGuard } from './anonymous/anonymous.guard';
-import { UsersService } from 'src/users/users.service'
-import { LoginUserDto } from 'src/users/dto/login-user.dto';
+import { AnonymousService } from '../user/anonymous/anonymous.service';
+import { AnonymousGuard } from './guards/anonymous.guard';
+import { UsersService } from 'src/user/users.service'
+import { LoginUserDto } from 'src/user/dto/login-user.dto';
 import { AuthGuard } from './guards/auth.guard';
 import { JwtService } from '@nestjs/jwt';
 import { RefreshTokenDto } from '../jwt/token/dto/refresh-token.dto';
 import { TokenService } from '../jwt/token/token.service';
 import { AuthService } from './auth.service';
 import { SessionService } from 'src/jwt/session/session.service';
-import { Response, response } from 'express';
-import { UserRole } from 'src/users/entity/user.entity';
+import { Response } from 'express';
+import { UserRole } from 'src/user/entity/user.entity';
 
 
 @Controller('auth')

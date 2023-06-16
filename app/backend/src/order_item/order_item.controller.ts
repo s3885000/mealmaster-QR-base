@@ -26,8 +26,8 @@ export class OrderItemController {
 
     //Create order item
     @Post('create')
-    createOrderItem(@Body() CreateOrderItemDto: CreateOrderItemDto) {
-        console.log(CreateOrderItemDto);
+    createOrderItem(@Body() createOrderItemDto: CreateOrderItemDto) {
+        console.log(createOrderItemDto);
     }
 
     //Update order item

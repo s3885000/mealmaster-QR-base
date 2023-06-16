@@ -2,7 +2,7 @@ import { Column, Entity, IntegerType, JoinColumn, ManyToOne, OneToMany, PrimaryG
 import { Restaurant } from "src/restaurant/entity/restaurant.entity";
 import { type } from "os";
 import { User } from "src/user/entity/user.entity";
-import { Item } from "src/items/entity/item.entity";
+import { Item } from "src/menu_items/entity/item.entity";
 
 @Entity()
 export class Order {

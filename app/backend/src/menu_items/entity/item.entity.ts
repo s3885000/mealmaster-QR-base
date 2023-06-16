@@ -6,6 +6,9 @@ export class Item {
     id: number;
 
     @Column()
+    category_id: number;
+
+    @Column()
     name: string;
 
     @Column()
@@ -13,5 +16,8 @@ export class Item {
 
     @Column()
     price: string;
+
+    @Column()
+    image: string;
 
 }

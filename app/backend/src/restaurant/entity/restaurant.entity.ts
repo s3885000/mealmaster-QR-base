@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { User } from "src/users/entity/user.entity";
+import { User } from "src/user/entity/user.entity";
 
 @Entity()
 export class Restaurant {

@@ -1,5 +1,5 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
-import { AnonymousService } from "./anonymous.service";
+import { AnonymousService } from "../../user/anonymous/anonymous.service";
 import { Request } from "express";
 
 

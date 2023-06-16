@@ -11,6 +11,9 @@ import { AuthService } from './auth.service';
 import { SessionService } from 'src/jwt/session/session.service';
 import { Response } from 'express';
 import { UserRole } from 'src/user/entity/user.entity';
+import { Roles } from './guards/role.dectorator';
+import { RolesGuard } from './guards/role.guard';
+import { RefreshTokenGuard } from 'src/jwt/token/refreshToken.guard';
 
 
 @Controller('auth')
@@ -52,6 +55,8 @@ export class AuthController {
     }
 
     @Post('login')
+    @UseGuards(AuthGuard, RolesGuard) 
+    @Roles(UserRole.CUSTOMER) //Only allow customers to use this endpoint
     @HttpCode(HttpStatus.OK)
     async login(@Body(ValidationPipe) loginUserDto: LoginUserDto, @Res({ passthrough: true}) response: Response): Promise<any> {
         loginUserDto.role = UserRole.CUSTOMER;
@@ -64,15 +69,17 @@ export class AuthController {
         await this.usersService.updateRefreshToken(user.id.toString(), refreshToken);
 
         // Set the refresh token in a HttpOnly cookie
-        response.cookie('refresh_token', refreshToken, {  maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true });
+        response.cookie('refresh_token', refreshToken, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true });
 
         return { accessToken };
     }
 
     @Post('restaurant-owner-login')
+    @UseGuards(AuthGuard, RolesGuard)
+    @Roles(UserRole.RESTAURANT_OWNER)
     @HttpCode(HttpStatus.OK)
-    async loginRestaurantOwner(@Body(ValidationPipe) loginUserDto: LoginUserDto): Promise<any> {
-        loginUserDto.role = UserRole.CUSTOMER;
+    async loginRestaurantOwner(@Body(ValidationPipe) loginUserDto: LoginUserDto, @Res({ passthrough: true}) response: Response): Promise<any> {
+        loginUserDto.role = UserRole.RESTAURANT_OWNER;
 
         const { user, token } = await this.authService.loginUser(loginUserDto);
         const accessToken = this.tokenService.generateAccessToken(user.id.toString());
@@ -81,13 +88,15 @@ export class AuthController {
         //Update the refresh token in the database
         await this.usersService.updateRefreshToken(user.id.toString(), refreshToken);
 
-        //
+        //Set the refresh token in a HttpOnly cookie
+        response.cookie('refresh_token', refreshToken, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true }); // 1 week expiration
 
         return { accessToken, refreshToken };
     }
 
+    @UseGuards(RefreshTokenGuard)
     @Post('refresh-token')
-    async refreshAccessToken(@Body(ValidationPipe) refreshTokenDto: RefreshTokenDto): Promise<any> {
+    async refreshAccessToken(@Body(ValidationPipe) refreshTokenDto: RefreshTokenDto, @Res({ passthrough: true}) response: Response): Promise<any> {
         const { refreshToken } = refreshTokenDto;
         const decoded = this.jwtService.decode(refreshToken);
         if (!decoded) {
@@ -103,6 +112,9 @@ export class AuthController {
         await this.usersService.updateRefreshToken(user.id.toString(), newRefreshToken)
 
         const accessToken = await this.tokenService.generateAccessToken(user.id.toString());
+
+        //Set the new refresh token in a HttpOnly cookie
+        response.cookie('refresh_token', refreshToken, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true });
         return { accessToken, refreshToken: newRefreshToken };
         
     }
@@ -133,6 +145,7 @@ export class AuthController {
 
         // Clear the cookie
         response.clearCookie('access_token');
+        response.clearCookie('refresh_token');
 
         // Return a successful response
         const result = {message: 'Logout successful!'};

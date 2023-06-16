@@ -5,6 +5,7 @@ import { User, UserRole } from './entity/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { CreateRestaurantOwnerDto } from './dto/create-res-owner.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -93,21 +94,26 @@ export class UsersService {
     return user;
   }
 
-  async updateUserProfile(userId:number, updateUserData: Partial<CreateUserDto | CreateRestaurantOwnerDto>): Promise<User> {
+  async updateUserProfile(userId:number, updateUserData: Partial<UpdateUserDto>): Promise<User> {
     const user = await this.findUserById(userId);
     if (!user) throw new NotFoundException('User not found!');
 
-    const updatedUser = await this.userRepository.save({
-      ...user,
-      ...updateUserData,
-    });
+    if (user.role === UserRole.CUSTOMER && updateUserData.phoneNumber) {
+      user.phoneNumber = updateUserData.phoneNumber;
+    }
+
+    if (user.role === UserRole.RESTAURANT_OWNER && updateUserData.email) {
+      user.email = updateUserData.email;
+    }
+
+    if (updateUserData.password) {
+      const hashedPassword = await bcrypt.hash(updateUserData.password, 10);
+      user.password = hashedPassword;
+    }
+
+    const updatedUser = await this.userRepository.save(user);
+
     return updatedUser;
   }
 
-  async deleteUserProfile(userId:number):Promise<void> {
-    const user = await this.findUserById(userId);
-    if (!user) throw new NotFoundException('User not found!');
-
-    await this.userRepository.remove(user);
-  }
 }

@@ -1,4 +1,5 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { UserProfileResponseDto } from "../dto/user-response/user-profile-res.dto";
 
 export enum UserRole {
     CUSTOMER = 'customer',
@@ -40,5 +41,10 @@ export class User {
 
     @UpdateDateColumn()
     updateAt: Date;
+
+    toResponseObject(): UserProfileResponseDto {
+        const { id, first_name, last_name, profile_picture, phoneNumber, email, role } = this;
+        return { id, first_name, last_name, profile_picture, phoneNumber, email, role };
+    }
 
 }

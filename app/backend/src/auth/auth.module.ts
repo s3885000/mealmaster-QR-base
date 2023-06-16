@@ -1,5 +1,5 @@
 import { Global, Module } from '@nestjs/common';
-import { AnonymousService } from '../user/anonymous/anonymous.service';
+import { AnonymousService } from '../user/anonymous-user/anonymous.service';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersService } from 'src/user/user.service';

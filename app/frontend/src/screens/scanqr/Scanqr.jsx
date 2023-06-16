@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { Buttons } from '../../components';
+import { Buttons, Navigation } from '../../components';
 import QrReader from 'react-qr-scanner';
 
 const ScanQR = () => {
-  const [result, setResult] = useState('');
+  const [result, setResult] = useState('No QR code scanned yet!');
 
   const handleScan = data => {
     if (data) {
-      setResult(data);
-      console.log("Scanned data: ", data);
-      alert("Scanned data: " + data);
+      setResult(data.text);
+      console.log("QR Code Scanned! ", data.text);
+      alert("QR Code Scanned! " + data.text);
     }
   }
 
@@ -30,7 +30,7 @@ const ScanQR = () => {
         onScan={handleScan}
       />
       <p>{result}</p>
-      <Buttons context="scan_me"></Buttons>
+      <Navigation></Navigation>
     </div>
   );
 };

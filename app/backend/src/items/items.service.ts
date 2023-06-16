@@ -20,12 +20,14 @@ export class ItemsService {
     }
 
     async create(createMenuItemDto: CreateMenuItemDto): Promise<string> {
-        const {name, description, price} = createMenuItemDto;
+        const {category_id, name, description, price, image} = createMenuItemDto;
 
         const item = new Item();
+        item.category_id = category_id
         item.name = name;
         item.description = description;
         item.price = price;
+        item.image = image;
 
         await this.itemRepository.save(item);
 

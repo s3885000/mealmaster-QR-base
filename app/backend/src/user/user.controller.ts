@@ -1,11 +1,14 @@
-import { Body, Controller, Delete, ValidationPipe, Post, HttpCode, HttpStatus, Get, Param, Put } from '@nestjs/common';
+import { Body, Controller, Delete, ValidationPipe, Post, HttpCode, HttpStatus, Get, Param, Put, UseGuards, SetMetadata } from '@nestjs/common';
 import { UsersService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User, UserRole } from './entity/user.entity';
 import { CreateRestaurantOwnerDto } from './dto/create-res-owner.dto';
+import { RolesGuard } from 'src/auth/guards/role.guard';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 
 
 @Controller('users')
+@UseGuards(AuthGuard, RolesGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -25,23 +28,19 @@ export class UsersController {
 
 
   @Get(':id/profile')
+  @SetMetadata('roles', [UserRole.CUSTOMER, UserRole.RESTAURANT_OWNER])
   @HttpCode(HttpStatus.OK)
   async getProfile(@Param('id') id: number): Promise<User> {
     return await this.usersService.getUserProfile(id);
   }
 
   @Put(':id/profile')
+  @SetMetadata('roles', [UserRole.CUSTOMER, UserRole.RESTAURANT_OWNER])
   @HttpCode(HttpStatus.OK)
   async updateProfile(@Param('id') id: number, @Body() updateUserData: CreateUserDto | CreateRestaurantOwnerDto): Promise<User> {
     return await this.usersService.updateUserProfile(id, updateUserData);
   }
 
-  @Delete(':id/profile')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteProfile(@Param('id') id: number): Promise<void> {
-    return await this.usersService.deleteUserProfile(id);
-  }
-  
 
 
 }

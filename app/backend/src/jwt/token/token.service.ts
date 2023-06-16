@@ -25,6 +25,17 @@ export class TokenService {
     return this.jwtService.sign(payload, { expiresIn });
   }
 
+  async refreshAccessToken(oldRefreshToken: string): Promise<string> {
+    try {
+      const decodedToken = this.jwtService.verify(oldRefreshToken);
+      const { sub } = decodedToken;
+      await this.invalidateRefreshToken(sub);
+      return this.generateAccessToken(sub);
+    } catch (error) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+  }
+
   async invalidateRefreshToken(userId: string): Promise<void> {
     const parsedUserId = parseInt(userId, 10);//Convert the userId to a number
     const user = await this.userRepository.findOne({ where: { id: parsedUserId } });

@@ -27,5 +27,16 @@ export class AnonymousService {
     validateToken( token: string ): JwtPayload {
         return this.jwtService.verify(token);
     }
+
+    isTokenExpired(token: string): boolean {
+        try {
+            const decodedToken = this.jwtService.decode(token) as any;
+            const expirationDate = new Date(decodedToken.exp * 1000); //jwt exp in seconds
+            return expirationDate < new Date();
+        } catch (e) {
+            // Failed to decode or validate token, consider it as expired
+            return true;
+        }
+    }
 }
 

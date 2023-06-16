@@ -1,7 +1,7 @@
 import { Column, Entity, IntegerType, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Table } from "typeorm";
 import { Restaurant } from "src/restaurant/entity/restaurant.entity";
 import { type } from "os";
-import { User } from "src/users/entity/user.entity";
+import { User } from "src/user/entity/user.entity";
 import { Item } from "src/items/entity/item.entity";
 
 @Entity()

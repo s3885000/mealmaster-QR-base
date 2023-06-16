@@ -26,6 +26,15 @@ export class User {
     @Column({ nullable: true })
     refreshToken: string;
 
+    @Column()
+    first_name: string;
+
+    @Column()
+    last_name: string;
+
+    @Column()
+    profile_picture: string;
+
     @CreateDateColumn()
     createAt: Date;
 

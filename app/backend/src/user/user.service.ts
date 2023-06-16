@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User, UserRole } from './entity/user.entity';
@@ -57,8 +57,8 @@ export class UsersService {
     }
   }
 
-  async findUserById(id: number): Promise<User | undefined> {
-    return this.userRepository.findOne({ where: { id }});
+  async findUserById(userId: number): Promise<User | undefined> {
+    return this.userRepository.findOne({ where: { id: userId }});
   }
 
   async findUserByPhoneNumber(phoneNumber: string): Promise<User | undefined> {
@@ -85,5 +85,29 @@ export class UsersService {
     await this.userRepository.save(user);
   
     return user;
+  }
+
+  async getUserProfile(userId:number): Promise<User> {
+    const user = await this.findUserById(userId);
+    if (!user) throw new NotFoundException('User not found');
+    return user;
+  }
+
+  async updateUserProfile(userId:number, updateUserData: Partial<CreateUserDto | CreateRestaurantOwnerDto>): Promise<User> {
+    const user = await this.findUserById(userId);
+    if (!user) throw new NotFoundException('User not found!');
+
+    const updatedUser = await this.userRepository.save({
+      ...user,
+      ...updateUserData,
+    });
+    return updatedUser;
+  }
+
+  async deleteUserProfile(userId:number):Promise<void> {
+    const user = await this.findUserById(userId);
+    if (!user) throw new NotFoundException('User not found!');
+
+    await this.userRepository.remove(user);
   }
 }

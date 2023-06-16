@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Query, Post, HttpCode, UseGuards, ValidationPipe, HttpStatus, Req, UnauthorizedException, Res } from '@nestjs/common';
 import { AnonymousService } from '../user/anonymous/anonymous.service';
 import { AnonymousGuard } from './guards/anonymous.guard';
-import { UsersService } from 'src/user/users.service'
+import { UsersService } from 'src/user/user.service'
 import { LoginUserDto } from 'src/user/dto/login-user.dto';
 import { AuthGuard } from './guards/auth.guard';
 import { JwtService } from '@nestjs/jwt';

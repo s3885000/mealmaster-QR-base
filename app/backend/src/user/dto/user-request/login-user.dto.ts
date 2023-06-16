@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty, IsOptional, Length } from "class-validator";
-import { UserRole } from '../entity/user.entity';
-import { IsPhoneNumberOrEmail } from "./is-phoneNo-or-Email.decorator";
+import { UserRole } from '../../entity/user.entity';
+import { IsPhoneNumberOrEmail } from "../is-phoneNo-or-Email.decorator";
 
 
 export class LoginUserDto {

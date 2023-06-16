@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Query, Post, HttpCode, UseGuards, ValidationPipe, HttpStatus, Req, UnauthorizedException, Res } from '@nestjs/common';
-import { AnonymousService } from '../user/anonymous/anonymous.service';
+import { AnonymousService } from '../user/anonymous-user/anonymous.service';
 import { AnonymousGuard } from './guards/anonymous.guard';
 import { UsersService } from 'src/user/user.service'
-import { LoginUserDto } from 'src/user/dto/login-user.dto';
+import { LoginUserDto } from 'src/user/dto/user-request/login-user.dto';
 import { AuthGuard } from './guards/auth.guard';
 import { JwtService } from '@nestjs/jwt';
 import { RefreshTokenDto } from '../jwt/token/dto/refresh-token.dto';
@@ -14,6 +14,7 @@ import { UserRole } from 'src/user/entity/user.entity';
 import { Roles } from './guards/role.dectorator';
 import { RolesGuard } from './guards/role.guard';
 import { RefreshTokenGuard } from 'src/jwt/token/refreshToken.guard';
+import { LoginResponseDto } from 'src/user/dto/user-response/login-res.dto';
 
 
 @Controller('auth')
@@ -58,7 +59,7 @@ export class AuthController {
     @UseGuards(AuthGuard, RolesGuard) 
     @Roles(UserRole.CUSTOMER) //Only allow customers to use this endpoint
     @HttpCode(HttpStatus.OK)
-    async login(@Body(ValidationPipe) loginUserDto: LoginUserDto, @Res({ passthrough: true}) response: Response): Promise<any> {
+    async login(@Body(ValidationPipe) loginUserDto: LoginUserDto, @Res({ passthrough: true}) response: Response): Promise<LoginResponseDto> {
         loginUserDto.role = UserRole.CUSTOMER;
 
         const { user, token } = await this.authService.loginUser(loginUserDto);
@@ -78,7 +79,7 @@ export class AuthController {
     @UseGuards(AuthGuard, RolesGuard)
     @Roles(UserRole.RESTAURANT_OWNER)
     @HttpCode(HttpStatus.OK)
-    async loginRestaurantOwner(@Body(ValidationPipe) loginUserDto: LoginUserDto, @Res({ passthrough: true}) response: Response): Promise<any> {
+    async loginRestaurantOwner(@Body(ValidationPipe) loginUserDto: LoginUserDto, @Res({ passthrough: true}) response: Response): Promise<LoginResponseDto> {
         loginUserDto.role = UserRole.RESTAURANT_OWNER;
 
         const { user, token } = await this.authService.loginUser(loginUserDto);
@@ -91,7 +92,7 @@ export class AuthController {
         //Set the refresh token in a HttpOnly cookie
         response.cookie('refresh_token', refreshToken, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true }); // 1 week expiration
 
-        return { accessToken, refreshToken };
+        return { accessToken };
     }
 
     @UseGuards(RefreshTokenGuard)

@@ -10,6 +10,9 @@ export class Restaurant {
     user_id: number
 
     @Column()
+    name: string;
+
+    @Column()
     address_id: number;
 
     @Column()

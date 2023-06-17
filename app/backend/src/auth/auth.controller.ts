@@ -2,7 +2,7 @@ import { Body, Controller, Get, Query, Post, HttpCode, UseGuards, ValidationPipe
 import { AnonymousService } from '../user/anonymous-user/anonymous.service';
 import { AnonymousGuard } from './guards/anonymous.guard';
 import { UsersService } from 'src/user/user.service'
-import { LoginUserDto } from 'src/user/dto/user-request/login-user.dto';
+import { LoginUserDto } from 'src/user/dto/user-request/loginUser.dto';
 import { AuthGuard } from './guards/auth.guard';
 import { JwtService } from '@nestjs/jwt';
 import { RefreshTokenDto } from '../jwt/token/dto/refresh-token.dto';
@@ -14,7 +14,7 @@ import { UserRole } from 'src/user/entity/user.entity';
 import { Roles } from './guards/role.dectorator';
 import { RolesGuard } from './guards/role.guard';
 import { RefreshTokenGuard } from 'src/jwt/token/refreshToken.guard';
-import { LoginResponseDto } from 'src/user/dto/user-response/login-res.dto';
+import { LoginResponseDto } from 'src/user/dto/user-response/loginResponse.dto';
 
 
 @Controller('auth')

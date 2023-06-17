@@ -13,6 +13,7 @@ import { UpdateUserDto } from './dto/user-request/updateUser.dto';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  // Customer Regisration
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
   async register(@Body(ValidationPipe) createUserDto: CreateUserDto): Promise<RegisterResponseDto> {
@@ -20,6 +21,7 @@ export class UsersController {
     return { message: 'Registration successful', user: user.toResponseObject() };
   }
 
+  // Restaurant Owner Registration
   @Post('register-restaurant-owner')
   @HttpCode(HttpStatus.CREATED)
   async registerRestaurantOwner(@Body(ValidationPipe) createRestaurantOwnerDto: createResOwnerDto.CreateRestaurantOwnerDto): Promise<RegisterResponseDto> {
@@ -27,7 +29,7 @@ export class UsersController {
     return { message: 'Restaurant Owner registration successful', user: user.toResponseObject() };
   }
 
-
+  // Get User Profile
   @Get(':id/profile')
   @UseGuards(AuthGuard, RolesGuard)
   @SetMetadata('roles', [UserRole.CUSTOMER, UserRole.RESTAURANT_OWNER])
@@ -36,6 +38,7 @@ export class UsersController {
     return await this.usersService.getUserProfile(id);
   }
 
+  // Update User Profile
   @Put(':id/profile')
   @UseGuards(AuthGuard, RolesGuard)
   @SetMetadata('roles', [UserRole.CUSTOMER, UserRole.RESTAURANT_OWNER])

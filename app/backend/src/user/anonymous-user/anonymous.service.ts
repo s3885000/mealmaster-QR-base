@@ -17,7 +17,7 @@ export class AnonymousService {
 
     generateAccessToken( id:string ): string {
         const payload: JwtPayload = { id };
-        return this.jwtService.sign(payload, { expiresIn: '7d'});
+        return this.jwtService.sign(payload, { expiresIn: '15m'});
     }
     
     isAnonymousUser( id:string ): boolean {

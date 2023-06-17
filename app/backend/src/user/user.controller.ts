@@ -1,15 +1,15 @@
 import { Body, Controller, Delete, ValidationPipe, Post, HttpCode, HttpStatus, Get, Param, Put, UseGuards, SetMetadata, ParseIntPipe } from '@nestjs/common';
 import { UsersService } from './user.service';
-import { CreateUserDto } from './dto/user-request/create-user.dto';
+import { CreateUserDto } from './dto/user-request/createUser.dto';
 import { User, UserRole } from './entity/user.entity';
-import { CreateRestaurantOwnerDto } from './dto/user-request/create-res-owner.dto';
+import * as createResOwnerDto from './dto/user-request/createRestaurantOwner.dto';
 import { RolesGuard } from 'src/auth/guards/role.guard';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
-import { RegisterResponseDto } from './dto/user-response/register-res.dto';
-import { UpdateUserDto } from './dto/user-request/update-user.dto';
+import { RegisterResponseDto } from './dto/user-response/registerResponse.dto';
+import { UpdateUserDto } from './dto/user-request/updateUser.dto';
 
 
-@Controller('users')
+@Controller('user')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -22,7 +22,7 @@ export class UsersController {
 
   @Post('register-restaurant-owner')
   @HttpCode(HttpStatus.CREATED)
-  async registerRestaurantOwner(@Body(ValidationPipe) createRestaurantOwnerDto: CreateRestaurantOwnerDto): Promise<RegisterResponseDto> {
+  async registerRestaurantOwner(@Body(ValidationPipe) createRestaurantOwnerDto: createResOwnerDto.CreateRestaurantOwnerDto): Promise<RegisterResponseDto> {
     const user = await this.usersService.registerUser(createRestaurantOwnerDto, UserRole.RESTAURANT_OWNER);
     return { message: 'Restaurant Owner registration successful', user: user.toResponseObject() };
   }

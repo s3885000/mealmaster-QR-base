@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { UserProfileResponseDto } from "../dto/user-response/user-profile-res.dto";
+import { UserProfileResponseDto } from "../dto/user-response/userProfileResponse.dto";
 
 export enum UserRole {
     CUSTOMER = 'customer',
@@ -27,13 +27,13 @@ export class User {
     @Column({ nullable: true })
     refreshToken: string;
 
-    @Column()
+    @Column({ nullable: true })
     first_name: string;
 
-    @Column()
+    @Column({ nullable: true })
     last_name: string;
 
-    @Column()
+    @Column({ nullable: true })
     profile_picture: string;
 
     @CreateDateColumn()

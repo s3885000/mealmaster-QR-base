@@ -1,4 +1,4 @@
-import { UserProfileResponseDto } from "./user-profile-res.dto";
+import { UserProfileResponseDto } from "./userProfileResponse.dto";
 
 export class RegisterResponseDto {
     message: string;

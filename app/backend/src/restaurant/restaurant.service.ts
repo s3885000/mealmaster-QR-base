@@ -20,10 +20,11 @@ export class RestaurantService{
     }
 
     async create(createRestaurantDto: CreateRestaurantDto): Promise<string> {
-        const {user_id, address_id, logo, res_banner} = createRestaurantDto;
+        const {user_id, name, address_id, logo, res_banner} = createRestaurantDto;
 
         const restaurant = new Restaurant();
         restaurant.user_id = user_id;
+        restaurant.name = name;
         restaurant.address_id = address_id;
         restaurant.logo = logo;
         restaurant.res_banner = res_banner;

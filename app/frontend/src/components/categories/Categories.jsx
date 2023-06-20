@@ -14,10 +14,11 @@ const categories = [
 const Category = ({name, Icon, ActiveIcon, isActive, onClick}) => (
   <li className="text-center w-1/3 sm:w-auto">
     <button 
-      className={`flex flex-col items-center justify-center w-20 sm:w-24 h-20 sm:h-24 rounded-full ${isActive ? 'bg-white text-primary' : 'bg-white text-black'}`} 
+      className={`flex flex-col items-center justify-center rounded-full ${isActive ? 'bg-white text-primary' : 'bg-white text-black'}`} 
       onClick={() => onClick(name)}
+      style={{width: "105px", height: "105px"}}
     >
-      <div className={`w-12 sm:w-14 h-12 sm:h-14 rounded-full flex shadow-md items-center justify-center ${isActive ? 'bg-primary shadow' : 'bg-white'}`}>
+      <div className={`rounded-full flex shadow-md items-center justify-center ${isActive ? 'bg-primary shadow' : 'bg-white'}`} style={{width: "66px", height: "66px"}}>
         {isActive ? <ActiveIcon /> : <Icon />}
       </div>
       <div className="mt-1 text-xs sm:text-sm">
@@ -40,7 +41,7 @@ const Categories = () => {
   const [activeCategory, setActiveCategory] = useState('Best Seller');
 
   return (
-    <div className="flex sm:justify-center justify-start items-center bg-white w-full h-20 sm:h-24 overflow-x-auto scrollbar-hide pl-2 sm:pl-0">
+    <div className="flex sm:justify-center justify-start items-center bg-white w-full overflow-x-auto overflow-y-hidden scrollbar-hide pl-2 sm:pl-0">
       <ul className="flex justify-start sm:justify-center items-center gap-2 sm:gap-4">
         {categories.map(category => (
           <Category 

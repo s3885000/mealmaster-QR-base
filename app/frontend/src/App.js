@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import {Boxes, Buttons, Categories, Header, Information, Navigation, Popups} from './components'
+import {Boxes, Buttons, Categories, Header, Information, Items, Navigation, Popups} from './components'
 import {Activity, Cart, Home, Login, LoginPassword, MenuDetail, MenuOverview, Payment, Profile, ScanQR, Signin} from './screens'
 import './App.css';
 

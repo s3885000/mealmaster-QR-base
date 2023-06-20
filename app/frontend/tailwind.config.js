@@ -12,6 +12,7 @@ module.exports = {
         secondary2: '#FFF4E7',
         tertiary: '#F7F7F8',
         placeholders: '#8D8D8D',
+        gray: '#C9C9C9',
         
         fontFamily: {
           'montserrat': ['Montserrat', 'sans-serif'],

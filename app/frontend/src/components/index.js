@@ -6,3 +6,4 @@ export { default as Information } from './information/Information';
 export { default as Items } from './items/Items';
 export { default as Navigation } from './navigation/Navigation';
 export { default as Popups } from './popups/Popups';
+export { default as Progress } from './progress/Progress';

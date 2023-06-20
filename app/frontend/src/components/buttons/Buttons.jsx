@@ -1,31 +1,32 @@
 import React, { useState } from 'react';
 import './buttons.css';
-import { PlusIcon, MinusIcon, CartIcon, BackIcon } from '../../asset/icons/button/index.js';
+import { PlusIcon, MinusIcon, CartIcon, BackIcon, EditIcon } from '../../asset/icons/button/index.js';
 
 
 const Buttons = ({ type, className, style, onClick, context, count, setCount = () => {} }) => {
   const [isClicked, setIsClicked] = useState(false);
 
-  // Context for button content
+  // Button content
   const buttonContentContexts = {
     guest: 'Access as a Guest',
     apply: 'Apply',
     continue: 'Continue',
     add_card: 'Add Card',
-    scan_me: 'Scan Me',
     popup: 'Apply',
     checkout: 'Checkout',
     add_to_cart: 'Add to Cart',
     payment:'Payment Methods',
     self_pickup: 'Self Pickup',
     serve_to_table: 'Serve to Table',
+    order: 'Order Received',
     plus: <PlusIcon />,
     minus: <MinusIcon />,
     cart:  <CartIcon />,
-    back:  <BackIcon />
+    back:  <BackIcon />,
+    edit: <EditIcon />,
   };
 
-  // Context for button styles
+  // Button styles
   const buttonStylesContexts = {
     guest: 'bg-primary2 text-primary',
     self_pickup: isClicked ? 'bg-primary2 text-primary' : 'bg-secondary2 text-secondary',
@@ -35,10 +36,11 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     minus: 'bg-primary2',
     cart: 'bg-primary2 text-primary',
     back: 'bg-secondary text-primary',
-    default: 'bg-primary text-white'
+    default: 'bg-primary text-white',
+    edit:'text-primary'
   };
 
-  // Context for button size
+  // Button size
   const buttonSizeContexts = {
     self_pickup: 'size-half',
     serve_to_table: 'size-half',
@@ -46,7 +48,9 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     plus: 'size-mini',
     minus: 'size-mini',
     cart: 'size-mini',
-    back: 'size-mini'
+    back: 'size-mini',
+    edit: 'size-micro',
+    order: 'size-order'
   };
 
   let buttonContent = buttonContentContexts[context] || 'Default Content';

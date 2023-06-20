@@ -48,6 +48,21 @@ const Items = ({ type }) => {
           </div>
         </ItemContainer>
       );
+    case 'food_item_on_going':
+      return (
+        <ItemContainer>
+          <Food_2 className="w-16 h-16 rounded-3xl" />
+          <div className="flex flex-col flex-grow ml-2">
+            <p className="text-lg font-medium">Spicy fresh crab</p>
+            <p className="flex items-center space-x-1.5 text-sm text-placeholders mb-1">
+              No Spice
+            </p>
+          </div>
+          <div className="flex items-center">
+            <p className="text-lg ml-2">35,000đ</p>
+          </div>
+        </ItemContainer>
+      );
     default:
       return null;
   }

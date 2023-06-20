@@ -16,7 +16,9 @@ const MenuOverview = () => {
       <Items type='food_item'></Items>
       <Items type='food_item'></Items>
       <Items type='food_item'></Items>
-      <Items type='food_item'></Items>
+      <Items type='food_item_cart'></Items>
+      <Items type='food_item_on_going'></Items>
+      <Items type=''></Items>
       <Navigation />
     </div>
   );

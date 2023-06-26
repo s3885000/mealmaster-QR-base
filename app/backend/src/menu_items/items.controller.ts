@@ -26,10 +26,9 @@ export class ItemsController {
 
     //Create item
     @Post('create')
-    // async create(@Body() item: Item): Promise<Item> {
-    //     return this.itemsService.create(item);
     createMenuItem(@Body() createMenuItemDto: CreateMenuItemDto){
         console.log(createMenuItemDto);
+        return this.itemsService.create(createMenuItemDto);
     }
 
     //Update item

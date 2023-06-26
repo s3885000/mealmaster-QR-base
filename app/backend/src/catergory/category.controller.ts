@@ -28,6 +28,7 @@ export class CategoryController {
     @Post('create')
     createCategory(@Body() createCategoryDto: CreateCategoryDto) {
         console.log(createCategoryDto);
+        return this.categoryService.create(createCategoryDto);
     }
 
     //Update category

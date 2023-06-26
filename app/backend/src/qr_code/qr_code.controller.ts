@@ -28,6 +28,7 @@ export class QrCodeController {
     @Post('create')
     createQrCode(@Body() createQrCodeDto: CreateQrCodeDto) {
         console.log(createQrCodeDto);
+        return this.qrCodeService.create(createQrCodeDto);
     }
 
     //Update QR code

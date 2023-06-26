@@ -28,6 +28,7 @@ export class OrderItemController {
     @Post('create')
     createOrderItem(@Body() createOrderItemDto: CreateOrderItemDto) {
         console.log(createOrderItemDto);
+        return this.orderItemService.create(createOrderItemDto);
     }
 
     //Update order item

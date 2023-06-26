@@ -28,6 +28,7 @@ export class RestaurantController {
     @Post('create')
     createRestaurant(@Body() createRestaurantDto: CreateRestaurantDto) {
         console.log(createRestaurantDto);
+        return this.restaurantService.create(createRestaurantDto);
     }
 
     //Update restaurant

@@ -28,6 +28,7 @@ export class TableController {
     @Post('create')
     createTable(@Body() createTableDto: CreateTableDto) {
         console.log(createTableDto);
+        return this.tableService.create(createTableDto);
     }
 
     //Update table

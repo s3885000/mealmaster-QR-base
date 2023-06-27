@@ -20,11 +20,12 @@ export class QrCodeService{
     }
 
     async create(createQrCodeDto: CreateQrCodeDto): Promise<string> {
-        const {table_id, image} = createQrCodeDto;
+        const {restaurant_id, table_id, code_image} = createQrCodeDto;
 
         const qrCode = new QrCode();
+        qrCode.restaurant_id = restaurant_id;
         qrCode.table_id = table_id;
-        qrCode.image = image;
+        qrCode.code_image = code_image;
 
         await this.qrCodeRepository.save(qrCode);
 

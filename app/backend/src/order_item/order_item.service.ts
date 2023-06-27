@@ -20,13 +20,14 @@ export class OrderItemService{
     }
 
     async create(createOrderItemDto: CreateOrderItemDto): Promise<string> {
-        const {order_id, item_id, quantity, note} = createOrderItemDto;
+        const {order_id, menu_item_id, quantity, note, price} = createOrderItemDto;
 
         const orderItem = new OrderItem();
         orderItem.order_id = order_id;
-        orderItem.item_id = item_id;
+        orderItem.menu_item_id = menu_item_id;
         orderItem.quantity = quantity;
         orderItem.note = note;
+        orderItem.price = price;
 
         await this.orderItemRepository.save(orderItem);
 

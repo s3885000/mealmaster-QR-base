@@ -1,4 +1,5 @@
 export class CreateQrCodeDto {
+    restaurant_id: number;
     table_id: number;
-    image: string;
+    code_image: string;
 }

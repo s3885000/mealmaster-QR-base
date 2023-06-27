@@ -1,5 +1,9 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, OneToMany} from "typeorm";
 import { UserProfileResponseDto } from "../dto/user-response/userProfileResponse.dto";
+import { Order } from "src/order/entity/order.entity";
+import { Payment } from "src/payment/entity/payment.entity";
+import { Cart } from "src/cart/entity/cart.entity";
+import { PaymentReference } from "src/payment_reference/entity/paymentReference.entity";
 
 export enum UserRole {
     CUSTOMER = 'customer',
@@ -46,5 +50,17 @@ export class User {
         const { id, first_name, last_name, profile_picture, phoneNumber, email, role } = this;
         return { id, first_name, last_name, profile_picture, phoneNumber, email, role };
     }
+
+    @OneToMany(() => Order, order => order.user)
+    order: Order[];
+
+    @OneToMany(() => Payment, payment => payment.user)
+    payment: Payment[];
+
+    @OneToMany(() => Cart, cart => cart.user)
+    cart: Cart[];
+
+    @OneToMany(() => PaymentReference, paymentRef => paymentRef.user)
+    paymentRef: PaymentReference[];
 
 }

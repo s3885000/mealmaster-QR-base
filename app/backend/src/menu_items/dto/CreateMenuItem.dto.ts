@@ -4,4 +4,8 @@ export class CreateMenuItemDto {
     description: string;
     price: string;
     image: string;
+    is_best_seller: number;
+    create_at: Date;
+    update_at: Date;
+    status: string;
 }

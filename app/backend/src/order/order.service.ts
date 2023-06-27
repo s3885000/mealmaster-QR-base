@@ -20,15 +20,19 @@ export class OrderService{
     }
 
     async create(createOrderDto: CreateOrderDto): Promise<string> {
-        const {restaurant_id, table_id, user_id, order_date, current_state, total_amount} = createOrderDto;
+        const {restaurant_id, table_id, payment_id, user_id, current_status, total_price, pickup_type, create_at, update_at, note} = createOrderDto;
 
         const order = new Order();
         order.restaurant_id = restaurant_id;
         order.table_id = table_id;
+        order.payment_id = payment_id;
         order.user_id = user_id;
-        order.order_date = order_date;
-        order.current_status = current_state;
-        order.total_amount = total_amount;
+        order.current_status = current_status;
+        order.total_price = total_price;
+        order.pickup_type = pickup_type;
+        order.create_at = create_at;
+        order.update_at = update_at;
+        order.note = note;
 
         await this.orderRepository.save(order);
 

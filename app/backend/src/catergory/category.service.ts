@@ -15,14 +15,15 @@ export class CategoryService {
         return this.categoryRepository.find();
     }
 
-    async findOne(category_id: number): Promise<Category> {
-        return this.categoryRepository.findOne({ where: {category_id} })
+    async findOne(id: number): Promise<Category> {
+        return this.categoryRepository.findOne({ where: {id} })
     }
 
     async create(createCategoryDto: CreateCategoryDto): Promise<string> {
-        const {name, description} = createCategoryDto;
+        const {name, description, restaurant_id} = createCategoryDto;
 
         const category = new Category();
+        category.restaurant_id = restaurant_id;
         category.name = name;
         category.description = description;
 
@@ -31,12 +32,12 @@ export class CategoryService {
         return 'Category Added';
     }
 
-    async update(category_id: number, category: Partial<Category>): Promise<Category> {
-        await this.categoryRepository.update(category_id, category);
-        return this.categoryRepository.findOne({ where: { category_id } });
+    async update(id: number, category: Partial<Category>): Promise<Category> {
+        await this.categoryRepository.update(id, category);
+        return this.categoryRepository.findOne({ where: { id } });
     }
 
-    async delete(category_id: number): Promise<void> {
-        await this.categoryRepository.delete(category_id);
+    async delete(id: number): Promise<void> {
+        await this.categoryRepository.delete(id);
     }
 }

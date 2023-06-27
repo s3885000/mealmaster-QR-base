@@ -20,14 +20,16 @@ export class RestaurantService{
     }
 
     async create(createRestaurantDto: CreateRestaurantDto): Promise<string> {
-        const {user_id, name, address_id, logo, res_banner} = createRestaurantDto;
+        const {user_id, address_id, name, logo, banner, create_at, update_at} = createRestaurantDto;
 
         const restaurant = new Restaurant();
         restaurant.user_id = user_id;
-        restaurant.name = name;
         restaurant.address_id = address_id;
+        restaurant.name = name;
         restaurant.logo = logo;
-        restaurant.res_banner = res_banner;
+        restaurant.banner = banner;
+        restaurant.create_at = create_at;
+        restaurant.update_at = update_at;
 
         await this.restaurantRepository.save(restaurant);
 

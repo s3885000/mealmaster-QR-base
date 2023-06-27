@@ -1,7 +1,9 @@
 export class CreateRestaurantDto {
     user_id: number;
-    name: string;
     address_id: number;
+    name: string;
     logo: string;
-    res_banner: string;
+    banner: string;
+    create_at: Date;
+    update_at: Date;
 }

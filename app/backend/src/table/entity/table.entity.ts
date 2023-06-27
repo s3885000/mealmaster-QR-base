@@ -1,7 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Order } from "src/order/entity/order.entity";
+import { Restaurant } from "src/restaurant/entity/restaurant.entity";
 
 @Entity()
-export class Table {
+export class Tables {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -16,4 +18,10 @@ export class Table {
 
     @Column()
     description: string;
+
+    @OneToMany(() => Order, order => order.table)
+    order: Order[];
+
+    @ManyToOne(() => Restaurant, restaurant => restaurant.tables)
+    restaurant: Restaurant;
 }

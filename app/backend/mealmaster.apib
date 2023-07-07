@@ -1,0 +1,124 @@
+FORMAT: 1A
+
+# Mealmaster API
+
+## Host: http://localhost:4000/
+
+# Group Authentication
+
+## Customer Login [POST /auth/login]
+
++ Request (application/json)
+    + Attributes (object)
+        + phone_number: `1234567890` (string, required) - The phone number of the user.
+        + password: `password` (string, required) - The password of the user.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + refreshToken: `abcdefghijklmnopqrstuvwxyz` (string) - Refresh token for the user.
+
+## Restaurant Owner Login [POST /auth/restaurant-owner/login]
+
++ Request (application/json)
+    + Attributes (object)
+        + email: `email@example.com` (string, required) - The email of the restaurant owner.
+        + password: `password` (string, required) - The password of the restaurant owner.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + refreshToken: `abcdefghijklmnopqrstuvwxyz` (string) - Refresh token for the user.
+
+## Refresh Token [POST /auth/refresh]
+
++ Request (application/json)
+    + Attributes (object)
+        + refreshToken: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMCIsImlhdCI6MTY4ODYyMjg4NSwiZXhwIjoxNjg4NzA5Mjg1fQ.xIJTwlm6ohe5vEsQ9Q95bQ8XZxpZZ3q76ijsGVIVrtc` (string, required) - Refresh token for the user.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + refreshToken: `abcdefghijklmnopqrstuvwxyz` (string) - Refresh token for the user.
+
+# Group Users
+
+## Register [POST /user/register]
+
++ Request (application/json)
+    + Attributes (object)
+        + phone_number: `1234567890` (string, required) - The phone number of the user.
+        + password: `password` (string, required) - The password of the user.
+
++ Response 201 (application/json)
+    + Attributes (object)
+        + message: `Registration successful` (string)
+        + user (object)
+            + id: `1` (required, number) - The user ID.
+            + first_name: `John` (string, optional) - The first name of the user.
+            + last_name: `Doe` (string, optional) - The last name of the user.
+            + profile_picture: `url` (string, optional) - The profile picture URL of the user.
+            + phone_number: `1234567890` (string, optional) - The phone number of the user.
+            + email: `email@example.com` (string, optional) - The email of the user.
+            + role: `customer` (enum, required) - The role of the user. Members must be one of the following:
+                + `customer`
+                + `restaurant-owner`
+
+## Register Restaurant Owner [POST /user/restaurant-owner/register]
+
++ Request (application/json)
+    + Attributes (object)
+        + email: `email@example.com` (string, required) - The email of the restaurant owner.
+        + password: `password` (string, required) - The password of the restaurant owner.
+
++ Response 201 (application/json)
+    + Attributes (object)
+        + message: `Restaurant Owner registration successful` (string)
+        + user (object)
+            + id: `2` (required, number) - The user ID.
+            + first_name: `John` (string, optional) - The first name of the user.
+            + last_name: `Doe` (string, optional) - The last name of the user.
+            + profile_picture: `url` (string, optional) - The profile picture URL of the user.
+            + phone_number: `1234567890` (string, optional) - The phone number of the user.
+            + email: `email@example.com` (string, optional) - The email of the user.
+            + role: `restaurant-owner` (enum, required) - The role of the user. Members must be one of the following:
+                + `customer`
+                + `restaurant-owner`
+
+## User Profile [/user/{id}/profile]
++ Parameters
+    + id: `1` (required, number) - An identifier for the user.
+
+### Get User Profile [GET]
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + id: `1` (required, number) - The user ID.
+        + first_name: `John` (string, optional) - The first name of the user.
+        + last_name: `Doe` (string, optional) - The last name of the user.
+        + profile_picture: `url` (string, optional) - The profile picture URL of the user.
+        + phone_number: `1234567890` (string, optional) - The phone number of the user.
+        + email: `email@example.com` (string, optional) - The email of the user.
+        + role: `customer` (enum, required) - The role of the user. Members must be one of the following:
+            + `customer`
+            + `restaurant-owner`
+
+### Update User Profile [PUT]
+
++ Request (application/json)
+    + Attributes (object)
+        + first_name: `John` (string, optional) - The first name of the user.
+        + last_name: `Doe` (string, optional) - The last name of the user.
+        + profile_picture: `url` (string, optional) - The profile picture URL of the user.
+        + phone_number: `1234567890` (string, optional) - The phone number of the user.
+        + email: `email@example.com` (string, optional) - The email of the user.
+        + password: `password` (string, optional) - The password of the user.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + id: `1` (required, number) - The user ID.
+        + first_name: `John` (string, optional) - The first name of the user.
+        + last_name: `Doe` (string, optional) - The last name of the user.
+        + profile_picture: `url` (string, optional) - The profile picture URL of the user.
+        + phone_number: `1234567890` (string, optional) - The phone number of the user.
+        + email: `email@example.com` (string, optional) - The email of the user.
+        + role: `customer` (enum, required) - The role of the user. Members must be one of the following:
+            + `customer`
+            + `restaurant-owner`

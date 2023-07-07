@@ -14,7 +14,7 @@ export class UpdateUserDto {
 
   @IsOptional()
   @Length(10, 10, { message: 'Phone number must be 10 digits'})
-  phoneNumber?: string;
+  phone_number?: string;
 
   @IsOptional()
   @IsEmail()

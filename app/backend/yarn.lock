@@ -1853,7 +1853,7 @@ class-validator@^0.14.0:
   integrity sha512-ct3ltplN8I9fOwUd8GrP8UQixwff129BkEtuWDKL5W45cQuLd19xqmTLu5ge78YDm/fdje6FMt0hGOhl0lii3A==
   dependencies:
     "@types/validator" "^13.7.10"
-    libphonenumber-js "^1.10.14"
+    libphone_number-js "^1.10.14"
     validator "^13.7.0"
 
 cli-cursor@^3.1.0:
@@ -3681,9 +3681,9 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-libphonenumber-js@^1.10.14:
+libphone_number-js@^1.10.14:
   version "1.10.34"
-  resolved "https://registry.npmjs.org/libphonenumber-js/-/libphonenumber-js-1.10.34.tgz"
+  resolved "https://registry.npmjs.org/libphone_number-js/-/libphone_number-js-1.10.34.tgz"
   integrity sha512-p6g4NaQH4gK1gre32+kV14Mk6GPo2EDcPDvjbi+D2ycsPFsN4gVWNbs0itdHLZqByg6YEK8mE7OeP200I/ScTQ==
 
 lines-and-columns@^1.1.6:

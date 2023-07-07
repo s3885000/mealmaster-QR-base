@@ -5,7 +5,7 @@ import { UsersService } from 'src/user/user.service'
 import { LoginUserDto } from 'src/user/dto/user-request/loginUser.dto';
 import { AuthGuard } from './guards/auth.guard';
 import { JwtService } from '@nestjs/jwt';
-import { RefreshTokenDto } from '../jwt/token/dto/refresh-token.dto';
+import { refresh_tokenDto } from '../jwt/token/dto/refresh-token.dto';
 import { TokenService } from '../jwt/token/token.service';
 import { AuthService } from './auth.service';
 import { SessionService } from 'src/jwt/session/session.service';
@@ -13,7 +13,7 @@ import { Response } from 'express';
 import { UserRole } from 'src/user/entity/user.entity';
 import { Roles } from './guards/role.dectorator';
 import { RolesGuard } from './guards/role.guard';
-import { RefreshTokenGuard } from 'src/jwt/token/refreshToken.guard';
+import { refreshTokenGuard } from 'src/jwt/token/refreshToken.guard';
 import { LoginResponseDto } from 'src/user/dto/user-response/loginResponse.dto';
 
 
@@ -64,13 +64,13 @@ export class AuthController {
 
         const { user, token } = await this.authService.loginUser(loginUserDto);
         const accessToken = this.tokenService.generateAccessToken(user.id.toString());
-        const refreshToken = this.tokenService.generateRefreshToken(user.id.toString());
+        const refresh_token = this.tokenService.generaterefresh_token(user.id.toString());
 
         //Update the refresh token in the database
-        await this.usersService.updateRefreshToken(user.id.toString(), refreshToken);
+        await this.usersService.updaterefresh_token(user.id.toString(), refresh_token);
 
         // Set the refresh token in a HttpOnly cookie
-        response.cookie('refresh_token', refreshToken, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true });
+        response.cookie('refresh_token', refresh_token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true });
 
         return { accessToken };
     }
@@ -84,49 +84,49 @@ export class AuthController {
 
         const { user, token } = await this.authService.loginUser(loginUserDto);
         const accessToken = this.tokenService.generateAccessToken(user.id.toString());
-        const refreshToken = this.tokenService.generateRefreshToken(user.id.toString());
+        const refresh_token = this.tokenService.generaterefresh_token(user.id.toString());
 
         //Update the refresh token in the database
-        await this.usersService.updateRefreshToken(user.id.toString(), refreshToken);
+        await this.usersService.updaterefresh_token(user.id.toString(), refresh_token);
 
         //Set the refresh token in a HttpOnly cookie
-        response.cookie('refresh_token', refreshToken, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true }); // 1 week expiration
+        response.cookie('refresh_token', refresh_token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true }); // 1 week expiration
 
         return { accessToken };
     }
 
-    @UseGuards(RefreshTokenGuard)
+    @UseGuards(refreshTokenGuard)
     @Post('refresh-token')
-    async refreshAccessToken(@Body(ValidationPipe) refreshTokenDto: RefreshTokenDto, @Res({ passthrough: true}) response: Response): Promise<any> {
-        const { refreshToken } = refreshTokenDto;
-        const decoded = this.jwtService.decode(refreshToken);
+    async refreshAccessToken(@Body(ValidationPipe) refresh_tokenDto: refresh_tokenDto, @Res({ passthrough: true}) response: Response): Promise<any> {
+        const { refresh_token } = refresh_tokenDto;
+        const decoded = this.jwtService.decode(refresh_token);
         if (!decoded) {
             throw new UnauthorizedException('Invalid refresh token');
         }
         const userId = decoded['sub'];
-        const user = await this.usersService.findUserByRefreshToken(refreshToken);
+        const user = await this.usersService.findUserByrefresh_token(refresh_token);
         if (!user) {
             throw new UnauthorizedException('Invalid refresh token');
         }
         //Generate w new refresh token and update it in the database
-        const newRefreshToken = this.tokenService.generateRefreshToken(user.id.toString());
-        await this.usersService.updateRefreshToken(user.id.toString(), newRefreshToken)
+        const newrefresh_token = this.tokenService.generaterefresh_token(user.id.toString());
+        await this.usersService.updaterefresh_token(user.id.toString(), newrefresh_token)
 
         const accessToken = await this.tokenService.generateAccessToken(user.id.toString());
 
         //Set the new refresh token in a HttpOnly cookie
-        response.cookie('refresh_token', refreshToken, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true });
-        return { accessToken, refreshToken: newRefreshToken };
+        response.cookie('refresh_token', refresh_token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true });
+        return { accessToken, refresh_token: newrefresh_token };
         
     }
 
     @Post('logout')
     async logout(@Body() body: any, @Req() request: any,@Res() response: Response): Promise<{message: string}> {
-        const refreshToken = body.refreshToken;
+        const refresh_token = body.refresh_token;
         const guestId = body.guestId;
         
-        if (refreshToken) {
-            const decoded = this.jwtService.decode(refreshToken);
+        if (refresh_token) {
+            const decoded = this.jwtService.decode(refresh_token);
             if (!decoded) {
                 throw new UnauthorizedException('Invalid refresh token');
             }
@@ -134,7 +134,7 @@ export class AuthController {
 
             // Preform logout logic for register user
             // Invalidate the refresh token for the registered user
-            await this.tokenService.invalidateRefreshToken(userId);
+            await this.tokenService.invalidaterefresh_token(userId);
 
         }else if (guestId) {
             // Perform logout logic for guest user

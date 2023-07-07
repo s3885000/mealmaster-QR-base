@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException } from '@nestjs/common';
 import { CreateTableDto } from './dto/CreateTable.dto';
-import { Table } from './entity/table.entity';
+import { Tables } from './entity/table.entity';
 import { TableService } from './table.service';
 
 @Controller('table')
@@ -9,13 +9,13 @@ export class TableController {
 
     //Get all tables
     @Get()
-    async findAll(): Promise<Table[]> {
+    async findAll(): Promise<Tables[]> {
         return this.tableService.findAll();
     }
 
     //Get table by id
     @Get('id')
-    async findOne(@Param('id') id: number): Promise<Table> {
+    async findOne(@Param('id') id: number): Promise<Tables> {
         const table = await this.tableService.findOne(id);
         if(!table) {
             throw new NotFoundException('Table not found!');
@@ -33,7 +33,7 @@ export class TableController {
 
     //Update table
     @Put(':id')
-    async update( @Param('id') id: number, @Body() table: Table): Promise<any> {
+    async update( @Param('id') id: number, @Body() table: Tables): Promise<any> {
         return this.tableService.update(id, table);
     }
 

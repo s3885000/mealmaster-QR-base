@@ -1,14 +1,16 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-import { UsersService } from 'src/user/user.service';
-
+import { UserService } from 'src/user/user.service';
+import { User } from 'src/user/entity/user.entity';
+import { AnonymousService } from 'src/user/anonymous-user/anonymous.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly usersService: UsersService,
+    private readonly userService: UserService,
+    private readonly anonymousService: AnonymousService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -19,16 +21,28 @@ export class AuthGuard implements CanActivate {
     if (token) {
       try {
         const payload = this.jwtService.verify(token);
-        const user = await this.usersService.findUserById(payload.sub);
+        let user: User | undefined;
+        if (payload.role === 'guest') {
+          const isGuest = await this.anonymousService.isAnonymousUser(payload.sub);
+          if (isGuest) {
+            throw new UnauthorizedException('Invalid token');
+          }
+          user = await this.userService.findUserByGuestId(payload.sub);
+        } else {
+          user = await this.userService.findUserById(payload.sub);
+        }
+
+        if (!user) {
+          throw new UnauthorizedException('User not found!');
+        }
         request.user = user; // Attach the authenticated user to the request object
         return true;
       } catch (error) {
         // Invalid token
         throw new UnauthorizedException('Invalid token');
       }
+      
+      // No token provided
     }
-
-    // No token provided
-    throw new UnauthorizedException('No token provided');
-  }
+  }      
 }

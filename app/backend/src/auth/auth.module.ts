@@ -2,14 +2,13 @@ import { Global, Module } from '@nestjs/common';
 import { AnonymousService } from '../user/anonymous-user/anonymous.service';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
-import { UsersService } from 'src/user/user.service';
+import { UserService } from 'src/user/user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/user/entity/user.entity';
-import { GuestSession } from 'src/jwt/session/entity/guest-session.entity';
 import { TokenService } from '../jwt/token/token.service';
 import { AuthService } from './auth.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { SessionService } from 'src/jwt/session/session.service';
+
 
 @Global()
 @Module({
@@ -23,11 +22,11 @@ import { SessionService } from 'src/jwt/session/session.service';
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([User, GuestSession])
+    TypeOrmModule.forFeature([User])
   ],
-  providers: [AnonymousService, UsersService,TokenService, AuthService,SessionService],
+  providers: [AnonymousService, UserService,TokenService, AuthService],
   controllers: [AuthController],
-  exports: [JwtModule, AnonymousService, UsersService],
+  exports: [JwtModule, AnonymousService, UserService],
 })
 export class AuthModule {}
 

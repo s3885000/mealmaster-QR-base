@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, ValidationPipe, Post, HttpCode, HttpStatus, Get, Param, Put, UseGuards, SetMetadata, ParseIntPipe } from '@nestjs/common';
-import { UsersService } from './user.service';
+import { Body, Controller, ValidationPipe, Post, HttpCode, HttpStatus, Get, Param, Put, UseGuards, SetMetadata, ParseIntPipe } from '@nestjs/common';
+import { UserService } from './user.service';
 import { CreateUserDto } from './dto/user-request/createUser.dto';
 import { User, UserRole } from './entity/user.entity';
 import * as createResOwnerDto from './dto/user-request/createRestaurantOwner.dto';
@@ -11,21 +11,21 @@ import { UpdateUserDto } from './dto/user-request/updateUser.dto';
 
 @Controller('user')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly userService: UserService) {}
 
   // Customer Regisration
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
   async register(@Body(ValidationPipe) createUserDto: CreateUserDto): Promise<RegisterResponseDto> {
-    const user = await this.usersService.registerUser(createUserDto, UserRole.CUSTOMER);
+    const user = await this.userService.registerUser(createUserDto, UserRole.CUSTOMER);
     return { message: 'Registration successful', user: user.toResponseObject() };
   }
 
   // Restaurant Owner Registration
-  @Post('register-restaurant-owner')
+  @Post('restaurant-owner/register')
   @HttpCode(HttpStatus.CREATED)
   async registerRestaurantOwner(@Body(ValidationPipe) createRestaurantOwnerDto: createResOwnerDto.CreateRestaurantOwnerDto): Promise<RegisterResponseDto> {
-    const user = await this.usersService.registerUser(createRestaurantOwnerDto, UserRole.RESTAURANT_OWNER);
+    const user = await this.userService.registerUser(createRestaurantOwnerDto, UserRole.RESTAURANT_OWNER);
     return { message: 'Restaurant Owner registration successful', user: user.toResponseObject() };
   }
 
@@ -35,7 +35,7 @@ export class UsersController {
   @SetMetadata('roles', [UserRole.CUSTOMER, UserRole.RESTAURANT_OWNER])
   @HttpCode(HttpStatus.OK)
   async getProfile(@Param('id') id: number): Promise<User> {
-    return await this.usersService.getUserProfile(id);
+    return await this.userService.getUserProfile(id);
   }
 
   // Update User Profile
@@ -44,12 +44,10 @@ export class UsersController {
   @SetMetadata('roles', [UserRole.CUSTOMER, UserRole.RESTAURANT_OWNER])
   @HttpCode(HttpStatus.OK)
   async updateProfile(@Param('id', ParseIntPipe) id: number, @Body(ValidationPipe) updateUserData: UpdateUserDto): Promise<RegisterResponseDto> {
-    await this.usersService.updateUserProfile(id, updateUserData);
-    const user = await this.usersService.getUserProfile(id);
+    await this.userService.updateUserProfile(id, updateUserData);
+    const user = await this.userService.getUserProfile(id);
     return { message: "User profile updated", user: user.toResponseObject() };
     
   }
-
-
 
 }

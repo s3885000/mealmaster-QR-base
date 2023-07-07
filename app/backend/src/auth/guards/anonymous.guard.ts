@@ -1,23 +1,25 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
-import { AnonymousService } from "../../user/anonymous-user/anonymous.service";
-import { Request } from "express";
+import { AnonymousService } from "src/user/anonymous-user/anonymous.service";
+import { RequestWithCookiesAndUser } from "src/types/requestWithCookiesAndUser";
 
 
 @Injectable()
-export class AnonymousGuard implements CanActivate {
-  constructor(private readonly anonymousService: AnonymousService) { }
+export class AnonymousGuard implements CanActivate{
+    constructor ( private readonly anonymousService: AnonymousService) {}
 
-  canActivate(context: ExecutionContext): boolean {
-    const request = context.switchToHttp().getRequest<Request>();
-    const id = request.query.id as string;
-    const token = request.query.token as string;
+    async canActivate (context: ExecutionContext): Promise<boolean> {
+        const request = context.switchToHttp().getRequest<RequestWithCookiesAndUser>();
+        const guestId = request.cookies['guest_id'];
 
-    try {
-      const payload = this.anonymousService.validateToken(token);
-      return this.anonymousService.isAnonymousUser(id) && payload.id === id;
-    } catch (error) {
-      return false;
+        if (guestId) {
+            // Handle guest user
+            const isGuest = await this.anonymousService.isAnonymousUser(guestId);
+            if (!isGuest) {
+                request.user = { is_guest: true, guest_id: guestId };
+                return true;
+            }
+        }
+
+        return false;
     }
-
-  }
 }

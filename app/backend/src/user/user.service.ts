@@ -8,7 +8,7 @@ import { CreateRestaurantOwnerDto } from './dto/user-request/createRestaurantOwn
 import { UpdateUserDto } from './dto/user-request/updateUser.dto';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -62,6 +62,10 @@ export class UsersService {
     return this.userRepository.findOne({ where: { id: userId }});
   }
 
+  async findUserByGuestId(guestId: string): Promise<User | undefined> {
+    return this.userRepository.findOne({ where: { guest_id: guestId }});
+  }
+
   async findUserByphone_number(phone_number: string): Promise<User | undefined> {
     return this.userRepository.findOne({ where: { phone_number } });
   }
@@ -70,11 +74,11 @@ export class UsersService {
     return this.userRepository.findOne({ where: { email } });
   }
 
-  async findUserByrefresh_token(refresh_token: string): Promise<User | undefined> {
+  async findUserByRefreshToken(refresh_token: string): Promise<User | undefined> {
     return this.userRepository.findOne({ where: { refresh_token } });
   }
 
-  async updaterefresh_token(userId: string, refresh_token: string): Promise<User> {
+  async updateRefreshToken(userId: string, refresh_token: string): Promise<User> {
     const parsedUserId = parseInt(userId, 10);
     const user = await this.userRepository.findOne({ where: { id: parsedUserId } });
   
@@ -86,6 +90,16 @@ export class UsersService {
     await this.userRepository.save(user);
   
     return user;
+  }
+
+  async clearRefreshToken(userId: string): Promise<void> {
+    const parsedUserId = parseInt(userId, 10); // Conver the userId to a string
+    const user = await this.userRepository.findOne({ where: { id: parsedUserId }});
+    if (!user) {
+      throw new UnauthorizedException('User not found!');
+    }
+    user.refresh_token = null;
+    await this.userRepository.save(user);
   }
 
   async getUserProfile(userId:number): Promise<User> {

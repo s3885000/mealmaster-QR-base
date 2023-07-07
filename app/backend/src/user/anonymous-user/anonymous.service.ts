@@ -1,42 +1,41 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { v4 as uuid } from 'uuid';
-import { JwtPayload } from '../../jwt/jwt-payload.interface';
+import { User, UserRole } from '../entity/user.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { TokenService } from 'src/jwt/token/token.service';
 
 @Injectable()
 export class AnonymousService {
-    private anonymouUsers: string[] = [];
+    
+    constructor(
+        @InjectRepository(User)
+        private readonly userRepository: Repository<User>,
+        private readonly jwtService: JwtService,
+        private readonly tokenService: TokenService) {}
 
-    constructor(private readonly jwtService: JwtService) {}
-
-    generateRandomId(): string {
-        const id = uuid();
-        this.anonymouUsers.push(id);
-        return id;
-    }
-
-    generateAccessToken( id:string ): string {
-        const payload: JwtPayload = { id };
-        return this.jwtService.sign(payload, { expiresIn: '15m'});
+    async generateAnonymousUser(): Promise<User> {
+        const user = new User();
+        user.is_guest = true;
+        user.role = UserRole.GUEST;
+        user.guest_id = uuid();
+        // Generate refresh token for the guest user
+        user.refresh_token = this.tokenService.generateRefreshToken(user.guest_id);
+        return await this.userRepository.save(user);
     }
     
-    isAnonymousUser( id:string ): boolean {
-        return this.anonymouUsers.includes(id);
+    async isAnonymousUser(guest_id: string): Promise<boolean> {
+        const user = await this.userRepository.findOne({ where: { guest_id } });
+        return user?.is_guest ?? false;
     }
-
-    validateToken( token: string ): JwtPayload {
-        return this.jwtService.verify(token);
-    }
-
-    isTokenExpired(token: string): boolean {
-        try {
-            const decodedToken = this.jwtService.decode(token) as any;
-            const expirationDate = new Date(decodedToken.exp * 1000); //jwt exp in seconds
-            return expirationDate < new Date();
-        } catch (e) {
-            // Failed to decode or validate token, consider it as expired
-            return true;
+    
+    async deleteAnonymousUser(guest_id: string): Promise<void> {
+        const user = await this.userRepository.findOne({where: { guest_id }});
+        if (user) {
+            await this.userRepository.delete(user.id);
         }
     }
+
 }
 

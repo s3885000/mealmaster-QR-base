@@ -19,30 +19,30 @@ export class TokenService {
     return this.jwtService.sign(payload, { expiresIn });
   }
 
-  generateRefreshToken(userId: string): string {
+  generaterefresh_token(userId: string): string {
     const payload = { sub: userId };
-    const expiresIn = this.configService.get<string>('auth.refreshTokenExpiration');
+    const expiresIn = this.configService.get<string>('auth.refresh_tokenExpiration');
     return this.jwtService.sign(payload, { expiresIn });
   }
 
-  async refreshAccessToken(oldRefreshToken: string): Promise<string> {
+  async refreshAccessToken(oldrefresh_token: string): Promise<string> {
     try {
-      const decodedToken = this.jwtService.verify(oldRefreshToken);
+      const decodedToken = this.jwtService.verify(oldrefresh_token);
       const { sub } = decodedToken;
-      await this.invalidateRefreshToken(sub);
+      await this.invalidaterefresh_token(sub);
       return this.generateAccessToken(sub);
     } catch (error) {
       throw new UnauthorizedException('Invalid refresh token');
     }
   }
 
-  async invalidateRefreshToken(userId: string): Promise<void> {
+  async invalidaterefresh_token(userId: string): Promise<void> {
     const parsedUserId = parseInt(userId, 10);//Convert the userId to a number
     const user = await this.userRepository.findOne({ where: { id: parsedUserId } });
     if (!user) {
       throw new UnauthorizedException('User not found!');
     }
-    user.refreshToken = null;
+    user.refresh_token = null;
     await this.userRepository.save(user);
   }
 

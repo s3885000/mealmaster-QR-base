@@ -1,8 +1,8 @@
 import { registerDecorator, ValidationArguments, ValidationOptions, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
 import { UserRole } from '../entity/user.entity';
 
-@ValidatorConstraint({ name: 'isPhoneNumberOrEmail', async: false })
-export class IsPhoneNumberOrEmailConstraint implements ValidatorConstraintInterface {
+@ValidatorConstraint({ name: 'isphone_numberOrEmail', async: false })
+export class Isphone_numberOrEmailConstraint implements ValidatorConstraintInterface {
 
   validate(value: any, args: ValidationArguments) {
     const [relatedPropertyName] = args.constraints;
@@ -26,15 +26,15 @@ export class IsPhoneNumberOrEmailConstraint implements ValidatorConstraintInterf
   }
 }
 
-export function IsPhoneNumberOrEmail(property: string, validationOptions?: ValidationOptions) {
+export function Isphone_numberOrEmail(property: string, validationOptions?: ValidationOptions) {
   return function (object: Object, propertyName: string) {
     registerDecorator({
-      name: 'isPhoneNumberOrEmail',
+      name: 'isphone_numberOrEmail',
       target: object.constructor,
       propertyName: propertyName,
       constraints: [property],
       options: validationOptions,
-      validator: IsPhoneNumberOrEmailConstraint,
+      validator: Isphone_numberOrEmailConstraint,
     });
   };
 }

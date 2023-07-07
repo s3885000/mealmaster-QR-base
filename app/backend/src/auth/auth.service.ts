@@ -15,12 +15,12 @@ export class AuthService {
         ) {}
 
     async loginUser(loginUserDto: LoginUserDto): Promise<{ user: User, token: string }> {
-        const { phoneNumber, password, email, role = UserRole.CUSTOMER } = loginUserDto;
+        const { phone_number, password, email, role = UserRole.CUSTOMER } = loginUserDto;
 
         let user: User | undefined;
 
         if (role === UserRole.CUSTOMER) {
-            user = await this.userRepository.findOne({ where: { phoneNumber }});
+            user = await this.userRepository.findOne({ where: { phone_number }});
         } else if (role === UserRole.RESTAURANT_OWNER) {
             user = await this.userRepository.findOne({ where: { email }});
         }
@@ -41,7 +41,7 @@ export class AuthService {
     }
     
     private generateToken(user: User): string {
-        const payload = { id: user.id, phoneNumber: user.phoneNumber, email: user.email, role: user.role };
+        const payload = { id: user.id, phone_number: user.phone_number, email: user.email, role: user.role };
         return this.jwtService.sign(payload);
       }
 }

@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, OneToMany} from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { UserProfileResponseDto } from "../dto/user-response/userProfileResponse.dto";
 import { Order } from "src/order/entity/order.entity";
 import { Payment } from "src/payment/entity/payment.entity";
@@ -8,6 +8,7 @@ import { PaymentReference } from "src/payment_reference/entity/paymentReference.
 export enum UserRole {
     CUSTOMER = 'customer',
     RESTAURANT_OWNER = 'restaurant-owner',
+    GUEST = 'guest',
 }
 
 
@@ -16,20 +17,26 @@ export class User {
     @PrimaryGeneratedColumn({ type: 'bigint' })
     id: number;
 
+    @Column({ nullable: true })
+    guest_id: string;
+
     @Column({ unique: true, nullable: true, default: null })
-    phoneNumber: string;
+    phone_number: string;
 
     @Column({ unique: true, nullable: true })
     email: string;
 
-    @Column()
+    @Column({ nullable: true })
     password: string;
 
     @Column({ type: 'enum', enum: UserRole, default: UserRole.CUSTOMER})
     role: UserRole;
 
+    @Column({ default: false})
+    is_guest: boolean;
+
     @Column({ nullable: true })
-    refreshToken: string;
+    refresh_token: string;
 
     @Column({ nullable: true })
     first_name: string;
@@ -41,14 +48,14 @@ export class User {
     profile_picture: string;
 
     @CreateDateColumn()
-    createAt: Date;
+    create_at: Date;
 
     @UpdateDateColumn()
-    updateAt: Date;
+    update_at: Date;
 
     toResponseObject(): UserProfileResponseDto {
-        const { id, first_name, last_name, profile_picture, phoneNumber, email, role } = this;
-        return { id, first_name, last_name, profile_picture, phoneNumber, email, role };
+        const { id, first_name, last_name, profile_picture, phone_number, email, role } = this;
+        return { id, first_name, last_name, profile_picture, phone_number, email, role };
     }
 
     @OneToMany(() => Order, order => order.user)

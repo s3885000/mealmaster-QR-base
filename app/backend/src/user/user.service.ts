@@ -16,9 +16,9 @@ export class UsersService {
 
   async registerUser(createUserDto: CreateUserDto | CreateRestaurantOwnerDto, userRole: UserRole): Promise<User> {
     if (userRole === UserRole.CUSTOMER) {
-      const { phoneNumber, password } = createUserDto as CreateUserDto;
+      const { phone_number, password } = createUserDto as CreateUserDto;
 
-      const userExists = await this.userRepository.findOne({where: { phoneNumber }});
+      const userExists = await this.userRepository.findOne({where: { phone_number }});
 
       if (userExists) {
         throw new ConflictException('Phone number already exists!');
@@ -27,7 +27,7 @@ export class UsersService {
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const user = this.userRepository.create({
-        phoneNumber,
+        phone_number,
         password: hashedPassword,
         role: userRole
       });
@@ -62,19 +62,19 @@ export class UsersService {
     return this.userRepository.findOne({ where: { id: userId }});
   }
 
-  async findUserByPhoneNumber(phoneNumber: string): Promise<User | undefined> {
-    return this.userRepository.findOne({ where: { phoneNumber } });
+  async findUserByphone_number(phone_number: string): Promise<User | undefined> {
+    return this.userRepository.findOne({ where: { phone_number } });
   }
 
   async findUserByEmail(email: string): Promise<User | undefined> {
     return this.userRepository.findOne({ where: { email } });
   }
 
-  async findUserByRefreshToken(refreshToken: string): Promise<User | undefined> {
-    return this.userRepository.findOne({ where: { refreshToken } });
+  async findUserByrefresh_token(refresh_token: string): Promise<User | undefined> {
+    return this.userRepository.findOne({ where: { refresh_token } });
   }
 
-  async updateRefreshToken(userId: string, refreshToken: string): Promise<User> {
+  async updaterefresh_token(userId: string, refresh_token: string): Promise<User> {
     const parsedUserId = parseInt(userId, 10);
     const user = await this.userRepository.findOne({ where: { id: parsedUserId } });
   
@@ -82,7 +82,7 @@ export class UsersService {
       throw new UnauthorizedException('User not found!');
     }
   
-    user.refreshToken = refreshToken;
+    user.refresh_token = refresh_token;
     await this.userRepository.save(user);
   
     return user;
@@ -98,8 +98,8 @@ export class UsersService {
     const user = await this.findUserById(userId);
     if (!user) throw new NotFoundException('User not found!');
 
-    if (user.role === UserRole.CUSTOMER && updateUserData.phoneNumber) {
-      user.phoneNumber = updateUserData.phoneNumber;
+    if (user.role === UserRole.CUSTOMER && updateUserData.phone_number) {
+      user.phone_number = updateUserData.phone_number;
     }
 
     if (user.role === UserRole.RESTAURANT_OWNER && updateUserData.email) {

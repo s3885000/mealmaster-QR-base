@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Buttons, Navigation } from '../../components';
 import QrReader from 'react-qr-scanner';
 
 const ScanQR = () => {
   const [result, setResult] = useState('No QR code scanned yet!');
+  const navigate = useNavigate();
+
+  const handleBackClick = () => {
+    navigate('/home');
+  };
 
   const handleScan = data => {
     if (data) {
@@ -20,7 +26,7 @@ const ScanQR = () => {
   return (
     <div className='flex flex-col items-center justify-start h-screen px-5 pt-20 space-y-6'>
       <div className='flex items-center justify-between w-full mb-5'>
-        <Buttons context='back' className='mr-6' />
+        <Buttons context='back' className='mr-6'onClick={handleBackClick} />
         <h1 className='text-black text-2xl'>Scan QR</h1>
       </div>
       <QrReader

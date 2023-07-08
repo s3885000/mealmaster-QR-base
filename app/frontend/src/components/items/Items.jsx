@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Food_1, Food_2 } from '../../asset/images/restaurant_info/haidilao/food/index.js';
 import { Buttons } from '../../components';
 
-// Subcomponent for repeated parts
 const ItemContainer = ({ children }) => (
   <div className="w-300 h-87 flex items-center p-2 rounded-md shadow-lg">
     {children}
@@ -11,6 +11,12 @@ const ItemContainer = ({ children }) => (
 
 const Items = ({ type }) => {
   const [counter, setCounter] = useState(0);
+
+const navigate = useNavigate();
+
+  const handleDetailClick = () => {
+      navigate('/menu-detail');
+  };
 
   switch(type) {
     case 'food_item':
@@ -23,7 +29,7 @@ const Items = ({ type }) => {
             <p className="text-xl font-semibold">200,000đ</p>
           </div>
           <div className="ml-2">
-            <Buttons context='plus' count={counter} setCount={setCounter} />
+            <Buttons context='plus' count={counter} setCount={setCounter} onClick={handleDetailClick}/>
           </div>
         </ItemContainer>
       );

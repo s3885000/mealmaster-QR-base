@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CollapseIcon } from '../../asset/icons/box/index.js';
-import { Buttons, Progress } from '../../components';
+import { Buttons, Progress, Popups, Items } from '../../components';
 import './boxes.css';
 
-const Boxes = () => {
+const Boxes = ({onOrderReceived}) => {
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
 
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+
+  const togglePopup = () => {
+    setShowPopup(!showPopup);
+  };
+  
   useEffect(() => {
     const listForNewOrders = () => {
       const newOrder = {
@@ -20,49 +31,63 @@ const Boxes = () => {
   return (
     <div>
       {orders.map((order, index) => (
-        <OrderBox key={index} {...order} />
+        <OrderBox key={index} {...order} togglePopup={togglePopup} onOrderReceived={togglePopup} />
       ))}
+      {showPopup && <Popups visible={showPopup} closePopup={closePopup} type="order_completed" />}
     </div>
   );
 };
 
-const OrderBox = ({ orderId, currentStep, estimateTime, total, items }) => {
+const OrderBox = ({onOrderReceived, ...props}) => {
   const [orderStatus, setOrderStatus] = useState('ready');
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
-    if (currentStep >= 3) {  // If all steps are completed, the order is ready
+    if (props.currentStep >= 3) {
       setOrderStatus('ready');
     }
-  }, [currentStep]);
+  }, [props.currentStep]);
+
+  const toggleExpanded = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  const handleOrderReceivedClick = () => {
+    onOrderReceived();
+  };
 
   return (
-    <div className="box relative w-300 h-150 bg-tertiary overflow-hidden">
-      <input type="checkbox" className="absolute top-0 inset-x-0 w-full h-12 opacity-0 z-10 cursor-pointer peer"/>
+    <div className="box relative w-300 flex flex-col bg-tertiary overflow-hidden">
+      <div className="header-content h-36 w-full pl-5 flex flex-col justify-between items-start space-y-1 text-xs">
+        <div className="flex justify-between w-full items-center">
+          <div>
+            <h1 className="font-semibold ">Order: #{props.orderId}</h1>
+            <p className="">Estimate Time: {props.estimateTime}</p>
+            <p className="">Total: {props.total}</p>
+          </div>
 
-      <div className="header-content h-36 w-full pl-5 flex flex-col justify-center items space-y-1 text-xs">
-        <h1 className="font-semibold ">Order: #{orderId}</h1>
-        <p className="">Estimate Time: {estimateTime}</p>
-        <p className="">Total: {total}</p>
-        <p className="">Food item(s): {items}</p>
+          <button onClick={toggleExpanded} className="ml-60 transition-transform duration-500" style={{transform: isExpanded ? 'rotate(180deg)' : 'rotate(0)'}}>
+            <CollapseIcon className="text-white" />
+          </button>
+        </div>
 
         <div className="flex justify-center w-full">
           <div className="progress-bar-container w-3/5">
-            <Progress currentStep={currentStep} />
+            <Progress currentStep={props.currentStep} />
           </div>
         </div>
       </div>
 
-      <div className="absolute top-5 right-3 transition-transform duration-500 rotate-0 peer-checked:rotate-180">
-        <CollapseIcon className="text-white" />
+      <div className="button-container py-5 w-full flex justify-center pb-2">
+        <Buttons context="order" onClick={handleOrderReceivedClick} className={`mt-2 ${orderStatus === 'ready' ? 'bg-primary' : 'bg-gray'}`}>Order Received</Buttons>
       </div>
 
-      <div className="button-container w-full flex justify-center pb-2">
-        <Buttons context="order" className={`mt-2 ${orderStatus === 'ready' ? 'bg-primary' : 'bg-gray'}`}>Order Received</Buttons>
-      </div>
-
-      <div className="content bg-white overflow-hidden transition-all duration-500 max-h-0 peer-checked:max-h-40">
+      <div className={`content bg-white transition-all duration-500 overflow-auto ${isExpanded ? 'max-h-screen' : 'max-h-0'}`}>
         <div className="p-4">
-          content
+          <Items type='food_item_on_going'></Items>
+          <Items type='food_item_on_going'></Items>
+          <Items type='food_item_on_going'></Items>
+          <Items type='food_item_on_going'></Items>
         </div>
       </div>
     </div>

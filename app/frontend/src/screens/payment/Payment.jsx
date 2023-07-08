@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Buttons } from '../../components';
 
 const Payment = () => {
@@ -24,12 +25,17 @@ const Payment = () => {
     e.preventDefault();
     console.log({cardholderName, cardNumber, expirationDate, cvv});
   }
+  const navigate = useNavigate();
+
+    const handleBackClick = () => {
+        navigate('/cart');
+    };
 
   return (
     //Title for the page
     <div className='flex flex-col items-center justify-start h-screen px-5 pt-20 space-y-6'>
       <div className='flex items-center justify-between w-full mb-5'>
-        <Buttons context='back' className='mr-6' />
+        <Buttons context='back' className='mr-6' onClick={handleBackClick}/>
         <h1 className='text-black text-2xl'>Add Card</h1>
       </div>
       <form onSubmit={handleSubmit} className='w-full'>
@@ -78,7 +84,7 @@ const Payment = () => {
           </div>
         </div>
         <div className="flex justify-center w-full mt-2">
-          <Buttons context="add_card"></Buttons>
+          <Buttons context="add_card" onClick={handleBackClick}></Buttons>
         </div>
       </form>
     </div>

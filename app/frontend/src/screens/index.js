@@ -1,4 +1,4 @@
-export { default as Activity } from './activity/Activity';
+export { default as OnGoing } from './on-going/OnGoing';
 export { default as Cart } from './cart/Cart';
 export { default as Home } from './home/Home';
 export { default as Login } from './login/Login';
@@ -8,5 +8,5 @@ export { default as MenuOverview } from './menuoverview/MenuOverview';
 export { default as Payment } from './payment/Payment';
 export { default as Profile } from './profile/Profile';
 export { default as ScanQR } from './scanqr/ScanQR';
-export { default as Signin } from './signin/Signin';
+export { default as SignUp } from './signup/Signup';
 

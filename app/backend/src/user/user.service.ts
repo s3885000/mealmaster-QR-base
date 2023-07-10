@@ -2,10 +2,10 @@ import { ConflictException, Injectable, NotFoundException, UnauthorizedException
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User, UserRole } from './entity/user.entity';
-import { CreateUserDto } from './dto/user-request/createUser.dto';
+import { CreateUserDto } from './dto/request/createUser.dto';
 import * as bcrypt from 'bcrypt';
-import { CreateRestaurantOwnerDto } from './dto/user-request/createRestaurantOwner.dto';
-import { UpdateUserDto } from './dto/user-request/updateUser.dto';
+import { CreateRestaurantOwnerDto } from './dto/request/createRestaurantOwner.dto';
+import { UpdateUserDto } from './dto/request/updateUser.dto';
 
 @Injectable()
 export class UserService {

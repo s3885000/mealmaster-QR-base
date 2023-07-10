@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CustomerLoginDto } from 'src/user/dto/user-request/customerLogin';
-import { OwnerLoginDto } from 'src/user/dto/user-request/ownerLogin.dto';
+import { CustomerLoginDto } from 'src/user/dto/request/customerLogin';
+import { OwnerLoginDto } from 'src/user/dto/request/ownerLogin.dto';
 import { User, UserRole } from 'src/user/entity/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';

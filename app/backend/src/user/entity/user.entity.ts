@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { UserProfileResponseDto } from "../dto/user-response/userProfileResponse.dto";
+import { UserProfileResponseDto } from "../dto/response/userProfileResponse.dto";
 import { Order } from "src/order/entity/order.entity";
 import { Payment } from "src/payment/entity/payment.entity";
 import { Cart } from "src/cart/entity/cart.entity";

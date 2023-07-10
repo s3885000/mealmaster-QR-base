@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "src/user/entity/user.entity";
 
 @Entity()
@@ -15,7 +15,7 @@ export class Payment {
     @Column()
     payment_ref_is: number;
 
-    @Column()
+    @CreateDateColumn()
     payment_date: Date;
 
     @Column()

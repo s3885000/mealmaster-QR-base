@@ -1,7 +1,7 @@
 import { CartItem } from "src/cart_item/entity/cartItem.entity";
 import { Category } from "src/catergory/entity/category.entity";
 import { OrderItem } from "src/order_item/entity/orderItem.entity";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Item {
@@ -26,10 +26,10 @@ export class Item {
     @Column()
     is_best_seller: number;
 
-    @Column()
+    @CreateDateColumn()
     create_at: Date;
 
-    @Column()
+    @UpdateDateColumn()
     update_at: Date;
 
     @Column()

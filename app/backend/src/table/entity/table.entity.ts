@@ -1,6 +1,7 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Order } from "src/order/entity/order.entity";
 import { Restaurant } from "src/restaurant/entity/restaurant.entity";
+import { QrCode } from "src/qr_code/entity/qrCode.entity";
 
 @Entity()
 export class Tables {
@@ -10,8 +11,9 @@ export class Tables {
     @Column()
     restaurant_id: number;
 
-    @Column()
-    qr_code_id: number;
+    @OneToOne(() => QrCode, qrCode => qrCode.table)
+    @JoinColumn()
+    qr_code: QrCode;
 
     @Column()
     table_no: number;

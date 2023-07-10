@@ -1,4 +1,4 @@
-import { Collection, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Collection, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { User } from "src/user/entity/user.entity";
 import { Payment } from "src/payment/entity/payment.entity";
 
@@ -16,10 +16,10 @@ export class PaymentReference {
     @Column()
     payment_ref: string;
 
-    @Column()
+    @CreateDateColumn()
     create_at: Date;
 
-    @Column()
+    @UpdateDateColumn()
     update_at: Date;
 
     @Column()

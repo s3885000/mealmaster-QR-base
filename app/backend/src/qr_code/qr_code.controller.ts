@@ -15,7 +15,7 @@ export class QrCodeController {
     }
 
     //Get QR code by id
-    @Get('id')
+    @Get(':id')
     async findOne(@Param('id') id: number): Promise<QrCode> {
         const qrCode = await this.qrCodeService.findOne(id);
         if(!qrCode) {

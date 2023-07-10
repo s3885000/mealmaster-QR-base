@@ -1,7 +1,8 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException } from '@nestjs/common';
-import { CreateTableDto } from './dto/CreateTable.dto';
+import { CreateTableDto } from './dto/request/CreateTable.dto';
 import { Tables } from './entity/table.entity';
 import { TableService } from './table.service';
+import { createTableResponseDto } from './dto/response/CreateTableResponseDto.dto';
 
 @Controller('table')
 export class TableController {
@@ -26,8 +27,7 @@ export class TableController {
 
     //Create table
     @Post('create')
-    createTable(@Body() createTableDto: CreateTableDto) {
-        console.log(createTableDto);
+    async createTable(@Body() createTableDto: CreateTableDto): Promise<createTableResponseDto> {
         return this.tableService.create(createTableDto);
     }
 

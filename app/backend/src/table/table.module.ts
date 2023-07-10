@@ -3,9 +3,12 @@ import { TableController } from "./table.controller";
 import { TableService } from "./table.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Tables } from "./entity/table.entity";
+import { QrCodeModule } from "src/qr_code/qr_code.module";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Tables])],
+    imports: [
+        QrCodeModule,
+        TypeOrmModule.forFeature([Tables])],
     controllers: [TableController],
     providers: [TableService]
 })

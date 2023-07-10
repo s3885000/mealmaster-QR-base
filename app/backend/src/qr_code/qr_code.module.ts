@@ -7,6 +7,7 @@ import { QrCode } from './entity/qrCode.entity';
 @Module({
     imports: [TypeOrmModule.forFeature([QrCode])],
     controllers: [QrCodeController],
-    providers: [QrCodeService]
+    providers: [QrCodeService],
+    exports: [QrCodeService],
 })
 export class QrCodeModule {}

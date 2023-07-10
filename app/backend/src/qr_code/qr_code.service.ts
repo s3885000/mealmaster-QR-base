@@ -18,25 +18,22 @@ export class QrCodeService{
     }
 
     async findOne(id: number): Promise<QrCode> {
-        return this.qrCodeRepository.findOne({ where: {id} })
+        return this.qrCodeRepository.findOne({ where: {id}});
     }
 
     async create(createQrCodeDto: CreateQrCodeDto): Promise<CreateQrCodeResponseDto> {
-        const {table_id} = createQrCodeDto;
+        const { url, table } = createQrCodeDto;
 
         const qrCode = new QrCode();
-        qrCode.table_id = table_id;
-        
-        const url = `http://localhost:3000/menu?table=${table_id}`;
-
         qrCode.code_image = await QRcode.toDataURL(url);
+        qrCode.table = table;
 
         const result = await this.qrCodeRepository.save(qrCode);
 
         const response = new CreateQrCodeResponseDto();
         response.id = result.id;
-        response.table_id = result.table_id;
         response.code_image = result.code_image;
+        response.table = result.table;
 
         return response;
     }

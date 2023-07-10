@@ -9,7 +9,9 @@ import { ConfigService } from '@nestjs/config';
 import { CartModule } from './cart/cart.module';
 import { RestaurantModule } from './restaurant/restaurant.module';
 import { QrCodeModule } from './qr_code/qr_code.module';
+import { OrderModule } from './order/order.module';
 import { TableModule } from './table/table.module';
+
 
 @Module({
   imports: [
@@ -24,6 +26,7 @@ import { TableModule } from './table/table.module';
     CartModule,
     TableModule,
     RestaurantModule,
+    OrderModule,
     QrCodeModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],

@@ -20,7 +20,7 @@ export class ItemsService {
     }
 
     async create(createMenuItemDto: CreateMenuItemDto): Promise<string> {
-        const {category_id, name, description, price, image, is_best_seller, create_at, update_at, status} = createMenuItemDto;
+        const {category_id, name, description, price, image, is_best_seller, status} = createMenuItemDto;
 
         const item = new Item();
         item.category_id = category_id
@@ -29,8 +29,6 @@ export class ItemsService {
         item.price = price;
         item.image = image;
         item.is_best_seller = is_best_seller;
-        item.create_at = create_at;
-        item.update_at = update_at;
         item.status = status;
 
         await this.itemRepository.save(item);

@@ -1,4 +1,4 @@
-import { Column, Entity, IntegerType, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, Table } from "typeorm";
+import { Column, CreateDateColumn, Entity, IntegerType, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, Table, UpdateDateColumn } from "typeorm";
 import { Payment } from "src/payment/entity/payment.entity";
 import { Restaurant } from "src/restaurant/entity/restaurant.entity";
 import { Tables } from "src/table/entity/table.entity";
@@ -32,10 +32,10 @@ export class Order {
     @Column()
     pickup_type: number;
 
-    @Column()
+    @CreateDateColumn()
     create_at: Date;
 
-    @Column()
+    @UpdateDateColumn()
     update_at: Date;
 
     @Column()

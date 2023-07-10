@@ -6,7 +6,5 @@ export class CreateOrderDto {
     current_status: string;
     total_price: number;
     pickup_type: number;
-    create_at: Date;
-    update_at: Date;
     note: string;
 }

@@ -7,6 +7,8 @@ import { configFactory } from 'config/configFactory';
 import { ConfigModule } from 'config/config.module';
 import { ConfigService } from '@nestjs/config';
 import { CartModule } from './cart/cart.module';
+import { RestaurantModule } from './restaurant/restaurant.module';
+import { QrCodeModule } from './qr_code/qr_code.module';
 
 @Module({
   imports: [
@@ -19,6 +21,8 @@ import { CartModule } from './cart/cart.module';
     UsersModule,
     AuthModule,
     CartModule,
+    RestaurantModule,
+    QrCodeModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({

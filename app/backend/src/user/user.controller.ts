@@ -1,12 +1,12 @@
 import { Body, Controller, ValidationPipe, Post, HttpCode, HttpStatus, Get, Param, Put, UseGuards, SetMetadata, ParseIntPipe } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/user-request/createUser.dto';
+import { CreateUserDto } from './dto/request/createUser.dto';
 import { User, UserRole } from './entity/user.entity';
-import * as createResOwnerDto from './dto/user-request/createRestaurantOwner.dto';
+import * as createResOwnerDto from './dto/request/createRestaurantOwner.dto';
 import { RolesGuard } from 'src/auth/guards/role.guard';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
-import { RegisterResponseDto } from './dto/user-response/registerResponse.dto';
-import { UpdateUserDto } from './dto/user-request/updateUser.dto';
+import { RegisterResponseDto } from './dto/response/registerResponse.dto';
+import { UpdateUserDto } from './dto/request/updateUser.dto';
 
 
 @Controller('user')

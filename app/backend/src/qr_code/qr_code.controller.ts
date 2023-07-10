@@ -1,7 +1,8 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException } from '@nestjs/common';
 import { QrCode } from './entity/qrCode.entity';
-import { CreateQrCodeDto } from './dto/CreateQrCode.dto';
+import { CreateQrCodeDto } from './dto/request/CreateQrCode.dto';
 import { QrCodeService } from './qr_code.service';
+import { CreateQrCodeResponseDto } from './dto/response/CreateQrCodeResponse.dto';
 
 @Controller('qr_code') 
 export class QrCodeController {
@@ -26,8 +27,7 @@ export class QrCodeController {
 
     //Create QR code
     @Post('create')
-    createQrCode(@Body() createQrCodeDto: CreateQrCodeDto) {
-        console.log(createQrCodeDto);
+    createQrCode(@Body() createQrCodeDto: CreateQrCodeDto): Promise<CreateQrCodeResponseDto> {
         return this.qrCodeService.create(createQrCodeDto);
     }
 

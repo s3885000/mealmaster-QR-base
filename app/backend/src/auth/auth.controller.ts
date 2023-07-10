@@ -1,25 +1,20 @@
 import { Body, Controller, Get, Post, HttpCode, UseGuards, ValidationPipe, HttpStatus, Req, Res, Request } from '@nestjs/common';
 import { Request as ExpressRequest } from 'express';
 import { AnonymousService } from '../user/anonymous-user/anonymous.service';
-import { CustomerLoginDto } from 'src/user/dto/user-request/customerLogin';
+import { CustomerLoginDto } from 'src/user/dto/request/customerLogin';
 import { AuthGuard } from './guards/auth.guard';
 import { TokenService } from '../jwt/token/token.service';
 import { AuthService } from './auth.service';
 import { Response } from 'express';
 import { RefreshTokenGuard } from 'src/jwt/token/refreshToken.guard';
-import { LoginResponseDto } from 'src/user/dto/user-response/loginResponse.dto';
-import { OwnerLoginDto } from 'src/user/dto/user-request/ownerLogin.dto';
+import { LoginResponseDto } from 'src/user/dto/response/loginResponse.dto';
+import { OwnerLoginDto } from 'src/user/dto/request/ownerLogin.dto';
 import { AnonymousGuard } from './guards/anonymous.guard';
-import { User } from 'src/user/entity/user.entity';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
 
 
 @Controller('auth')
 export class AuthController {
     constructor(
-        @InjectRepository(User)
-        private readonly userRepository: Repository<User>,
         private readonly anonymousService: AnonymousService,
         private readonly authService: AuthService,
         private readonly tokenService: TokenService,

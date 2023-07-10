@@ -4,6 +4,4 @@ export class CreateRestaurantDto {
     name: string;
     logo: string;
     banner: string;
-    create_at: Date;
-    update_at: Date;
 }

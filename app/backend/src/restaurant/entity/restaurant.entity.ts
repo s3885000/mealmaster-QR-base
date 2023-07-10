@@ -1,5 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Table } from "typeorm";
-import { QrCode } from "src/qr_code/entity/qrCode.entity";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Tables } from "src/table/entity/table.entity";
 import { Order } from "src/order/entity/order.entity";
 import { Category } from "src/catergory/entity/category.entity";
@@ -9,8 +8,8 @@ export class Restaurant {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({})
-    user_id: number
+    @Column()
+    user_id: number;
 
     @Column()
     address_id: number;
@@ -24,14 +23,11 @@ export class Restaurant {
     @Column()
     banner: string;
 
-    @Column()
+    @CreateDateColumn()
     create_at: Date;
 
-    @Column()
+    @CreateDateColumn()
     update_at: Date;
-
-    @OneToMany(() => QrCode, qrCode => qrCode.restaurant)
-    qrCode: QrCode[];
 
     @OneToMany(() => Tables, tables => tables.restaurant)
     tables: Tables[];

@@ -122,3 +122,169 @@ FORMAT: 1A
         + role: `customer` (enum, required) - The role of the user. Members must be one of the following:
             + `customer`
             + `restaurant-owner`
+            
+# Group Entity
+
+## Restaurant Profile [/restaurant/{id}/profile]
++ Parameters
+    + id: `1` (required, number) - An identifier for the restaurant.
+
+### Get Restaurant Profile [GET]
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + user_id: `1` (required, number) - The user ID.
+        + address_id: `1` (required, number) - The address ID.
+        + name: `Example` (string, optional) - The name of the restaurant.
+        + logo: `Example.png' (string, optional) - The logo of the restaurant.
+        + banner: `Example.png` (string, optional) - The banner of the restaurant.
+        + create_at: `2023-01-01T00:00:00.000Z` (string, required) - The date the restaurant created.
+        + update_at: `2023-01-01T00:00:00.000Z` (string, required) - The date the restaurant updated.
+
+### Create Restaurant Profile [POST]
+
++ Request (application/json)
+    + Attributes (object)
+        + user_id: `1` (required, number) - The user ID.
+        + address_id: `1` (required, number) - The address ID.
+        + name: `Example` (string, optional) - The name of the restaurant.
+        + logo: `Example.png' (string, optional) - The logo of the restaurant.
+        + banner: `Example.png` (string, optional) - The banner of the restaurant.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + user_id: `1` (required, number) - The user ID.
+        + address_id: `1` (required, number) - The address ID.
+        + name: `Example` (string, optional) - The name of the restaurant.
+        + logo: `Example.png' (string, optional) - The logo of the restaurant.
+        + banner: `Example.png` (string, optional) - The banner of the restaurant.
+        + create_at: `2023-01-01T00:00:00.000Z` (string, required) - The date the restaurant created.
+        + update_at: `2023-01-01T00:00:00.000Z` (string, required) - The date the restaurant updated.
+
+### Update Restaurant Profile [PUT]
++ Request (application/json)
+    + Attributes (object)
+        + user_id: `1` (required, number) - The user ID.
+        + address_id: `1` (required, number) - The address ID.
+        + name: `Example` (string, optional) - The name of the restaurant.
+        + logo: `Example.png' (string, optional) - The logo of the restaurant.
+        + banner: `Example.png` (string, optional) - The banner of the restaurant.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + user_id: `1` (required, number) - The user ID.
+        + address_id: `1` (required, number) - The address ID.
+        + name: `Example` (string, optional) - The name of the restaurant.
+        + logo: `Example.png' (string, optional) - The logo of the restaurant.
+        + banner: `Example.png` (string, optional) - The banner of the restaurant.
+        + create_at: `2023-01-01T00:00:00.000Z` (string, required) - The date the restaurant created.
+        + update_at: `2023-01-01T00:00:00.000Z` (string, required) - The date the restaurant updated.
+
+## Order Profile [/order/{id}/profile]
++ Parameters
+    + id: `1` (required, number) - An identifier for an order.
+
+### Get Order Profile [GET]
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + restaurant_id: `1` (required, number) - The restaurant ID.
+        + table_id: `1` (required, number) - The table ID.
+        + payment_id: `1` (required, number) - The payment ID.
+        + user_id: `1` (required, number) - The user ID.
+        + current_status: `ready` (string, optional) - The status of the order.
+        + total_price: `100` (number, optional) - The price of the order.
+        + pickup_type: `1` (number, optional) - `1` for self-pickup, `0` for table service.
+        + note: `less salt` (string, optional) - Additional note for the order.
+
+### Create Order Profile [POST]
+
++ Request (application/json)
+    + Attributes (object)
+        + restaurant_id: `1` (required, number) - The restaurant ID.
+        + table_id: `1` (required, number) - The table ID.
+        + payment_id: `1` (required, number) - The payment ID.
+        + user_id: `1` (required, number) - The user ID.
+        + current_status: `ready` (string, optional) - The status of the order.
+        + total_price: `100` (number, optional) - The price of the order.
+        + pickup_type: `1` (number, optional) - `1` for self-pickup, `0` for table service.
+        + note: `less salt` (string, optional) - Additional note for the order.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + restaurant_id: `1` (required, number) - The restaurant ID.
+        + table_id: `1` (required, number) - The table ID.
+        + payment_id: `1` (required, number) - The payment ID.
+        + user_id: `1` (required, number) - The user ID.
+        + current_status: `ready` (string, optional) - The status of the order.
+        + total_price: `100` (number, optional) - The price of the order.
+        + pickup_type: `1` (number, optional) - `1` for self-pickup, `0` for table service.
+        + note: `less salt` (string, optional) - Additional note for the order.
+
+### Update Order Profile [PUT]
+
++ Request (application/json)
+    + Attributes (object)
+        + restaurant_id: `1` (required, number) - The restaurant ID.
+        + table_id: `1` (required, number) - The table ID.
+        + payment_id: `1` (required, number) - The payment ID.
+        + user_id: `1` (required, number) - The user ID.
+        + current_status: `ready` (string, optional) - The status of the order.
+        + total_price: `100` (number, optional) - The price of the order.
+        + pickup_type: `1` (number, optional) - `1` for self-pickup, `0` for table service.
+        + note: `less salt` (string, optional) - Additional note for the order.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + restaurant_id: `1` (required, number) - The restaurant ID.
+        + table_id: `1` (required, number) - The table ID.
+        + payment_id: `1` (required, number) - The payment ID.
+        + user_id: `1` (required, number) - The user ID.
+        + current_status: `ready` (string, optional) - The status of the order.
+        + total_price: `100` (number, optional) - The price of the order.
+        + pickup_type: `1` (number, optional) - `1` for self-pickup, `0` for table service.
+        + note: `less salt` (string, optional) - Additional note for the order.
+
+## Table Profile [/table/{id}/profile]
++ Parameters
+    + id: `1` (required, number) - An identifier for the table.
+
+### Get Table Profile [GET]
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + restaurant_id: `1` (required, number) - The restaurant ID.
+        + qr_code: `QRCode.png` (required, string) - The QR code of the table.
+        + table_no: `1` (required, number) - The table number.
+        + description: `example` (string, optional) - The table description.
+
+### Create Table Profile [POST]
+
++ Request (application/json)
+    + Attributes (object)
+        + restaurant_id: `1` (required, number) - The restaurant ID.
+        + table_no: `1` (required, number) - The table number.
+        + description: `example` (string, optional) - The table description.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + restaurant_id: `1` (required, number) - The restaurant ID.
+        + table_no: `1` (required, number) - The table number.
+        + qr_code_id: `1` (required, number) - The QR code ID.
+        + description: `example` (string, optional) - The table description.
+
+### Update Table Profile [PUT]
+
++ Request (application/json)
+    + Attributes (object)
+        + restaurant_id: `1` (required, number) - The restaurant ID.
+        + qr_code: `QRCode.png` (required, string) - The QR code of the table.
+        + table_no: `1` (required, number) - The table number.
+        + description: `example` (string, optional) - The table description.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + restaurant_id: `1` (required, number) - The restaurant ID.
+        + qr_code: `QRCode.png` (required, string) - The QR code of the table.
+        + table_no: `1` (required, number) - The table number.
+        + description: `example` (string, optional) - The table description.

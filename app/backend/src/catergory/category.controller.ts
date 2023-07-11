@@ -1,7 +1,8 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException } from '@nestjs/common';
-import { CreateCategoryDto } from './dto/CreateCategory.dto';
+import { CreateCategoryRequestDto } from './dto/request/CreateCategoryRequestDto.dto';
 import { Category } from './entity/category.entity';
 import { CategoryService } from './category.service';
+import { CreateCategoryResponseDto } from './dto/response/CreateCategoryResponseDto.dto';
 
 @Controller('category')
 export class CategoryController {
@@ -26,8 +27,7 @@ export class CategoryController {
 
     //Create category
     @Post('create')
-    createCategory(@Body() createCategoryDto: CreateCategoryDto) {
-        console.log(createCategoryDto);
+    createCategory(@Body() createCategoryDto: CreateCategoryRequestDto): Promise <CreateCategoryResponseDto> {
         return this.categoryService.create(createCategoryDto);
     }
 

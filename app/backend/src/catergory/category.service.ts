@@ -1,14 +1,17 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Category } from "./entity/category.entity";
-import { CreateCategoryDto } from "./dto/CreateCategory.dto";
+import { CreateCategoryRequestDto } from "./dto/request/CreateCategoryRequestDto.dto";
+import { CreateCategoryResponseDto } from "./dto/response/CreateCategoryResponseDto.dto";
+import { RestaurantService } from "src/restaurant/restaurant.service";
 
 @Injectable()
 export class CategoryService {
     constructor(
         @InjectRepository(Category)
         private categoryRepository: Repository<Category>,
+        private readonly restaurantService: RestaurantService,
     ) {}
 
     async findAll(): Promise<Category[]> {
@@ -19,9 +22,15 @@ export class CategoryService {
         return this.categoryRepository.findOne({ where: {id} })
     }
 
-    async create(createCategoryDto: CreateCategoryDto): Promise<string> {
+    async create(createCategoryDto: CreateCategoryRequestDto): Promise<CreateCategoryResponseDto> {
         const {name, description, restaurant_id} = createCategoryDto;
 
+        //Check if the restaurant exists
+        const restaurant = await this.restaurantService.findOne(restaurant_id);
+        if (!restaurant) {
+            throw new NotFoundException('Restaurant not found!');
+        }
+        
         const category = new Category();
         category.restaurant_id = restaurant_id;
         category.name = name;
@@ -29,7 +38,13 @@ export class CategoryService {
 
         await this.categoryRepository.save(category);
 
-        return 'Category Added';
+        const createCategoryResponseDto: CreateCategoryResponseDto = {
+            id: category.id,
+            name: category.name,
+            description: category.description,
+          };
+      
+          return createCategoryResponseDto;
     }
 
     async update(id: number, category: Partial<Category>): Promise<Category> {

@@ -1,11 +1,11 @@
 import React from 'react'
 import './header.css'
 import { Buttons } from '../../components'
-import { ProfilePic } from '../../asset/images/index.js';
+import { ProfilePic } from '../../asset/images/user_profile/index.js';
 
 const Header = () => {
   return (
-    <div className='flex justify-between items-center px-4 py-2 sm:px-6 sm:py-4'>
+    <div className='flex justify-between pt-20 items-center px-4 py-2 sm:px-6 sm:py-4'>
       <div className='flex items-center space-x-4 sm:space-x-6'>
         <div className='w-14 h-14 sm:w-16 sm:h-16 bg-primary rounded-xl'>
           <ProfilePic className='w-full h-full rounded-xl'/>

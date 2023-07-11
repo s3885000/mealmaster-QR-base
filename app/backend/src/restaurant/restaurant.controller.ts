@@ -1,7 +1,10 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException } from '@nestjs/common';
-import { CreateRestaurantDto } from './dto/CreateRestaurant.dto';
+import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException, UsePipes, ValidationPipe } from '@nestjs/common';
+import { CreateRestaurantRequestDto } from './dto/request/CreateRestaurantRequestDto.dto';
 import { Restaurant } from './entity/restaurant.entity';
 import { RestaurantService } from './restaurant.service';
+import { CreateResAddressRequestDto } from 'src/res_address/dto/request/CreateResAddressRequestDto.dto';
+import { GetRestaurantResponseDto } from './dto/response/GetRestaurantResponseDto.dto';
+import { CreateRestaurantResponseDto } from './dto/response/CreateRestaurantResponseDto.dto';
 
 @Controller('restaurant')
 export class RestaurantController {
@@ -14,8 +17,8 @@ export class RestaurantController {
     }
 
     //Get restaurant by id
-    @Get('id')
-    async findOne(@Param('id') id: number): Promise<Restaurant> {
+    @Get(':id')
+    async findOne(@Param('id') id: number): Promise<GetRestaurantResponseDto> {
         const restaurant = await this.restaurantService.findOne(id);
         if(!restaurant) {
             throw new NotFoundException('Restaurant not found!');
@@ -26,15 +29,20 @@ export class RestaurantController {
 
     //Create restaurant
     @Post('create')
-    createRestaurant(@Body() createRestaurantDto: CreateRestaurantDto) {
-        console.log(createRestaurantDto);
-        return this.restaurantService.create(createRestaurantDto);
+    async create(@Body() createRestaurantDto: CreateRestaurantRequestDto): Promise<CreateRestaurantResponseDto> {
+    return this.restaurantService.create(createRestaurantDto);
     }
+    
 
     //Update restaurant
     @Put(':id')
     async update( @Param('id') id: number, @Body() restaurant: Restaurant): Promise<any> {
         return this.restaurantService.update(id, restaurant);
+    }
+
+    @Put(':id/address')
+    async updateAddress(@Param('id') id: number, @Body() createResAddressDto: CreateResAddressRequestDto): Promise<any> {
+        return this.restaurantService.updateRestaurantAddress(id, createResAddressDto);
     }
 
     //Delete restaurant

@@ -26,7 +26,19 @@ button{
     height: 57px;
 }
 
+.size-order {
+    width: 78px;
+    height: 38px;
+    font-size: 12px;
+}
+
 .size-mini {
     width: 48px;
     height: 48px;
+
 }
+.size-micro {
+    width: 12px;
+    height: 12px;
+}
+

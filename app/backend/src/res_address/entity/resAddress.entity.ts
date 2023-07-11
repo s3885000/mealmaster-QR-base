@@ -7,9 +7,6 @@ export class ResAddress {
     id: number;
 
     @Column()
-    restaurant_id: number;
-
-    @Column()
     number: number;
 
     @Column()
@@ -21,7 +18,7 @@ export class ResAddress {
     @Column()
     ward: string;
 
-    @OneToOne(() => Restaurant)
+    @OneToOne(() => Restaurant, restaurant => restaurant.address)
     @JoinColumn()
     restaurant: Restaurant;
 }

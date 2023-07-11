@@ -1,4 +1,4 @@
-import { Body, Controller, ValidationPipe, Post, HttpCode, HttpStatus, Get, Param, Put, UseGuards, SetMetadata, ParseIntPipe } from '@nestjs/common';
+import { Body, Controller, ValidationPipe, Post, HttpCode, HttpStatus, Get, Param, Put, UseGuards, ParseIntPipe } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/request/createUser.dto';
 import { User, UserRole } from './entity/user.entity';
@@ -7,6 +7,7 @@ import { RolesGuard } from 'src/auth/guards/role.guard';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { RegisterResponseDto } from './dto/response/registerResponse.dto';
 import { UpdateUserDto } from './dto/request/updateUser.dto';
+import { Roles } from 'src/auth/guards/role.dectorator';
 
 
 @Controller('user')
@@ -32,7 +33,7 @@ export class UsersController {
   // Get User Profile
   @Get(':id/profile')
   @UseGuards(AuthGuard, RolesGuard)
-  @SetMetadata('roles', [UserRole.CUSTOMER, UserRole.RESTAURANT_OWNER])
+  @Roles(UserRole.CUSTOMER, UserRole.RESTAURANT_OWNER)
   @HttpCode(HttpStatus.OK)
   async getProfile(@Param('id') id: number): Promise<User> {
     return await this.userService.getUserProfile(id);
@@ -41,7 +42,7 @@ export class UsersController {
   // Update User Profile
   @Put(':id/profile')
   @UseGuards(AuthGuard, RolesGuard)
-  @SetMetadata('roles', [UserRole.CUSTOMER, UserRole.RESTAURANT_OWNER])
+  @Roles(UserRole.CUSTOMER, UserRole.RESTAURANT_OWNER)
   @HttpCode(HttpStatus.OK)
   async updateProfile(@Param('id', ParseIntPipe) id: number, @Body(ValidationPipe) updateUserData: UpdateUserDto): Promise<RegisterResponseDto> {
     await this.userService.updateUserProfile(id, updateUserData);

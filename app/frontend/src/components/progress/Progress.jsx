@@ -13,10 +13,14 @@ const Step = ({ currentStep, stepIndex }) => (
 )
 
 const Progress = ({ currentStep }) => (
-  <div className="h-full flex justify-center items-center pr-8"> 
+  <div className="h-full flex justify-center items-center pr-8">
     {steps.map((step, index) => (
       <Step currentStep={currentStep} stepIndex={index} key={step} />
     ))}
+    <div className='flex flex-row absolute pl-5'>
+      <div className='bg-gray w-28 h-1 rounded-full hover:bg-primary mr-3'/>
+      <div className='bg-gray w-28 h-1 rounded-full hover:bg-primary ml-3'/>
+    </div>
   </div>
 );
 

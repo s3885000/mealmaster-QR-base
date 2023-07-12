@@ -288,3 +288,266 @@ FORMAT: 1A
         + qr_code: `QRCode.png` (required, string) - The QR code of the table.
         + table_no: `1` (required, number) - The table number.
         + description: `example` (string, optional) - The table description.
+
+## Cart Profile [/cart/{id}/profile]
++ Parameters 
+    + id: `1` (required, number) - An identifier for the cart.
+
+### Get Cart Profile [GET]
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + user_id: `1` (required, number) - The user ID.
+        + status: `pending` (required, string) - The cart status.
+        + pickup_type: `1` (required, number) - `1` for self-pickup, `0` for table service.
+        + selected_payment_method: `card` (required, string) - The payment method of the cart.
+        + total_price: `100` (required, number) - The total price of the cart.
+        + total_item: `10` (required, number) - The total item in the cart.
+        + note: `example` (string, optional) - The note for the cart.
+
+### Create Cart Profile [POST]
+
++ Request (application/json)
+    + Attributes (object)
+        + user_id: `1` (required, number) - The user ID.
+        + status: `pending` (required, string) - The cart status.
+        + pickup_type: `1` (required, number) - `1` for self-pickup, `0` for table service.
+        + selected_payment_method: `card` (required, string) - The payment method of the cart.
+        + total_price: `100` (required, number) - The total price of the cart.
+        + total_item: `10` (required, number) - The total item in the cart.
+        + note: `example` (string, optional) - The note for the cart.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + user_id: `1` (required, number) - The user ID.
+        + status: `pending` (required, string) - The cart status.
+        + pickup_type: `1` (required, number) - `1` for self-pickup, `0` for table service.
+        + selected_payment_method: `card` (required, string) - The payment method of the cart.
+        + total_price: `100` (required, number) - The total price of the cart.
+        + total_item: `10` (required, number) - The total item in the cart.
+        + note: `example` (string, optional) - The note for the cart.
+
+### Update Cart Profile [PUT]
+
++ Request (application/json)
+    + Attributes (object)
+        + user_id: `1` (required, number) - The user ID.
+        + status: `pending` (required, string) - The cart status.
+        + pickup_type: `1` (required, number) - `1` for self-pickup, `0` for table service.
+        + selected_payment_method: `card` (required, string) - The payment method of the cart.
+        + total_price: `100` (required, number) - The total price of the cart.
+        + total_item: `10` (required, number) - The total item in the cart.
+        + note: `example` (string, optional) - The note for the cart.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + user_id: `1` (required, number) - The user ID.
+        + status: `pending` (required, string) - The cart status.
+        + pickup_type: `1` (required, number) - `1` for self-pickup, `0` for table service.
+        + selected_payment_method: `card` (required, string) - The payment method of the cart.
+        + total_price: `100` (required, number) - The total price of the cart.
+        + total_item: `10` (required, number) - The total item in the cart.
+        + note: `example` (string, optional) - The note for the cart.
+
+## Category Profile [/category/{id}/profile]
++ Parameters 
+    + id: `1` (required, number) - An identifier for the category.
+
+### Get Category Profile [GET]
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + restaurant_id: `1` (required, number) - The restaurant ID.
+        + name: `main dish` (required, string) - The name of the category.
+        + description: `example` (string, optional) - The category description.
+
+### Create Category Profile [POST]
+
++ Request (application/json)
+    + Attributes (object)
+        + restaurant_id: `1` (required, number) - The restaurant ID.
+        + name: `main dish` (required, string) - The name of the category.
+        + description: `example` (string, optional) - The category description.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + restaurant_id: `1` (required, number) - The restaurant ID.
+        + name: `main dish` (required, string) - The name of the category.
+        + description: `example` (string, optional) - The category description.
+
+### Update Category Profile [PUT]
+
++ Request (application/json)
+    + Attributes (object)
+        + restaurant_id: `1` (required, number) - The restaurant ID.
+        + name: `main dish` (required, string) - The name of the category.
+        + description: `example` (string, optional) - The category description.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + restaurant_id: `1` (required, number) - The restaurant ID.
+        + name: `main dish` (required, string) - The name of the category.
+        + description: `example` (string, optional) - The category description.
+
+## Cart Item Profile [/cart_item/{id}/profile]
++ Parameters 
+    + id: `1` (required, number) - An identifier for the cart item.
+
+### Get Cart Item Profile [GET]
+
++ Response 200 (application/json)
+    + Attributes (object)
+        +
+
+## Menu Item Profile [/menu_items/{id}/profile]
++ Parameters 
+    + id: `1` (required, number) - An identifier for the menu item.
+
+### Get Menu Item Profile [GET]
++ Response 200 (application/json)
+    + Attributes (object)
+        + category_id: `1` (required, number) - The category ID.
+        + name: `dish 1` (required, string) - The name of the item.
+        + description: `delicious` (string, optional) - The description of the item.
+        + price: `50` (required, number) - The price of the item.
+        + image: `example.png` (required, string) - The picture of the item.
+        + is_best_seller: `1` (number, optional) - `1` for best-seller, `0` for not.
+        + create_at: `2023-01-01T00:00:00.000Z` (required, string) - The date the item created.
+        + update_at: `2023-01-01T00:00:00.000Z` (required, string) - The date the item updated.
+        + status: `available` (required, string) - The status of the item.
+
+### Create Menu Item Profile [POST]
+
++ Request (application/json)
+    + Attributes (object)
+        + category_id: `1` (required, number) - The category ID.
+        + name: `dish 1` (required, string) - The name of the item.
+        + description: `delicious` (string, optional) - The description of the item.
+        + price: `50` (required, number) - The price of the item.
+        + image: `example.png` (required, string) - The picture of the item.
+        + is_best_seller: `1` (number, optional) - `1` for best-seller, `0` for not.
+        + status: `available` (required, string) - The status of the item.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + category_id: `1` (required, number) - The category ID.
+        + name: `dish 1` (required, string) - The name of the item.
+        + description: `delicious` (string, optional) - The description of the item.
+        + price: `50` (required, number) - The price of the item.
+        + image: `example.png` (required, string) - The picture of the item.
+        + is_best_seller: `1` (number, optional) - `1` for best-seller, `0` for not.
+        + create_at: `2023-01-01T00:00:00.000Z` (required, string) - The date the item created.
+        + update_at: `2023-01-01T00:00:00.000Z` (required, string) - The date the item updated.
+        + status: `available` (required, string) - The status of the item.
+
+### Update Menu Item Profile [PUT]
+
++ Request (application/json)
+    + Attributes (object)
+        + category_id: `1` (required, number) - The category ID.
+        + name: `dish 1` (required, string) - The name of the item.
+        + description: `delicious` (string, optional) - The description of the item.
+        + price: `50` (required, number) - The price of the item.
+        + image: `example.png` (required, string) - The picture of the item.
+        + is_best_seller: `1` (number, optional) - `1` for best-seller, `0` for not.
+        + status: `available` (required, string) - The status of the item.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + category_id: `1` (required, number) - The category ID.
+        + name: `dish 1` (required, string) - The name of the item.
+        + description: `delicious` (string, optional) - The description of the item.
+        + price: `50` (required, number) - The price of the item.
+        + image: `example.png` (required, string) - The picture of the item.
+        + is_best_seller: `1` (number, optional) - `1` for best-seller, `0` for not.
+        + create_at: `2023-01-01T00:00:00.000Z` (required, string) - The date the item created.
+        + update_at: `2023-01-01T00:00:00.000Z` (required, string) - The date the item updated.
+        + status: `available` (required, string) - The status of the item.
+
+## Order Item Profile [/order_item/{id}/profile]
++ Parameters 
+    + id: `1` (required, number) - An identifier for the order item.
+
+### Get Order Item Profile [GET]
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + order_id: `1` (required, number) - The order ID.
+        + menu_items_id: `1` (required, number) - The menu item ID.
+        + quantity: `5` (required, number) - The quantity of the item.
+        + note: `less sour` (string, optional) - The note for the order item.
+        + price: `123` (required, number) - The price of the item.
+
+### Create Order Item Profile [POST]
+
++ Request (application/json)
+    + Attributes (object)
+        + order_id: `1` (required, number) - The order ID.
+        + menu_items_id: `1` (required, number) - The menu item ID.
+        + quantity: `5` (required, number) - The quantity of the item.
+        + note: `less sour` (string, optional) - The note for the order item.
+        + price: `123` (required, number) - The price of the item.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + order_id: `1` (required, number) - The order ID.
+        + menu_items_id: `1` (required, number) - The menu item ID.
+        + quantity: `5` (required, number) - The quantity of the item.
+        + note: `less sour` (string, optional) - The note for the order item.
+        + price: `123` (required, number) - The price of the item.
+
+### Update Order Item Profile [PUT]
+
++ Request (application/json)
+    + Attributes (object)
+        + order_id: `1` (required, number) - The order ID.
+        + menu_items_id: `1` (required, number) - The menu item ID.
+        + quantity: `5` (required, number) - The quantity of the item.
+        + note: `less sour` (string, optional) - The note for the order item.
+        + price: `123` (required, number) - The price of the item.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + order_id: `1` (required, number) - The order ID.
+        + menu_items_id: `1` (required, number) - The menu item ID.
+        + quantity: `5` (required, number) - The quantity of the item.
+        + note: `less sour` (string, optional) - The note for the order item.
+        + price: `123` (required, number) - The price of the item.
+
+## Order Status Profile [/order_status/{id}/profile]
++ Parameters 
+    + id: `1` (required, number) - An identifier for the order status.
+
+### Get Order Status Profile [GET]
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + order_id: `1` (required, number) - The order ID.
+        + status: `ready` (required, string) - The status of the order.
+        + timestamp: `2023-01-01T00:00:00.000Z` - The order timestamp.
+
+### Create Order Status Profile [POST]
+
++ Request (application/json)
+    + Attributes (object)
+        + order_id: `1` (required, number) - The order ID.
+        + status: `ready` (required, string) - The status of the order.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + order_id: `1` (required, number) - The order ID.
+        + status: `ready` (required, string) - The status of the order.
+        + timestamp: `2023-01-01T00:00:00.000Z` - The order timestamp.
+
+### Update Order Status Profile [PUT]
+
++ Request (application/json)
+    + Attributes (object)
+        + order_id: `1` (required, number) - The order ID.
+        + status: `ready` (required, string) - The status of the order.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + order_id: `1` (required, number) - The order ID.
+        + status: `ready` (required, string) - The status of the order.
+        + timestamp: `2023-01-01T00:00:00.000Z` - The order timestamp.

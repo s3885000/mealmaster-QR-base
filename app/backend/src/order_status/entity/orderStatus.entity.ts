@@ -1,5 +1,5 @@
 import { Order } from "src/order/entity/order.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class OrderStatus {
@@ -12,7 +12,7 @@ export class OrderStatus {
     @Column()
     status: string;
 
-    @Column()
+    @CreateDateColumn()
     timestamp: Date;
 
     @ManyToOne(() => Order, order => order.orderStatus)

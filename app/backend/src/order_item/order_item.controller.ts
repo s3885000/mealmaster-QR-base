@@ -14,7 +14,7 @@ export class OrderItemController {
     }
 
     //Get order item by id
-    @Get('id')
+    @Get(':id')
     async findOne(@Param('id') id: number): Promise<OrderItem> {
         const order_item = await this.orderItemService.findOne(id);
         if(!order_item) {

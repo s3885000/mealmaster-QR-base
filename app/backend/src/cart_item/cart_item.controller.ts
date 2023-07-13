@@ -14,7 +14,7 @@ export class CartItemController {
     }
 
     //Get cart item by id
-    @Get('id')
+    @Get(':id')
     async findOne(@Param('id') id: number): Promise<CartItem> {
         const cartItem = await this.cartItemService.findOne(id);
         if(!cartItem) {

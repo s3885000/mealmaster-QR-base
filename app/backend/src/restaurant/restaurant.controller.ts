@@ -14,7 +14,7 @@ export class RestaurantController {
     }
 
     //Get restaurant by id
-    @Get('id')
+    @Get(':id')
     async findOne(@Param('id') id: number): Promise<Restaurant> {
         const restaurant = await this.restaurantService.findOne(id);
         if(!restaurant) {

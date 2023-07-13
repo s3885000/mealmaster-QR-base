@@ -14,7 +14,7 @@ export class PaymentController {
     }
 
     //Get payment by id
-    @Get('id')
+    @Get(':id')
     async findOne(@Param('id') id: number): Promise<Payment> {
         const payment = await this.paymentService.findOne(id);
         if(!payment) {

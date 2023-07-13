@@ -397,7 +397,47 @@ FORMAT: 1A
 
 + Response 200 (application/json)
     + Attributes (object)
-        +
+        + cart_id: `1` (required, number) - The cart ID.
+        + menu_item_id: `1` (required, number) - The menu item ID.
+        + quantity: `3` (required, number) - The quantity of item.
+        + note: `example` (string, optional) - The note for item.
+        + price: `20` (required, number) - The item price.
+
+### Create Cart Item Profile [POST]
+
++ Request (application/json)
+    + Attributes (object)
+        + cart_id: `1` (required, number) - The cart ID.
+        + menu_item_id: `1` (required, number) - The menu item ID.
+        + quantity: `3` (required, number) - The quantity of item.
+        + note: `example` (string, optional) - The note for item.
+        + price: `20` (required, number) - The item price.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + cart_id: `1` (required, number) - The cart ID.
+        + menu_item_id: `1` (required, number) - The menu item ID.
+        + quantity: `3` (required, number) - The quantity of item.
+        + note: `example` (string, optional) - The note for item.
+        + price: `20` (required, number) - The item price.
+
+### Update Cart Item Profile [PUT]
+
++ Request (application/json)
+    + Attributes (object)
+        + cart_id: `1` (required, number) - The cart ID.
+        + menu_item_id: `1` (required, number) - The menu item ID.
+        + quantity: `3` (required, number) - The quantity of item.
+        + note: `example` (string, optional) - The note for item.
+        + price: `20` (required, number) - The item price.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + cart_id: `1` (required, number) - The cart ID.
+        + menu_item_id: `1` (required, number) - The menu item ID.
+        + quantity: `3` (required, number) - The quantity of item.
+        + note: `example` (string, optional) - The note for item.
+        + price: `20` (required, number) - The item price.
 
 ## Menu Item Profile [/menu_items/{id}/profile]
 + Parameters 
@@ -551,3 +591,195 @@ FORMAT: 1A
         + order_id: `1` (required, number) - The order ID.
         + status: `ready` (required, string) - The status of the order.
         + timestamp: `2023-01-01T00:00:00.000Z` - The order timestamp.
+
+## Payment Profile [/payment/{id}/profile]
++ Parameters 
+    + id: `1` (required, number) - An identifier for the payment.
+
+### Get Payment Profile [GET]
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + order_id: `1` (required, number) - The order ID.
+        + user_id: `1` (required, number) - The user ID.
+        + payment_ref_is: `1` (required, number) - The payment reference.
+        + payment_date: `2023-01-01T00:00:00.000Z` (required, string) - The date payment created.
+        + payment_method: `cash` (required, string) - The payment method.
+        + payment_status: `approved` (required, string) - The payment status.
+        + payment_amount: `200` (required, number) - The total amount of payment.
+
+### Create Payment Profile [POST]
+
++ Request (application/json)
+    + Attributes (object)
+        + order_id: `1` (required, number) - The order ID.
+        + user_id: `1` (required, number) - The user ID.
+        + payment_ref_is: `1` (required, number) - The payment reference.
+        + payment_method: `cash` (required, string) - The payment method.
+        + payment_status: `approved` (required, string) - The payment status.
+        + payment_amount: `200` (required, number) - The total amount of payment.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + order_id: `1` (required, number) - The order ID.
+        + user_id: `1` (required, number) - The user ID.
+        + payment_ref_is: `1` (required, number) - The payment reference.
+        + payment_date: `2023-01-01T00:00:00.000Z` (required, string) - The date payment created.
+        + payment_method: `cash` (required, string) - The payment method.
+        + payment_status: `approved` (required, string) - The payment status.
+        + payment_amount: `200` (required, number) - The total amount of payment.
+
+### Update Payment Profile [PUT]
+
++ Request (application/json)
+    + Attributes (object)
+        + order_id: `1` (required, number) - The order ID.
+        + user_id: `1` (required, number) - The user ID.
+        + payment_ref_is: `1` (required, number) - The payment reference.
+        + payment_method: `cash` (required, string) - The payment method.
+        + payment_status: `approved` (required, string) - The payment status.
+        + payment_amount: `200` (required, number) - The total amount of payment.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + order_id: `1` (required, number) - The order ID.
+        + user_id: `1` (required, number) - The user ID.
+        + payment_ref_is: `1` (required, number) - The payment reference.
+        + payment_date: `2023-01-01T00:00:00.000Z` (required, string) - The date payment created.
+        + payment_method: `cash` (required, string) - The payment method.
+        + payment_status: `approved` (required, string) - The payment status.
+        + payment_amount: `200` (required, number) - The total amount of payment.
+
+## Payment Reference Profile [/payment_reference/{id}/profile]
++ Parameters 
+    + id: `1` (required, number) - An identifier for the payment reference.
+
+### Get Payment Reference Profile [GET]
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + cart_id: `1` (required, number) - The cart ID.
+        + user_id: `1` (required, number) - The user ID.
+        + payment_ref: `example` (required, string) - The payment reference.
+        + create_at: `2023-01-01T00:00:00.000Z` (required, string) - The date payment reference created.
+        + update_at: `2023-01-01T00:00:00.000Z` (required, string) - The date payment reference updated.
+        + status: `approved` (required, string) - The payment reference status.
+
+### Create Payment Reference Profile [POST]
+
++ Request (application/json)
+    + Attributes (object)
+        + cart_id: `1` (required, number) - The cart ID.
+        + user_id: `1` (required, number) - The user ID.
+        + payment_ref: `example` (required, string) - The payment reference.
+        + status: `approved` (required, string) - The payment reference status.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + cart_id: `1` (required, number) - The cart ID.
+        + user_id: `1` (required, number) - The user ID.
+        + payment_ref: `example` (required, string) - The payment reference.
+        + create_at: `2023-01-01T00:00:00.000Z` (required, string) - The date payment reference created.
+        + update_at: `2023-01-01T00:00:00.000Z` (required, string) - The date payment reference updated.
+        + status: `approved` (required, string) - The payment reference status.
+
+### Update Payment Reference Profile [PUT]
+
++ Request (application/json)
+    + Attributes (object)
+        + cart_id: `1` (required, number) - The cart ID.
+        + user_id: `1` (required, number) - The user ID.
+        + payment_ref: `example` (required, string) - The payment reference.
+        + status: `approved` (required, string) - The payment reference status.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + cart_id: `1` (required, number) - The cart ID.
+        + user_id: `1` (required, number) - The user ID.
+        + payment_ref: `example` (required, string) - The payment reference.
+        + create_at: `2023-01-01T00:00:00.000Z` (required, string) - The date payment reference created.
+        + update_at: `2023-01-01T00:00:00.000Z` (required, string) - The date payment reference updated.
+        + status: `approved` (required, string) - The payment reference status.
+
+## QR Code Profile [/qr_code/{id}/profile]
++ Parameters 
+    + id: `1` (required, number) - An identifier for the QR code.
+
+### Get QR Code Profile [GET]
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + table_id: `1` (required, string) - The table ID.
+        + code_image: `example.png` (required, string) - The QR code image.
+        
+### Create QR Code Profile [POST]
+
++ Request (application/json)
+    + Attributes (object)
+        + table_id: `1` (required, string) - The table ID.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + table_id: `1` (required, string) - The table ID.
+        + code_image: `example.png` (required, string) - The QR code image.
+
+### Update QR Code Profile [PUT]
+
++ Request (application/json)
+    + Attributes (object)
+        + table_id: `1` (required, string) - The table ID.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + table_id: `1` (required, string) - The table ID.
+        + code_image: `example.png` (required, string) - The QR code image.
+
+## Restaurant Address Profile [/res_address/{id}/profile]
++ Parameters 
+    + id: `1` (required, number) - An identifier for the restaurant address.
+
+### Get Restaurant Address [GET]
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + restaurant_id: `1` (required, number) - The restaurant ID.
+        + number: `1` (required, number) - The number of the street.
+        + street: `Example` (required, string) - The name of the street.
+        + city: `HCMC` (required, string) - The name of the city.
+        + ward: `Example` (string, optional) - The name of the ward.
+
+### Create Restaurant Address [POST]
+
++ Request (application/json)
+    + Attributes (object)
+        + restaurant_id: `1` (required, number) - The restaurant ID.
+        + number: `1` (required, number) - The number of the street.
+        + street: `Example` (required, string) - The name of the street.
+        + city: `HCMC` (required, string) - The name of the city.
+        + ward: `Example` (string, optional) - The name of the ward.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + restaurant_id: `1` (required, number) - The restaurant ID.
+        + number: `1` (required, number) - The number of the street.
+        + street: `Example` (required, string) - The name of the street.
+        + city: `HCMC` (required, string) - The name of the city.
+        + ward: `Example` (string, optional) - The name of the ward.
+
+### Update Restaurant Profile [PUT]
+
++ Request (application/json)
+    + Attributes (object)
+        + restaurant_id: `1` (required, number) - The restaurant ID.
+        + number: `1` (required, number) - The number of the street.
+        + street: `Example` (required, string) - The name of the street.
+        + city: `HCMC` (required, string) - The name of the city.
+        + ward: `Example` (string, optional) - The name of the ward.
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + restaurant_id: `1` (required, number) - The restaurant ID.
+        + number: `1` (required, number) - The number of the street.
+        + street: `Example` (required, string) - The name of the street.
+        + city: `HCMC` (required, string) - The name of the city.
+        + ward: `Example` (string, optional) - The name of the ward.

@@ -15,7 +15,7 @@ export class TableController {
     }
 
     //Get table by id
-    @Get('id')
+    @Get(':id')
     async findOne(@Param('id') id: number): Promise<Tables> {
         const table = await this.tableService.findOne(id);
         if(!table) {

@@ -14,7 +14,7 @@ export class CategoryController {
     }
 
     //Get category by id
-    @Get('id')
+    @Get(':id')
     async findOne(@Param('id') id: number): Promise<Category> {
         const category = await this.categoryService.findOne(id);
         if(!category) {

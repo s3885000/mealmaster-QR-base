@@ -1,26 +1,42 @@
 import React from 'react';
-
+import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
+import { OnGoing, Cart, Home, Login, LoginPassword, MenuDetail, MenuOverview, Payment, Profile, ScanQR, SignUp } from './screens';
 import {Boxes, Buttons, Categories, Header, Navigation, Popups} from './components'
-import {Activity, Cart, Home, Login, MenuDetail, MenuOverview, Payment, Profile, Scanqr, Signin} from './screens'
 import './App.css';
 
 const App = () => {
-  return (
-    <div className='App'>
-        <Header></Header>
-        <Popups></Popups>
-        <Buttons context='apply'></Buttons>
-        <Buttons context='plus'></Buttons>
-        <Buttons context='minus'></Buttons>
-        <Buttons context='cart'></Buttons>
-        <Buttons context='back'></Buttons>
-        <Buttons context='self_pickup'></Buttons>
-        <Buttons context='serve_to_table'></Buttons>
-        <Boxes/>
-        <Categories></Categories>
-        <Navigation></Navigation>
-    </div>
-  );
-}
+  const location = useLocation(); 
+  const noNavBarScreens = ['/menu-detail', '/cart', '/on-going', '/payment'];
 
-export default App;
+  return (
+    <>
+      <div className="pb-16">
+        <Routes>
+          <Route path="/home" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/login-password" element={<LoginPassword />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/scanqr" element={<ScanQR />} />
+          <Route path="/boxes" element={<Boxes />} />
+          <Route path="/on-going" element={<OnGoing />} />
+          <Route path="/menu-detail" element={<MenuDetail />} />
+          <Route path="/menu-overview" element={<MenuOverview />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/popups" element={<Popups />} />
+        </Routes>
+      </div>
+      {!noNavBarScreens.includes(location.pathname) && <Navigation />}
+    </>
+  );
+};
+
+const AppWrapper = () => {
+  return (
+    <Router>
+      <App />  
+    </Router>
+  );
+};
+
+export default AppWrapper;

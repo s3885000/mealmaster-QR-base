@@ -5,6 +5,7 @@ import { Buttons, Boxes, Popups } from '../../components';
 const OnGoing = () => {
   const navigate = useNavigate();
   const [popupVisible, setPopupVisible] = useState(false);
+  const [ongoingOrdersEmpty, setOngoingOrdersEmpty] = useState(false);
 
   const handleOnGoingClick = () => {
     navigate('/menu-overview');
@@ -12,10 +13,17 @@ const OnGoing = () => {
 
   const handleOrderReceivedClick = () => {
     setPopupVisible(true);
+    if(popupVisible) {
+      setOngoingOrdersEmpty(true);
+    }
   };
 
   const closePopup = () => {
     setPopupVisible(false);
+  };
+
+  const handleScanQRClick = () => {
+    navigate('/scanqr');
   };
 
   return (
@@ -25,7 +33,14 @@ const OnGoing = () => {
         <h1 className='text-black text-2xl'>On Going</h1>
       </div>
 
-      <Boxes type='on-going' className='mb-2.5' onOrderReceived={handleOrderReceivedClick}/>
+      {ongoingOrdersEmpty ? (
+        <div className="flex flex-col items-center justify-center">
+          <h2>There is no current order</h2>
+          <Buttons context="scan_qr" onClick={handleScanQRClick} className="mt-4"></Buttons>
+        </div>
+      ) : (
+        <Boxes type='on-going' className='mb-2.5' onOrderReceived={handleOrderReceivedClick}/>
+      )}
 
       <h2 className='text-black text-2xl mb-5 pt-10 px-5 text-right'>History</h2>
       

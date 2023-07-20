@@ -2,7 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Order } from "./entity/order.entity";
-import { CreateOrderDto } from "./dto/CreateOrder.dto";
+import { CreateOrderRequestDto } from "./dto/request/CreateOrderRequestDto.dto";
+import { CreateOrderResponseDto } from "./dto/response/CreateOrderResqonseDto.dto";
 
 @Injectable()
 export class OrderService{
@@ -19,8 +20,8 @@ export class OrderService{
         return this.orderRepository.findOne({ where: {id} })
     }
 
-    async create(createOrderDto: CreateOrderDto): Promise<string> {
-        const {restaurant_id, table_id, payment_id, user_id, current_status, total_price, pickup_type, note} = createOrderDto;
+    async create(createOrderRequestDto: CreateOrderRequestDto): Promise<CreateOrderResponseDto> {
+        const {restaurant_id, table_id, payment_id, user_id, current_status, total_price, pickup_type, note} = createOrderRequestDto;
 
         const order = new Order();
         order.restaurant_id = restaurant_id;
@@ -32,9 +33,24 @@ export class OrderService{
         order.pickup_type = pickup_type;
         order.note = note;
 
-        await this.orderRepository.save(order);
+        const savedOrder = await this.orderRepository.save(order);
 
-        return 'Order Added';
+        const createOrderResponseDto: CreateOrderResponseDto = {
+            id: savedOrder.id,
+            restaurant_id: savedOrder.restaurant_id,
+            table_id: savedOrder.table_id,
+            payment_id: savedOrder.payment_id,
+            user_id: savedOrder.user_id,
+            current_status: savedOrder.current_status,
+            total_price: savedOrder.total_price,
+            pickup_type: savedOrder.pickup_type,
+            note: savedOrder.note,
+            created_at: savedOrder.create_at,
+            updated_at: savedOrder.update_at,
+            order_items: []
+        };
+
+        return createOrderResponseDto;
     }
 
     async update(id: number, order: Partial<Order>): Promise<Order> {

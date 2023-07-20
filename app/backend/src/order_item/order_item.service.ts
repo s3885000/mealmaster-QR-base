@@ -5,6 +5,7 @@ import { OrderItem } from "./entity/orderItem.entity";
 import { CreateOrderItemRequestDto } from "./dto/request/CreateOrderItemRequestDto.dto";
 import { CreateOrderItemResponseDto } from "./dto/response/CreateOrderItemResponseDto.dto";
 import { MenuItemsService } from "src/menu_items/menu_items.service";
+import { OrderService } from "src/order/order.service";
 
 @Injectable()
 export class OrderItemService{
@@ -12,6 +13,7 @@ export class OrderItemService{
         @InjectRepository(OrderItem)
         private orderItemRepository: Repository<OrderItem>,
         private readonly menuItemsService: MenuItemsService,
+        private readonly orderService: OrderService,
     ) {}
 
     async findAll(): Promise<OrderItem[]> {
@@ -22,14 +24,17 @@ export class OrderItemService{
         return this.orderItemRepository.findOne({ where: {id} })
     }
 
-    async create(
-        createOrderItemDto: CreateOrderItemRequestDto,
-      ): Promise<CreateOrderItemResponseDto> {
-        const { menu_item_id } = createOrderItemDto;
+    async create(createOrderItemDto: CreateOrderItemRequestDto): Promise<CreateOrderItemResponseDto> {
+        const { order_id, menu_item_id } = createOrderItemDto;
     
         const menuItemExists = await this.menuItemsService.findOne(menu_item_id);
         if (!menuItemExists) {
           throw new NotFoundException('Menu item not found!');
+        }
+
+        const orderExists = await this.orderService.findOne(order_id);
+        if (!menuItemExists) {
+          throw new NotFoundException('Order not found!');
         }
     
         const orderItem = new OrderItem();

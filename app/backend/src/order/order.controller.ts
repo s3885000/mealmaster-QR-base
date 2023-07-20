@@ -1,7 +1,8 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException } from '@nestjs/common';
-import { CreateOrderDto } from './dto/CreateOrder.dto';
+import { CreateOrderRequestDto } from './dto/request/CreateOrderRequestDto.dto';
 import { Order } from './entity/order.entity';
 import { OrderService } from './order.service';
+import { CreateOrderResponseDto } from './dto/response/CreateOrderResqonseDto.dto';
 
 @Controller('order')
 export class OrderController {
@@ -26,9 +27,8 @@ export class OrderController {
 
     //Create order
     @Post('create')
-    createOrder(@Body() createOrderDto: CreateOrderDto) {
-        console.log(createOrderDto);
-        return this.orderService.create(createOrderDto)
+    createOrder(@Body() createOrderRequestDto: CreateOrderRequestDto): Promise<CreateOrderResponseDto> {
+        return this.orderService.create(createOrderRequestDto)
     }
 
     //Update order

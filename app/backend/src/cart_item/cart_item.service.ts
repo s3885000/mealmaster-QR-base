@@ -5,7 +5,7 @@ import { CartItem } from "./entity/cart_item.entity";
 import { CreateCartItemRequestDto } from "./dto/request/CreateCartItemRequestDto.dto";
 import { CreateCartItemResponseDto } from "./dto/response/CreateCartItemResponseDto.dto";
 import { MenuItemsService } from "src/menu_items/menu_items.service";
-import { notStrictEqual } from "assert";
+
 
 
 @Injectable()

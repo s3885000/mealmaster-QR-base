@@ -52,7 +52,7 @@ export class Order {
     restaurant: Restaurant;
 
     @OneToMany(() => OrderItem, orderItem => orderItem.order)
-    orderItem: OrderItem[];
+    orderItems: OrderItem[];
 
     @ManyToOne(() => User, user => user.order)
     user: User;

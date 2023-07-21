@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { PickupType } from "src/order/entity/order.entity";
 
 
 export class CreateOrderRequestDto {
@@ -26,9 +27,8 @@ export class CreateOrderRequestDto {
     @IsNumber()
     total_price: number;
     
-    @IsNotEmpty()
-    @IsNumber()
-    pickup_type: number;
+    @IsEnum(PickupType)
+    pickup_type: PickupType;
     
     @IsNotEmpty()
     @IsString()

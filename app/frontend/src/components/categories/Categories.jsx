@@ -10,7 +10,6 @@ const categories = [
   // Add more categories here
 ];
 
-// Individual category component
 const Category = ({name, Icon, ActiveIcon, isActive, onClick}) => (
   <li className="text-center w-1/3 sm:w-auto">
     <button 
@@ -36,7 +35,6 @@ Category.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
-// Categories list component
 const Categories = () => {
   const [activeCategory, setActiveCategory] = useState('Best Seller');
 

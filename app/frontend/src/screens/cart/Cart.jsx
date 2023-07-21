@@ -25,7 +25,7 @@ const Cart = () => {
   return (
     <div className='flex flex-col items-center justify-start min-h-screen px-5 pt-20 space-y-6 overflow-y-auto'>
       <div className='flex items-center justify-between w-full mb-5'>
-        <Buttons context='back' className='mr-6' onClick={handleBackClick}/>
+        <Buttons context='back' onClick={handleBackClick}/>
         <h1 className='text-black text-2xl'>Cart</h1>
       </div>
 
@@ -45,25 +45,21 @@ const Cart = () => {
 
           <div className='flex justify-between w-full space-x-4 mb-7'>
             <div className='w-1/2 pl-2.5'>
-              <Buttons context='self_pickup' className='flex w-full'/>
+              <Buttons context='self_pickup'/>
             </div>
             <div className='w-1/2 pr-2.5'>
-              <Buttons context='serve_to_table' className='flex w-full'/>
+              <Buttons context='serve_to_table'/>
             </div>
           </div>
 
-          <div className='w-full mb-7'>
-            <Buttons context='payment' onClick={handlePaymentClick}/>
-          </div>
+          <Buttons context='payment' onClick={handlePaymentClick}/>
 
           <div className='flex justify-between w-full items-center mb-7'>
             <h2 className='text-3xl font-medium'>Total</h2>
             <h2 className='text-3xl font-medium'>81.000 đ</h2>
           </div>
 
-          <div className='w-full'>
-            <Buttons context='checkout' onClick={togglePopup}/>
-          </div>
+          <Buttons context='checkout' onClick={togglePopup}/>
         </>
       )}
 

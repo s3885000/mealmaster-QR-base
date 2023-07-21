@@ -10,6 +10,7 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
   const buttonContentContexts = {
     guest: 'Access as a Guest',
     apply: 'Apply',
+    scan_qr: 'Scan QR',
     continue: 'Continue',
     add_card: 'Add Card',
     popup: 'Apply',

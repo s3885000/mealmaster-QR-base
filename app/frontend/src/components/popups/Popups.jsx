@@ -62,8 +62,8 @@ const Popups = ({visible, type}) => {
   if (!showPopup) return null;
 
   return (
-    <div className='fixed inset-0 bg-black bg-opacity-50 flex items-end justify-center z-50'>
-      <div ref={popupRef} className={`bg-white px-6 py-4 rounded-t-3xl w-full text-center animate-slide-up ${showPopup ? 'show' : ''}`}>
+    <div className='fixed inset-0 bg-black bg-opacity-50 z-50 h-screen'>
+      <div ref={popupRef} className={`absolute bottom-0 bg-white px-6 py-4 rounded-t-3xl w-full text-center animate-slide-up ${showPopup ? 'show' : ''}`}>
         {popupContent[type]}
       </div>
     </div>

@@ -8,33 +8,39 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 const MenuDetail = () => {
   const [foodItemNotes, setFoodItemNotes] = useState('');
   const [counter, setCounter] = useState(0);
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     setFoodItemNotes(event.target.value);
   };
-const navigate = useNavigate();
 
   const handleBackClick = () => {
-      navigate('/menu-overview');
+    navigate('/menu-overview');
   };
+
   const handleAddToCartClick = () => {
     navigate('/menu-overview');
-};
+  };
+
   return (
-    <div className='relative flex flex-col items-start justify-start h-screen px-5 pt-20 space-y-8 overflow-y-auto'>
-      <Buttons context='back' className='mr-6 absolute top-5 left-5 z-10' onClick={handleBackClick}/>
-      <div className='w-full flex justify-center mx-auto mb-3.75'>
-        <Carousel showStatus={false} className="w-96 h-80">
-          <div>
-            <Food_1 className='w-full h-full object-cover'/>
-          </div>
-          <div>
-            <Food_2 className='w-full h-full object-cover'/>
-          </div>
-        </Carousel>
+    <div className='relative flex flex-col items-start justify-start h-screen px-5 pt-16 space-y-8 overflow-y-auto'>
+      <div className='relative w-full flex justify-center mx-auto mb-3.75'>
+        <Buttons context='back' className='absolute top-5 left-1 z-10' onClick={handleBackClick}/>
+        <div className="w-96 h-80">
+          <Carousel showStatus={false} className="w-full h-full">
+            <div>
+              <Food_1 className='w-full h-full object-cover'/>
+            </div>
+            <div>
+              <Food_2 className='w-full h-full object-cover'/>
+            </div>
+          </Carousel>
+        </div>
       </div>
 
-      <h2 className='text-3xl font-bold mt-6 mb-3.75'>Fried Shrimp</h2>
+      <div className='mt-8 w-full'>
+        <h2 className='text-3xl font-bold'>Fried Shrimp</h2>
+      </div>
       <p className='text-lg text-justify mb-3.75'>Most whole Alaskan Red King Crabs get broken down into legs, claws, and lump meat. We offer all of these options as well in our online shop, but there is nothing like getting the whole dishes here.</p>
       
       <div className='mb-3.75'>

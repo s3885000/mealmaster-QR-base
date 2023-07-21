@@ -47,18 +47,20 @@ const Boxes = ({ type }) => {
 
 const OrderBox = ({onOrderReceived, type, ...props}) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1); 
 
   const toggleExpanded = () => {
     setIsExpanded(!isExpanded);
   };
 
   const handleOrderReceivedClick = () => {
+    setCurrentStep(currentStep + 1); 
     onOrderReceived();
   };
 
   return (
-    <div className={`box relative w-300 flex flex-col bg-tertiary overflow-hidden ${type === 'history' ? 'bg-gray' : ''}`}>
-      <div className="header-content h-36 w-full pl-5 flex flex-col justify-between items-center space-y-1 text-xs">
+    <div className={`box relative w-full max-w-[370px] mx-auto flex flex-col bg-tertiary overflow-hidden mb-4 rounded-2xl ${type === 'history' ? 'bg-gray' : ''}`}>
+      <div className="header-content h-36 w-full flex flex-col justify-between items-center space-y-1 text-xs whitespace-nowrap overflow-hidden">
         {type === 'history' && (
           <div className="flex flex-col items-center justify-center mt-2">
             <div className="flex items-center justify-center">
@@ -83,16 +85,16 @@ const OrderBox = ({onOrderReceived, type, ...props}) => {
 
         {type !== 'history' && (
           <div className="flex justify-center w-full">
-            <div className="progress-bar-container w-3/5">
-              <Progress currentStep={props.currentStep} />
+            <div className="progress-bar-container w-full">
+              <Progress currentStep= '2' />
             </div>
           </div>
         )}
       </div>
       
       {type === 'on-going' && (
-        <div className="button-container py-5 w-full flex justify-center pb-2">
-          <Buttons style={{width: '228px'}} context="order" onClick={handleOrderReceivedClick} className={`mt-2 ${props.currentStep >= 3 ? 'bg-primary' : 'bg-gray'}`}>Order Received</Buttons>
+        <div className="button-container flex justify-center pb-2">
+          <Buttons style={{width: '228px'}} context="order" onClick={handleOrderReceivedClick} className={`mt-2 ${currentStep >= 3 ? 'bg-primary' : 'bg-gray'}`}>Order Received</Buttons>
         </div>
       )}
       
@@ -106,6 +108,5 @@ const OrderBox = ({onOrderReceived, type, ...props}) => {
     </div>
   );
 };
-
 
 export default Boxes;

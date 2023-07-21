@@ -11,7 +11,6 @@ export class CreateOrderResponseDto {
     table: Tables;
     payment: Payment;
     user: User;
-    current_status: string;
     total_price: number;
     pickup_type: PickupType;
     note: string;

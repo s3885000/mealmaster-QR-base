@@ -20,10 +20,6 @@ export class UpdateOrderRequestDto {
     user_id?: number;
 
     @IsOptional()
-    @IsString()
-    current_status?: string;
-
-    @IsOptional()
     @IsNumber()
     total_price?: number;
 

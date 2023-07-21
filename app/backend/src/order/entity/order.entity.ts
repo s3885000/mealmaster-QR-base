@@ -19,9 +19,25 @@ export class Order {
     @PrimaryGeneratedColumn('uuid')
     id: string = nanoid();
 
+    @ManyToOne(() => User, user => user.order)
+    user: User;
 
-    @Column()
-    current_status: string;
+    @ManyToOne(() => Restaurant, restaurant => restaurant.order)
+    restaurant: Restaurant;
+
+    @ManyToOne(() => Tables, table => table.order)
+    table: Tables;
+
+    @OneToOne(() => Payment) 
+    @JoinColumn()
+    payment: Payment;
+
+    @OneToMany(() => OrderItem, orderItem => orderItem.order)
+    orderItems: OrderItem[];
+
+    @OneToMany(() => OrderStatus, orderStatus => orderStatus.order)
+    orderStatus: OrderStatus[];
+
 
     @Column()
     total_price: number;
@@ -46,23 +62,13 @@ export class Order {
     @Column({ type: "text", nullable: true })
     note: string;
 
-    @OneToOne(() => Payment) 
-    @JoinColumn()
-    payment: Payment;
 
-    @ManyToOne(() => Tables, table => table.order)
-    table: Tables;
 
-    @ManyToOne(() => Restaurant, restaurant => restaurant.order)
-    restaurant: Restaurant;
 
-    @OneToMany(() => OrderItem, orderItem => orderItem.order)
-    orderItems: OrderItem[];
 
-    @ManyToOne(() => User, user => user.order)
-    user: User;
 
-    @OneToMany(() => OrderStatus, orderStatus => orderStatus.order)
-    orderStatus: OrderStatus[];
+
+
+
 
 }

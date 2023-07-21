@@ -35,7 +35,7 @@ export class OrderService{
     }
 
     async create(createOrderRequestDto: CreateOrderRequestDto): Promise<CreateOrderResponseDto> {
-        const {restaurant_id, table_id, payment_id, user_id, current_status, total_price, pickup_type, note} = createOrderRequestDto;
+        const {restaurant_id, table_id, payment_id, user_id, total_price, pickup_type, note} = createOrderRequestDto;
 
         const user = await this.userRepository.findOne({ where: { id: user_id }});
         if (!user) throw new NotFoundException('User not found!');
@@ -55,7 +55,6 @@ export class OrderService{
         order.table = table;
         order.payment = payment;
         order.user = user;
-        order.current_status = current_status;
         order.total_price = total_price;
         order.pickup_type = pickup_type;
         order.note = note;
@@ -68,7 +67,6 @@ export class OrderService{
             table: savedOrder.table,
             payment: savedOrder.payment,
             user: savedOrder.user,
-            current_status: savedOrder.current_status,
             total_price: savedOrder.total_price,
             pickup_type: savedOrder.pickup_type,
             note: savedOrder.note,
@@ -82,7 +80,7 @@ export class OrderService{
 
     async update(id: string, updateOrderRequestDto: UpdateOrderRequestDto): Promise<Order> {
         
-        const {restaurant_id, table_id, payment_id, user_id, current_status, total_price, pickup_type, note} = updateOrderRequestDto;
+        const {restaurant_id, table_id, payment_id, user_id, total_price, pickup_type, note} = updateOrderRequestDto;
 
 
         const orderToUpdate = await this.orderRepository.findOne({ where: { id: id }, relations: ['restaurant', 'user', 'payment', 'table'] });
@@ -112,7 +110,6 @@ export class OrderService{
             orderToUpdate.payment = payment;
         }
 
-        orderToUpdate.current_status = current_status;
         orderToUpdate.total_price = total_price;
         orderToUpdate.pickup_type = pickup_type;
         orderToUpdate.note = note;
@@ -126,7 +123,6 @@ export class OrderService{
             table_id: order.table.id,
             payment_id: order.payment.id,
             user_id: order.user.id,
-            current_status: order.current_status,
             total_price: order.total_price,
             pickup_type: order.pickup_type,
             note: order.note

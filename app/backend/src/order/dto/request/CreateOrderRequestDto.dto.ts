@@ -20,10 +20,6 @@ export class CreateOrderRequestDto {
     user_id: number;
     
     @IsNotEmpty()
-    @IsString()
-    current_status: string;
-    
-    @IsNotEmpty()
     @IsNumber()
     total_price: number;
     

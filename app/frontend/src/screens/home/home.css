@@ -1,0 +1,12 @@
+.hide-scrollbar {
+    scrollbar-width: none; /* For Firefox */
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari and Opera */
+  }
+  
+  .text-lg.font-semibold.overflow-hidden.whitespace-nowrap.overflow-ellipsis {
+    max-width: 250px;
+  }
+  

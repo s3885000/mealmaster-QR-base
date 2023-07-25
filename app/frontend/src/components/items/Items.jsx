@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { HaidilaoLogo } from '../../asset/images/restaurant_info/haidilao/logo/index.js';
 import { Food_1, Food_2 } from '../../asset/images/restaurant_info/haidilao/food/index.js';
 import { Buttons, Popups } from '../../components'; 
+import { StarIcon, TimeIcon } from '../../asset/icons/box/index.js';
+
 const ItemContainer = ({ children }) => (
   <div className="w-300 h-87 flex items-center p-2 rounded-md shadow-lg">
     {children}
@@ -76,6 +79,44 @@ const Items = ({ type }) => {
           </div>
         </ItemContainer>
       );
+    case 'nearby_restaurant':
+      return (
+        <div className="w-44 h-48 rounded-xl border border-transparent flex flex-col items-center shadow-lg">
+          <HaidilaoLogo className="w-44 h-30 rounded-t-xl" />
+          <div className="p-2 text-center h-18 flex flex-col justify-between">
+            <h1 className="font-bold text-base text-black overflow-ellipsis whitespace-nowrap overflow-hidden">Haidilao - Đồng Khởi</h1>
+            <div className="flex items-center text-base text-primary">
+              <StarIcon className="w-3 h-3"/>
+              <p className="font-medium text-sm ml-1">4.9 (284)</p>
+            </div>
+            <div className="flex justify-between w-full">
+              <div className="flex items-center text-base text-primary">
+                <TimeIcon className="w-3 h-3"/>
+                <p className="font-medium text-sm ml-1">15-25 mins</p>
+              </div>
+              <p className="font-medium text-sm text-primary">0.2km</p>
+            </div>
+          </div>
+        </div>
+      );
+    case 'home_history':
+      return (
+        <div className="w-44 h-48 rounded-xl border border-transparent flex flex-col items-center shadow-lg">
+          <HaidilaoLogo className="w-44 h-30 rounded-t-xl" />
+          <div className="p-2 text-center h-18 flex flex-col justify-between">
+            <h1 className="font-bold text-base text-black overflow-ellipsis whitespace-nowrap overflow-hidden">Haidilao - Đồng Khởi</h1>
+            <div className="flex items-center text-base ">
+              <p className="font-medium text-sm ml-1">Date: 7th May 2023</p>
+            </div>
+            <div className="flex justify-between w-full">
+              <div className="flex items-center text-base">
+                <p className="font-medium text-sm ml-1">Items: 3</p>
+              </div>
+              <p className="font-bold text-sm text-primary">81.000 đ</p>
+            </div>
+          </div>
+        </div>
+        );
     default:
       return null;
   }

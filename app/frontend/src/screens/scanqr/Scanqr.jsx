@@ -4,7 +4,7 @@ import { Buttons, Navigation } from '../../components';
 import QrReader from 'react-qr-scanner';
 
 const ScanQR = () => {
-  const [result, setResult] = useState('No QR code scanned yet!');
+  const [result, setResult] = useState('MealMaster requires QR Scan camera access');
   const navigate = useNavigate();
 
   const handleBackClick = () => {

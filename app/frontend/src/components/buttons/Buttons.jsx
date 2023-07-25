@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './buttons.css';
-import { PlusIcon, MinusIcon, CartIcon, BackIcon, EditIcon } from '../../asset/icons/button/index.js';
+import { PlusIcon, MinusIcon, CartIcon, BackIcon, EditIcon, SearchIcon } from '../../asset/icons/button/index.js';
 
 
 const Buttons = ({ type, className, style, onClick, context, count, setCount = () => {} }) => {
@@ -10,6 +10,8 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
   const buttonContentContexts = {
     guest: 'Access as a Guest',
     apply: 'Apply',
+    close: 'Close',
+    add_more: 'Add more Items',
     scan_qr: 'Scan QR',
     continue: 'Continue',
     add_card: 'Add Card',
@@ -26,6 +28,7 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     sign_up: 'Sign Up',
     plus: <PlusIcon />,
     minus: <MinusIcon />,
+    search:  <SearchIcon />,
     cart:  <CartIcon />,
     back:  <BackIcon />,
     edit: <EditIcon />,
@@ -38,6 +41,7 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     serve_to_table: isClicked ? 'bg-primary2 text-primary' : 'bg-secondary2 text-secondary',
     payment: 'bg-primary2 text-primary',
     plus: 'bg-primary',
+    search: 'bg-tertiary',
     sign_up: 'bg-primary2 text-primary',
     minus: 'bg-primary2',
     order_smth: 'bg-primary2 text-primary',
@@ -55,6 +59,7 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     plus: 'size-mini',
     minus: 'size-mini',
     cart: 'size-mini',
+    search: 'size-mini',
     back: 'size-mini',
     edit: 'size-micro',
     order: 'size-order'

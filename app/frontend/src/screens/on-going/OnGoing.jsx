@@ -22,6 +22,10 @@ const OnGoing = () => {
     setPopupVisible(false);
   };
 
+  const handleStepCompleted = () => {
+    setPopupVisible(true); 
+  };
+
   const handleScanQRClick = () => {
     navigate('/scanqr');
   };
@@ -39,7 +43,7 @@ const OnGoing = () => {
           <Buttons context="scan_qr" onClick={handleScanQRClick} className="mt-4"></Buttons>
         </div>
       ) : (
-        <Boxes type='on-going' className='mb-2.5' onOrderReceived={handleOrderReceivedClick}/>
+        <Boxes type='on-going' className='mb-2.5' onOrderReceived={handleOrderReceivedClick} onStepCompleted={handleStepCompleted}/>
       )}
 
       <h2 className='text-black text-2xl mb-5 pt-10 px-5 text-right'>History</h2>

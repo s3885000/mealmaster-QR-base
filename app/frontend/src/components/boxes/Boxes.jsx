@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CollapseIcon } from '../../asset/icons/box/index.js';
-import { HaidilaoLogoMini } from '../../asset/images/restaurant_info/haidilao/index.js';
+import { HaidilaoLogoMini } from '../../asset/images/restaurant_info/haidilao/logo/index.js';
 import { Buttons, Progress, Popups, Items } from '../../components';
 import './boxes.css';
 
@@ -86,7 +86,7 @@ const OrderBox = ({onOrderReceived, type, ...props}) => {
         {type !== 'history' && (
           <div className="flex justify-center w-full">
             <div className="progress-bar-container w-full">
-              <Progress currentStep= '2' />
+              <Progress currentStep= '3' />
             </div>
           </div>
         )}

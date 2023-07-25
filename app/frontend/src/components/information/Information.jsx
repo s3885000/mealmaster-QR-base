@@ -1,5 +1,5 @@
 import React from 'react';
-import { HaidilaoLogoMini } from '../../asset/images/restaurant_info/haidilao/index.js';
+import { HaidilaoLogoMini } from '../../asset/images/restaurant_info/haidilao/logo/index.js';
 import { StarIcon, TimeIcon } from '../../asset/icons/box/index.js';
 
 const Information = ({ type }) => {
@@ -22,9 +22,7 @@ const Information = ({ type }) => {
           <p className="ml-1 text-primary">15-25 mins</p>
         </div>
       </div>
-      {/* Section divider */}
       <hr className="border border-placeholders w-4/5 mx-auto" />
-      {/* Bottom section */}
       <div className="p-2 text-center">
         <p className="mb-2 text-l">{content[type]}</p>
       </div>

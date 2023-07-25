@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import { OnGoing, Cart, Home, Login, LoginPassword, MenuDetail, MenuOverview, Payment, Profile, ScanQR, SignUp } from './screens';
-import {Boxes, Buttons, Categories, Header, Navigation, Popups} from './components'
+import { Boxes, Navigation, Popups} from './components'
 import './App.css';
 
 const App = () => {

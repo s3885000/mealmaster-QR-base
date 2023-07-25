@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Buttons } from '../../components';
 
-const Popups = ({visible, type}) => {
+const Popups = ({visible, type, onClose}) => {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef(null);
@@ -55,6 +55,27 @@ const Popups = ({visible, type}) => {
           />
         </div>
         <Buttons context='apply' className='mb-5' />
+      </>
+    ),
+    'cart_empty': (
+      <>
+        <h2 className='text-2xl font-bold mb-4'>Cart is Empty</h2>
+        <p className='text-lg mb-3'>Your cart is currently empty, please add more item to view your cart.</p>
+        <Buttons context='add_more' className='mb-5' />
+      </>
+    ),
+    'delete_item': (
+      <>
+        <h2 className='text-2xl font-bold mb-4'>Delete this Item</h2>
+        <p className='text-lg mb-3'>By clicking ‘Apply’ you agree to delete this item from your cart.</p>
+        <Buttons context='apply' className='mb-5' />
+      </>
+    ),
+    'food_ready': (
+      <>
+        <h2 className='text-2xl font-bold mb-4'>Food is Ready</h2>
+        <p className='text-lg mb-3'>Your food is ready to pick up at counter! Press Order Received when you’re done.</p>
+        <Buttons context='close' className='mb-5' onClick={onClose}></Buttons>
       </>
     ),
   };

@@ -1,4 +1,5 @@
 export class CreateCartResponseDto {
+    id: number;
     user_id: number;
     status: string;
     pickup_type: number;

@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException } from '@nestjs/common';
 import { Payment } from './entity/payment.entity';
 import { PaymentService } from './payment.service';
-import { CreatePaymentDto } from './dto/CreatePayment.dto';
+import { CreatePaymentResponseDto } from './dto/response/CreatePaymentResponseDto.dto';
 
 @Controller('payment')
 export class PaymentController {
@@ -26,7 +26,7 @@ export class PaymentController {
 
     //Create payment
     @Post('create')
-    createCategory(@Body() createPaymentDto: CreatePaymentDto) {
+    createCategory(@Body() createPaymentDto: CreatePaymentResponseDto) {
         console.log(createPaymentDto);
         return this.paymentService.create(createPaymentDto);
     }

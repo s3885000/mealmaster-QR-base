@@ -1,4 +1,4 @@
-export class CreateRestaurantDto {
+export class CreateRestaurantResponseDto {
     user_id: number;
     address_id: number;
     name: string;

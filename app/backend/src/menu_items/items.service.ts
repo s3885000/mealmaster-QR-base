@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Item } from "./entity/item.entity";
-import { CreateMenuItemDto } from "./dto/CreateMenuItem.dto";
+import { CreateMenuItemResponseDto } from "./dto/response/CreateMenuItemResponseDto.dto";
 
 @Injectable()
 export class ItemsService {
@@ -19,7 +19,7 @@ export class ItemsService {
         return this.itemRepository.findOne({ where: {id} })
     }
 
-    async create(createMenuItemDto: CreateMenuItemDto): Promise<string> {
+    async create(createMenuItemDto: CreateMenuItemResponseDto): Promise<string> {
         const {category_id, name, description, price, image, is_best_seller, status} = createMenuItemDto;
 
         const item = new Item();

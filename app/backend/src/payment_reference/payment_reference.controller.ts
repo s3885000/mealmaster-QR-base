@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException } from '@nestjs/common';
-import { CreatePaymentRefDto } from './dto/CreatePaymentRef.dto';
+import { CreatePaymentRefResponseDto } from './dto/response/CreatePaymentRefResponseDto.dto';
 import { PaymentReference } from './entity/paymentReference.entity';
 import { PaymentRefService } from './payment_reference.service';
 
@@ -26,7 +26,7 @@ export class PaymentRefController {
 
     //Create payment reference
     @Post('create')
-    createPaymentRef(@Body() createPaymentRefDto: CreatePaymentRefDto) {
+    createPaymentRef(@Body() createPaymentRefDto: CreatePaymentRefResponseDto) {
         console.log(createPaymentRefDto);
         return this.paymentRefService.create(createPaymentRefDto);
     }

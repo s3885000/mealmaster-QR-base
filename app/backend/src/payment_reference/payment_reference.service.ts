@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { PaymentReference } from "./entity/paymentReference.entity";
-import { CreatePaymentRefDto } from "./dto/CreatePaymentRef.dto";
+import { CreatePaymentRefResponseDto } from "./dto/response/CreatePaymentRefResponseDto.dto";
 
 @Injectable()
 export class PaymentRefService {
@@ -19,7 +19,7 @@ export class PaymentRefService {
         return this.paymentRefRepository.findOne({ where: {id} })
     }
 
-    async create(createPaymentRefDto: CreatePaymentRefDto): Promise<string> {
+    async create(createPaymentRefDto: CreatePaymentRefResponseDto): Promise<string> {
         const {cart_id, user_id, payment_ref, status} = createPaymentRefDto;
 
         const paymentRef = new PaymentReference();

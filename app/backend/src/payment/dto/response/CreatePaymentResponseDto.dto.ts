@@ -1,4 +1,4 @@
-export class CreatePaymentDto {
+export class CreatePaymentResponseDto {
     order_id: number;
     user_id: number;
     payment_ref_is: number;

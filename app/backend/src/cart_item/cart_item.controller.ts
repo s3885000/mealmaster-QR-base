@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException } from '@nestjs/common';
-import { CreateCartItemDto } from './dto/CreateCartItem.dto';
+import { CreateCartItemResponseDto } from './dto/response/CreateCartItemResponseDto.dto';
 import { CartItem } from './entity/cartItem.entity';
 import { CartItemService } from './cart_item.service';
 
@@ -26,7 +26,7 @@ export class CartItemController {
 
     //Create cart item
     @Post('create')
-    createCartItem(@Body() createCartItemDto: CreateCartItemDto) {
+    createCartItem(@Body() createCartItemDto: CreateCartItemResponseDto) {
         console.log(createCartItemDto);
         return this.cartItemService.create(createCartItemDto)
     }

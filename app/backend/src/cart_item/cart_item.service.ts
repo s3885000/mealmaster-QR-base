@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CartItem } from "./entity/cartItem.entity";
-import { CreateCartItemDto } from "./dto/CreateCartItem.dto";
+import { CreateCartItemResponseDto } from "./dto/response/CreateCartItemResponseDto.dto";
 
 @Injectable()
 export class CartItemService{
@@ -19,7 +19,7 @@ export class CartItemService{
         return this.cartItemRepository.findOne({ where: {id} })
     }
 
-    async create(createCartItemDto: CreateCartItemDto): Promise<string> {
+    async create(createCartItemDto: CreateCartItemResponseDto): Promise<string> {
         const {cart_id, menu_item_id, quantity, note, price} = createCartItemDto;
 
         const cartItem = new CartItem();

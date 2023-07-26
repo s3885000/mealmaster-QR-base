@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException } from '@nestjs/common';
-import { CreateRestaurantDto } from './dto/CreateRestaurant.dto';
+import { CreateRestaurantResponseDto } from './dto/response/CreateRestaurantResponseDto.dto';
 import { Restaurant } from './entity/restaurant.entity';
 import { RestaurantService } from './restaurant.service';
 
@@ -26,7 +26,7 @@ export class RestaurantController {
 
     //Create restaurant
     @Post('create')
-    createRestaurant(@Body() createRestaurantDto: CreateRestaurantDto) {
+    createRestaurant(@Body() createRestaurantDto: CreateRestaurantResponseDto) {
         console.log(createRestaurantDto);
         return this.restaurantService.create(createRestaurantDto);
     }

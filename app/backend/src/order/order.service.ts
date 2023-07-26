@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Order } from "./entity/order.entity";
-import { CreateOrderDto } from "./dto/CreateOrder.dto";
+import { CreateOrderResponseDto } from "./dto/response/CreateOrderResponseDto.dto";
 
 @Injectable()
 export class OrderService{
@@ -19,7 +19,7 @@ export class OrderService{
         return this.orderRepository.findOne({ where: {id} })
     }
 
-    async create(createOrderDto: CreateOrderDto): Promise<string> {
+    async create(createOrderDto: CreateOrderResponseDto): Promise<string> {
         const {restaurant_id, table_id, payment_id, user_id, current_status, total_price, pickup_type, note} = createOrderDto;
 
         const order = new Order();

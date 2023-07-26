@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException } from '@nestjs/common';
 import { ItemsService } from './items.service';
 import { Item } from './entity/item.entity';
-import { CreateMenuItemDto } from './dto/CreateMenuItem.dto';
+import { CreateMenuItemResponseDto } from './dto/response/CreateMenuItemResponseDto.dto';
 
 @Controller('item')
 export class ItemsController {
@@ -26,7 +26,7 @@ export class ItemsController {
 
     //Create item
     @Post('create')
-    createMenuItem(@Body() createMenuItemDto: CreateMenuItemDto){
+    createMenuItem(@Body() createMenuItemDto: CreateMenuItemResponseDto){
         console.log(createMenuItemDto);
         return this.itemsService.create(createMenuItemDto);
     }

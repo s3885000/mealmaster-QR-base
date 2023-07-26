@@ -1,4 +1,4 @@
-export class CreateOrderDto {
+export class CreateOrderResponseDto {
     restaurant_id: number;
     table_id: number;
     payment_id: number;

@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { In, Repository } from "typeorm";
 import { Payment } from "./entity/payment.entity";
-import { CreatePaymentDto } from "./dto/CreatePayment.dto";
+import { CreatePaymentResponseDto } from "./dto/response/CreatePaymentResponseDto.dto";
 
 @Injectable()
 export class PaymentService {
@@ -19,7 +19,7 @@ export class PaymentService {
         return this.paymentRepository.findOne({ where: {id} })
     }
 
-    async create(createPaymentDto: CreatePaymentDto): Promise<string> {
+    async create(createPaymentDto: CreatePaymentResponseDto): Promise<string> {
         const {order_id, user_id, payment_ref_is, payment_method, payment_status, payment_amount} = createPaymentDto;
 
         const payment = new Payment();

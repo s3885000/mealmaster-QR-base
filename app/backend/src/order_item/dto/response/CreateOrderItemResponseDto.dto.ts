@@ -1,4 +1,4 @@
-export class CreateOrderItemDto {
+export class CreateOrderItemResponseDto {
     order_id: number;
     menu_item_id: number;
     quantity: number;

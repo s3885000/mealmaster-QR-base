@@ -1,4 +1,4 @@
-export class CreateCartDto {
+export class CreateCartResponseDto {
     user_id: number;
     status: string;
     pickup_type: number;

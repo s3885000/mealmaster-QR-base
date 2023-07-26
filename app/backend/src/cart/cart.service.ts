@@ -1,14 +1,19 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException, Res } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Cart } from "./entity/cart.entity";
 import { CreateCartResponseDto } from "./dto/response/CreateCartResponse.dto";
+import { CreateCartRequestDto } from "./dto/request/CreateCartRequestDto.dto";
+import { Restaurant } from "src/restaurant/entity/restaurant.entity";
+import { User } from "src/user/entity/user.entity";
 
 @Injectable()
 export class CartService {
     constructor(
         @InjectRepository(Cart)
         private cartRepository: Repository<Cart>,
+        @InjectRepository(User)
+        private userRepository: Repository<User>,
     ) {}
 
     async findAll(): Promise<Cart[]> {
@@ -19,7 +24,8 @@ export class CartService {
         return this.cartRepository.findOne({ where: {id} })
     }
 
-    async create(createCartDto: CreateCartResponseDto): Promise<string> {
+    async create(createCartDto: CreateCartRequestDto, userId: number): Promise<CreateCartResponseDto> {
+        const user = await this.userRepository.findOne({where: {id: userId}})
         const {user_id, status, pickup_type, selected_payment_method, total_price, total_item, note} = createCartDto;
 
         const cart = new Cart();
@@ -30,15 +36,35 @@ export class CartService {
         cart.total_price = total_price;
         cart.total_item = total_item;
         cart.note = note;
+        cart.user = user;
 
-        await this.cartRepository.save(cart);
+        const savedCart = await this.cartRepository.save(cart);
 
-        return 'Category Added';
+        return {
+            id: savedCart.id,
+            user_id: savedCart.user_id,
+            status: savedCart.status,
+            pickup_type: savedCart.pickup_type,
+            selected_payment_method: savedCart.selected_payment_method,
+            total_item: savedCart.total_item,
+            total_price: savedCart.total_price,
+            note: savedCart.note,
+        }
     }
 
-    async update(id: number, cart: Partial<Cart>): Promise<Cart> {
-        await this.cartRepository.update(id, cart);
-        return this.cartRepository.findOne({ where: { id } });
+    async update(userId: number, createCartDto: CreateCartRequestDto): Promise<CreateCartResponseDto> {
+        const user = await this.userRepository.findOne({where: { id: userId}});
+
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+
+        let cart = user.cart;
+
+        if (cart) {
+            // If user already has a cart, update it
+            cart = this.cartRepository.merge(cart, createCartDto);
+        }
     }
 
     async delete(id: number): Promise<void> {

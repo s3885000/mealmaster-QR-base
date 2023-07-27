@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, Res } from "@nestjs/common";
+import { Injectable, Res } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Cart } from "./entity/cart.entity";
@@ -52,19 +52,9 @@ export class CartService {
         }
     }
 
-    async update(userId: number, createCartDto: CreateCartRequestDto): Promise<CreateCartResponseDto> {
-        const user = await this.userRepository.findOne({where: { id: userId}});
-
-        if (!user) {
-            throw new NotFoundException('User not found');
-        }
-
-        let cart = user.cart;
-
-        if (cart) {
-            // If user already has a cart, update it
-            cart = this.cartRepository.merge(cart, createCartDto);
-        }
+    async update(id: number, cart: Partial<Cart>): Promise<Cart> {
+        await this.cartRepository.update(id, cart);
+        return this.cartRepository.findOne({ where: { id } });
     }
 
     async delete(id: number): Promise<void> {

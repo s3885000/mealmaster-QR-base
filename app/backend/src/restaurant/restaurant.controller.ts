@@ -1,9 +1,15 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException, UseGuards } from '@nestjs/common';
 import { CreateRestaurantResponseDto } from './dto/response/CreateRestaurantResponseDto.dto';
+import { CreateRestaurantRequestDto } from './dto/request/CreateRestaurantRequestDto.dto';
 import { Restaurant } from './entity/restaurant.entity';
 import { RestaurantService } from './restaurant.service';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { RolesGuard } from 'src/auth/guards/role.guard';
+import { Roles } from 'src/auth/guards/role.dectorator';
+import { UserRole } from 'src/user/entity/user.entity';
 
 @Controller('restaurant')
+@UseGuards(AuthGuard, RolesGuard)
 export class RestaurantController {
     constructor(private readonly restaurantService: RestaurantService) {}
 

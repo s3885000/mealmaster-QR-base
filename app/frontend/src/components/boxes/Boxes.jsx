@@ -6,7 +6,7 @@ import { Buttons, Progress, Popups, Items } from '../../components';
 import './boxes.css';
 
 const Boxes = ({ type }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
 

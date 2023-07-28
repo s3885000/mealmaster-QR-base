@@ -1,8 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
-import { OnGoing, Cart, Home, Login, LoginPassword, MenuDetail, MenuOverview, Payment, Profile, ScanQR, SignUp } from './screens';
+import { OnGoing, Cart, Home, Login, LoginPassword, MenuDetail, MenuOverview, Payment, ScanQR, SignUp } from './screens';
 import { Boxes, Navigation, Popups} from './components'
 import './App.css';
+import { Provider } from 'react-redux';
+import store from './redux/store'
 
 const App = () => {
   const location = useLocation(); 
@@ -34,7 +36,10 @@ const App = () => {
 const AppWrapper = () => {
   return (
     <Router>
-      <App />  
+      <Provider store={store}> {/* Provider the Redux store to the app */}
+      <App/>
+      </Provider>
+        
     </Router>
   );
 };

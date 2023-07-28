@@ -1,5 +1,5 @@
 
 export class UpdateOrderStatusDto {
-    order_id: string;
+    order_id: number;
     status: string;
 }

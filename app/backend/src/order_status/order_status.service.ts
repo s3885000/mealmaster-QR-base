@@ -15,7 +15,7 @@ export class OrderStatusService {
         private orderService: OrderService
     ) {}
 
-    async update (order_id: string, status: string): Promise<OrderStatus> {
+    async update (order_id: number, status: string): Promise<OrderStatus> {
         const order = await this.orderService.findOne(order_id);
 
         if(!order) {

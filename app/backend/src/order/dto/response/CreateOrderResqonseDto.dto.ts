@@ -6,7 +6,8 @@ import { Tables } from "src/table/entity/table.entity";
 import { User } from "src/user/entity/user.entity";
 
 export class CreateOrderResponseDto {
-    id: string;
+    id: number;
+    unique_id: string;
     restaurant: Restaurant;
     table: Tables;
     payment: Payment;

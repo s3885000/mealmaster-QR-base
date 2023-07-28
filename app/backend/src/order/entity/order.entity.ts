@@ -5,7 +5,6 @@ import { Tables } from "src/table/entity/table.entity";
 import { OrderItem } from "src/order_item/entity/orderItem.entity";
 import { User } from "src/user/entity/user.entity";
 import { OrderStatus } from "src/order_status/entity/orderStatus.entity";
-import { nanoid } from "nanoid";
 
 export enum PickupType {
     PICKUP_AT_COUNTER = "PICKUP_AT_COUNTER",
@@ -16,8 +15,11 @@ const SERVICE_FEE = 5000; // Service fee
 
 @Entity()
 export class Order {
-    @PrimaryGeneratedColumn('uuid')
-    id: string = nanoid();
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @Column({ unique: true })
+    unique_id: string;
 
     @ManyToOne(() => User, user => user.order)
     user: User;
@@ -28,8 +30,7 @@ export class Order {
     @ManyToOne(() => Tables, table => table.order)
     table: Tables;
 
-    @OneToOne(() => Payment) 
-    @JoinColumn()
+    @OneToOne(() => Payment, payment => payment.order, { cascade: true, nullable: true }) 
     payment: Payment;
 
     @OneToMany(() => OrderItem, orderItem => orderItem.order)
@@ -37,7 +38,6 @@ export class Order {
 
     @OneToMany(() => OrderStatus, orderStatus => orderStatus.order)
     orderStatus: OrderStatus[];
-
 
     @Column()
     total_price: number;
@@ -62,13 +62,5 @@ export class Order {
     @Column({ type: "text", nullable: true })
     note: string;
 
-
-
-
-
-
-
-
-
-
 }
+

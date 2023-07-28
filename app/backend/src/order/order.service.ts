@@ -9,6 +9,7 @@ import { Restaurant } from "src/restaurant/entity/restaurant.entity";
 import { Payment } from "src/payment/entity/payment.entity";
 import { Tables } from "src/table/entity/table.entity";
 import { UpdateOrderRequestDto } from "./dto/request/UpdateOrderRequestDto.dto";
+import shortUUID from "short-uuid";
 
 
 @Injectable()
@@ -30,7 +31,7 @@ export class OrderService{
         return this.orderRepository.find();
     }
 
-    async findOne(id: string): Promise<Order> {
+    async findOne(id: number): Promise<Order> {
         return this.orderRepository.findOne({ where: { id } });
     }
 
@@ -51,6 +52,7 @@ export class OrderService{
         
         
         const order = new Order();
+        order.unique_id = shortUUID.generate();
         order.restaurant = restaurant;
         order.table = table;
         order.payment = payment;
@@ -63,6 +65,7 @@ export class OrderService{
 
         const createOrderResponseDto: CreateOrderResponseDto = {
             id: savedOrder.id,
+            unique_id: savedOrder.unique_id,
             restaurant: savedOrder.restaurant,
             table: savedOrder.table,
             payment: savedOrder.payment,
@@ -78,7 +81,7 @@ export class OrderService{
         return createOrderResponseDto;
     }
 
-    async update(id: string, updateOrderRequestDto: UpdateOrderRequestDto): Promise<Order> {
+    async update(id: number, updateOrderRequestDto: UpdateOrderRequestDto): Promise<Order> {
         
         const {restaurant_id, table_id, payment_id, user_id, total_price, pickup_type, note} = updateOrderRequestDto;
 
@@ -130,7 +133,7 @@ export class OrderService{
 
     }
 
-    async delete(id: string): Promise<void> {
+    async delete(id: number): Promise<void> {
         await this.orderRepository.delete(id);
     }
 }

@@ -33,7 +33,7 @@ export class OrderItemService{
         }
 
         const orderExists = await this.orderService.findOne(order_id);
-        if (!menuItemExists) {
+        if (!orderExists) {
           throw new NotFoundException('Order not found!');
         }
     

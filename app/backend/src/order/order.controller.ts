@@ -17,7 +17,7 @@ export class OrderController {
 
     //Get order by id
     @Get('id')
-    async findOne(@Param('id') id: string): Promise<Order> {
+    async findOne(@Param('id') id: number): Promise<Order> {
         const order = await this.orderService.findOne(id);
         if(!order) {
             throw new NotFoundException('Order not found!');
@@ -34,13 +34,13 @@ export class OrderController {
 
     //Update order
     @Patch(':id')
-    async update( @Param('id') id: string, @Body() updateOrderRequestDto: UpdateOrderRequestDto) {
+    async update( @Param('id') id: number, @Body() updateOrderRequestDto: UpdateOrderRequestDto) {
         return this.orderService.update(id, updateOrderRequestDto);
     }
 
     //Delete order
     @Delete(':id')
-    async delete(@Param('id') id: string): Promise<any> {
+    async delete(@Param('id') id: number): Promise<any> {
         //Handle the error if order does not exist
         const order = await this.orderService.findOne(id);
         if (!order) {

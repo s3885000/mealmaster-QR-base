@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Categories, Information, Navigation, Items } from '../../components';
+import { Categories, Information, Items } from '../../components';
 import './menuoverview.css';
 
 const MenuOverview = () => {

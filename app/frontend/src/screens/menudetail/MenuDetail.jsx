@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Buttons } from '../../components';
 import { useNavigate } from 'react-router-dom';
-import { Food_1, Food_2 } from '../../asset/images/restaurant_info/haidilao/food/index.js';
+import { FoodOne, FoodTwo } from '../../asset/images/restaurant_info/haidilao/food/index.js';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 const MenuDetail = () => {
-  const [foodItemNotes, setFoodItemNotes] = useState('');
+  const [setFoodItemNotes] = useState('');
   const [counter, setCounter] = useState(0);
   const navigate = useNavigate();
 
@@ -29,10 +29,10 @@ const MenuDetail = () => {
         <div className="w-96 h-80">
           <Carousel showStatus={false} className="w-full h-full">
             <div>
-              <Food_1 className='w-full h-full object-cover'/>
+              <FoodOne className='w-full h-full object-cover'/>
             </div>
             <div>
-              <Food_2 className='w-full h-full object-cover'/>
+              <FoodTwo className='w-full h-full object-cover'/>
             </div>
           </Carousel>
         </div>

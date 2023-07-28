@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HaidilaoLogo } from '../../asset/images/restaurant_info/haidilao/logo/index.js';
-import { Food_1, Food_2 } from '../../asset/images/restaurant_info/haidilao/food/index.js';
+import { FoodOne, FoodTwo } from '../../asset/images/restaurant_info/haidilao/food/index.js';
 import { Buttons, Popups } from '../../components'; 
 import { StarIcon, TimeIcon } from '../../asset/icons/box/index.js';
 
@@ -29,7 +29,7 @@ const Items = ({ type }) => {
     case 'food_item':
       return (
         <ItemContainer>
-          <Food_1 className="w-24 h-24 rounded-2xl" onClick={handleDetailClick} />
+          <FoodOne className="w-24 h-24 rounded-2xl" onClick={handleDetailClick} />
           <div className="flex flex-col flex-grow ml-2">
             <p className="text-xl font-semibold">Neapolitan pizza</p>
             <p className="text-sm text-placeholders">Always a picnic favorite</p>
@@ -44,7 +44,7 @@ const Items = ({ type }) => {
       return (
         <>
           <ItemContainer>
-            <Food_2 className="w-16 h-16 rounded-3xl" />
+            <FoodTwo className="w-16 h-16 rounded-3xl" />
             <div className="flex flex-col flex-grow ml-2">
               <p className="text-lg font-medium">Spicy fresh crab</p>
               <div className="flex items-center space-x-1.5 text-sm text-placeholders mb-1">
@@ -67,7 +67,7 @@ const Items = ({ type }) => {
     case 'food_item_on_going':
       return (
         <ItemContainer>
-          <Food_2 className="w-16 h-16 rounded-3xl" />
+          <FoodTwo className="w-16 h-16 rounded-3xl" />
           <div className="flex flex-col flex-grow ml-2">
             <p className="text-lg font-medium">Spicy fresh crab</p>
             <p className="flex items-center space-x-1.5 text-sm text-placeholders mb-1">

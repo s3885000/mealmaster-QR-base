@@ -1,35 +1,35 @@
 import axios from 'axios';
 
-export const fetchMenu = () => {
+export const fetchMenuItems = () => {
     return async (dispatch) => {
-        dispatch(fetchMenuRequest());
+        dispatch(fetchMenuItemsRequest());
 
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/Menu`);
+            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/menu-items`);
 
-            dispatch(fetchMenuSuccess(response.data));
+            dispatch(fetchMenuItemsSuccess(response.data));
         } catch (error) {
-            dispatch(fetchMenuFailure(error.message));
+            dispatch(fetchMenuItemsFailure(error.message));
         }
     }
 }
 
-export const fetchMenuRequest = () => {
+export const fetchMenuItemsRequest = () => {
     return {
-        type: 'FETCH_MENU_REQUEST'
+        type: 'FETCH_MENU_ITEMS_REQUEST'
     }
 }
 
-export const fetchMenuSuccess = (data) => {
+export const fetchMenuItemsSuccess = (data) => {
     return {
-        type: 'FETCH_MENU_SUCCESS',
+        type: 'FETCH_MENU_ITEMS_SUCCESS',
         payload: data
     }
 }
 
-export const fetchMenuFailure = (error) => {
+export const fetchMenuItemsFailure = (error) => {
     return {
-        type: 'FETCH_MENU_FAILURE',
+        type: 'FETCH_MEN_ITEMS_FAILURE',
         payload: error
     }
 }

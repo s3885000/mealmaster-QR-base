@@ -1,30 +1,30 @@
 const initialState = {
     loading: false,
-    restaurant: [],
+    menuItems: [],
     console: ''
 }
 
-export const restaurantReducer = (state = initialState, action) => {
+export const menuItemsReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'FETCH_RESTAURANT_REQUEST':
+        case 'FETCH_MENU_ITEMS_REQUEST':
             return {
                 ...state,
                 loading: true
             };
 
-        case 'FETCH_RESTAURANT_SUCCESS':
+        case 'FETCH_MENU_ITEMS_SUCCESS':
             return {
                 ...state,
                 loading: false,
-                restaurant: action.payload,
+                menuItems: action.payload,
                 error: '',
             };
 
-        case 'FETCH_RESTAURANT_FAILURE':
+        case 'FETCH_MENU_ITEMS_FAILURE':
             return {
                 ...state,
                 loading: false,
-                restaurant: [],
+                menuItems: [],
                 error: action.payload,
             }
         

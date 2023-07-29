@@ -1,7 +1,8 @@
 const initialState = {
     loading: false,
     restaurant: [],
-    console: ''
+    error: '',
+    type: 'table_number',
 }
 
 export const restaurantReducer = (state = initialState, action) => {

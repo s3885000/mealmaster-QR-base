@@ -1,18 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Categories, Information, Items } from '../../components';
+import { Categories, Restaurant, Items } from '../../components';
 import './menuoverview.css';
+import { useDispatch } from 'react-redux';
+import { updateType } from '../../redux/actions/typeActions';
 
 const MenuOverview = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const tableNo = 5;
 
-const navigate = useNavigate();
+  useEffect(() => {
+    console.log('Updating type in MenuOverview to:', 'table_number'); 
+    dispatch(updateType('table_number'));
+  }, [dispatch]);
 
   const handleDetailClick = () => {
       navigate('/menu-detail');
   };
+
+  
+
   return (
     <div className='MenuOverview flex flex-col space-y-5 pb-20'>
-      <Information type="table_number" />
+      <Restaurant tableNo={tableNo} />
       <Categories />
       <Items type='food_item' onClick={handleDetailClick}></Items>
       <Items type='food_item' onClick={handleDetailClick}></Items>

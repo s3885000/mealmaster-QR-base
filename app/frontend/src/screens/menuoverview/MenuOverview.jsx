@@ -11,7 +11,6 @@ const MenuOverview = () => {
   const tableNo = 5;
 
   useEffect(() => {
-    console.log('Updating type in MenuOverview to:', 'table_number'); 
     dispatch(updateType('table_number'));
   }, [dispatch]);
 

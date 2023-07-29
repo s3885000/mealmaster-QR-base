@@ -8,10 +8,8 @@ import { fetchRestaurantData } from '../../redux/actions/restaurantActions.js';
 const Restaurant = ({ restaurant, loading, error, fetchRestaurantData, type, tableNo }) => {
 
   useEffect(() => {
-    console.log('tableNo in Restaurant:', tableNo);  // log tableNo
-    console.log('type in Restaurant:', type);  // log type
     fetchRestaurantData(tableNo);
-  }, [tableNo, fetchRestaurantData, type]);  // add 'type' to dependency array
+  }, [tableNo, fetchRestaurantData, type]);
   
 
   if (loading) {

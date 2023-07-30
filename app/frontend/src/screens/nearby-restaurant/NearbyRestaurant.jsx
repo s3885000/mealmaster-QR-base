@@ -13,13 +13,12 @@ const NearbyRestaurant = () => {
 
   return (
     <div className='flex flex-col items-center justify-start min-h-screen px-5 pt-20 '>
-      <div className='flex items-center justify-between w-full'>
+      <div className='flex items-center justify-between w-full mb-5'> 
         <Buttons context='back' onClick={handleBackClick}/>
         <h1 className='text-black text-2xl'>Nearby Restaurants</h1>
       </div>
-
-      <Search className="mb-5"/> 
-      <div className='flex flex-col space-y-5'> 
+      <Search className="mb-7"/>
+      <div className='flex flex-col mt-3 space-y-5'> 
         {dummyData.map((data, index) => (
           <Items key={index} type='nearby_restaurant' /> // Pass in actual data once you have the API integrated
         ))}

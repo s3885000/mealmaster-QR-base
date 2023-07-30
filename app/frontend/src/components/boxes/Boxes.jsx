@@ -75,7 +75,7 @@ const OrderBox = ({ orderId, estimateTime, total, date, type, isExpanded, toggle
         {type !== 'history' && (
           <div className="flex justify-center w-full">
             <div className="progress-bar-container w-full">
-              <Progress currentStep='2' />
+              <Progress currentStep='2' /> {/* Will need to replace the '2' with {currentStep} when implementing API */}
             </div>
           </div>
         )}

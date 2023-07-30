@@ -4,20 +4,35 @@ import { Categories, Restaurant, Items } from '../../components';
 import './menuoverview.css';
 import { useDispatch } from 'react-redux';
 import { updateType } from '../../redux/actions/typeActions';
-import { fetchRestaurantData } from '../../redux/actions/restaurantActions';
-import { fetchCategoryByRestaurant } from '../../redux/actions/categoryActions';
+//import { fetchRestaurantData } from '../../redux/actions/restaurantActions';
+//import { fetchCategoryByRestaurant } from '../../redux/actions/categoryActions';
 
 const MenuOverview = () => {
   const { restaurantId, tableNo } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const dummyFetchRestaurantData = (restaurantId, tableNo) => {
+    // return mock data
+    console.log("Mock fetching restaurant data", restaurantId, tableNo);
+  };
+
+  const dummyFetchCategoryByRestaurant = (restaurantId) => {
+    // return mock data
+    console.log("Mock fetching categories data", restaurantId);
+  };
 
   useEffect(() => {
     dispatch(updateType('table_number'));
-    dispatch(fetchRestaurantData(restaurantId, tableNo));
-    dispatch(fetchCategoryByRestaurant(restaurantId))
+    dummyFetchRestaurantData(restaurantId, tableNo);
+    dummyFetchCategoryByRestaurant(restaurantId);
   }, [dispatch, restaurantId, tableNo]);
+
+  // useEffect(() => {
+  //   dispatch(updateType('table_number'));
+  //   dispatch(fetchRestaurantData(restaurantId, tableNo));
+  //   dispatch(fetchCategoryByRestaurant(restaurantId))
+  // }, [dispatch, restaurantId, tableNo]);
 
   const handleDetailClick = () => {
       navigate('/menu-detail');

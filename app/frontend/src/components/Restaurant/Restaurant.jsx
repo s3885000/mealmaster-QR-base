@@ -1,17 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { HaidilaoLogoMini } from '../../asset/images/restaurant_info/haidilao/logo/index.js';
 import { StarIcon, TimeIcon } from '../../asset/icons/box/index.js';
-import { fetchRestaurantData } from '../../redux/actions/restaurantActions.js';
+//import { fetchRestaurantData } from '../../redux/actions/restaurantActions.js';
 
 
 const Restaurant = ({ restaurant, loading, error, fetchRestaurantData, type }) => {
   let { restaurantId, tableNo } = useParams();
 
+  const [restaurantData, setRestaurantData] = useState({});
+
+  const dummyFetchRestaurantData = (restaurantId, tableNo) => {
+    // return mock data
+    return {
+      name: "Mock Restaurant",
+      table: "Mock Table"
+    };
+  };
+
+
+  // useEffect(() => {
+  //   fetchRestaurantData(restaurantId, tableNo);
+  // }, [tableNo, fetchRestaurantData, type, restaurantId]);
+
   useEffect(() => {
-    fetchRestaurantData(restaurantId, tableNo);
-  }, [tableNo, fetchRestaurantData, type, restaurantId]);
+    setRestaurantData(dummyFetchRestaurantData(restaurantId, tableNo));
+  }, [tableNo, restaurantId]);
   
 
   if (loading) {
@@ -32,7 +47,7 @@ const Restaurant = ({ restaurant, loading, error, fetchRestaurantData, type }) =
       <div className="flex flex-col items-center">
         <div className="flex items-center justify-center">
           <HaidilaoLogoMini className="w-16 h-16 rounded-full" />
-          {restaurant && restaurant.name && <h1 className="ml-2 text-xl font-bold">{restaurant.name}</h1>}
+          {restaurant && restaurant.name && <h1 className="ml-2 text-xl font-bold">{restaurantData.name}</h1>}
         </div>
         <div className="flex items-center justify-center text-xl mt-2">
           <StarIcon className="w-5 h-5" />
@@ -60,8 +75,12 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
+  // return {
+  //   fetchRestaurantData: (restaurantId, tableNo) => dispatch(fetchRestaurantData(restaurantId, tableNo))
+  // }
+
   return {
-    fetchRestaurantData: (restaurantId, tableNo) => dispatch(fetchRestaurantData(restaurantId, tableNo))
+    fetchRestaurantData: (restaurantId, tableNo) => { console.log('Mock fetching')}
   }
 }
 

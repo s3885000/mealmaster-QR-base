@@ -37,6 +37,9 @@ module.exports = {
       },
       animation: {
         'slide-up': 'slide-up 0.5s ease-out forwards',
+      },
+      rotate: {
+        '270': '270deg',
       }
     },
   },

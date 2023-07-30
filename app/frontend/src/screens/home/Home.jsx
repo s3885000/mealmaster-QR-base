@@ -34,7 +34,7 @@ const Home = () => {
 
         <div className='flex justify-between items-center px-4 mt-7'>
           <h1 className='text-xl overflow-hidden whitespace-nowrap overflow-ellipsis'>History</h1>
-          <p onClick={() => handleSeeMoreClick('/history')} className='text-primary cursor-pointer'>
+          <p onClick={() => handleSeeMoreClick('/on-going')} className='text-primary cursor-pointer'>
             See More
           </p>
         </div>

@@ -100,26 +100,26 @@ const Items = ({ type }) => {
         </div>
       );
     
-      case 'nearby_restaurant':
-  return (
-    <ItemContainer>
-      <HaidilaoLogo className="w-21 h-25 rounded-2xl" />
-      <div className="flex flex-col flex-grow -mb-3 ml-1">
-        <p className="font-bold text-base text-black overflow-ellipsis whitespace-nowrap overflow-hidden">Haidilao - Đồng Khởi</p>
-        <div className="flex items-center text-base text-primary">
-          <StarIcon className="w-3 h-3"/>
-          <p className="font-medium text-sm ml-1">4.9 (284)</p>
-        </div>
-        <div className="flex justify-between w-full">
-          <div className="flex items-center text-base text-primary">
-            <TimeIcon className="w-3 h-3"/>
-            <p className="font-medium text-sm ml-1">15-25 mins</p>
+    case 'nearby_restaurant':
+      return (
+        <ItemContainer>
+          <HaidilaoLogo className="w-21 h-25 rounded-2xl" />
+          <div className="flex flex-col flex-grow -mb-3 ml-1">
+            <p className="font-bold text-base text-black overflow-ellipsis whitespace-nowrap overflow-hidden">Haidilao - Đồng Khởi</p>
+            <div className="flex items-center text-base text-primary">
+              <StarIcon className="w-3 h-3"/>
+              <p className="font-medium text-sm ml-1">4.9 (284)</p>
+            </div>
+            <div className="flex justify-between w-full">
+              <div className="flex items-center text-base text-primary">
+                <TimeIcon className="w-3 h-3"/>
+                <p className="font-medium text-sm ml-1">15-25 mins</p>
+              </div>
+              <p className="font-medium text-sm text-primary">0.2km</p>
+            </div>
           </div>
-          <p className="font-medium text-sm text-primary">0.2km</p>
-        </div>
-      </div>
-    </ItemContainer>
-  );
+        </ItemContainer>
+      );
 
       
         
@@ -135,9 +135,8 @@ const Items = ({ type }) => {
             </div>
             <div className="flex justify-between w-full">
               <div className="flex items-center text-base">
-                <p className="font-medium text-sm ml-1">Items: 3</p>
+                <p className="font-medium text-sm ml-1">81.000 đ</p>
               </div>
-              <p className="font-bold text-sm text-primary">81.000 đ</p>
             </div>
           </div>
         </div>

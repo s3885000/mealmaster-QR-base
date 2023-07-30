@@ -23,6 +23,7 @@ const App = () => {
           <Route path="/boxes" element={<Boxes />} />
           <Route path="/on-going" element={<OnGoing />} />
           <Route path="/menu-detail" element={<MenuDetail />} />
+          {/* <Route path="/restaurant/:restaurantId/table/:tableNo" element={<MenuOverview />} /> */}
           <Route path="/menu-overview" element={<MenuOverview />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/popups" element={<Popups />} />

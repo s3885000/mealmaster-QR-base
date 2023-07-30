@@ -70,7 +70,7 @@ const OrderBox = ({onOrderReceived, type, ...props}) => {
           </div>
         )}
         
-        <div className="flex justify-between w-full items-center mt-1">
+        <div className="flex justify-between w-full items-center mt-1 pl-3">
           <div>
             <h1 className="font-semibold ">Order: #{props.orderId}</h1>
             <p className="">Estimate Time: {props.estimateTime}</p>

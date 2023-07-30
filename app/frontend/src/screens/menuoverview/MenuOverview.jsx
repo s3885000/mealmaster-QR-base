@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Categories, Restaurant, Items } from '../../components';
+import { HaidilaoBanner } from '../../asset/images/restaurant_info/haidilao/banner/index.js';
 import './menuoverview.css';
 import { useDispatch } from 'react-redux';
 import { updateType } from '../../redux/actions/typeActions';

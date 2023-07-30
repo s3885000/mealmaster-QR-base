@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Categories, Restaurant, Items } from '../../components';
 import './menuoverview.css';
 import { useDispatch } from 'react-redux';
 import { updateType } from '../../redux/actions/typeActions';
 
 const MenuOverview = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const tableNo = searchParams.get('tableNo');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const tableNo = 5;
+
 
   useEffect(() => {
     dispatch(updateType('table_number'));

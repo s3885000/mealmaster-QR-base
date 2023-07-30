@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { HaidilaoLogoMini } from '../../asset/images/restaurant_info/haidilao/logo/index.js';
 import { StarIcon, TimeIcon } from '../../asset/icons/box/index.js';
 import { fetchRestaurantData } from '../../redux/actions/restaurantActions.js';
 
 
-const Restaurant = ({ restaurant, loading, error, fetchRestaurantData, type, tableNo }) => {
+const Restaurant = ({ restaurant, loading, error, fetchRestaurantData, type }) => {
+  let { restaurantId, tableNo } = useParams();
 
   useEffect(() => {
-    fetchRestaurantData(tableNo);
-  }, [tableNo, fetchRestaurantData, type]);
+    fetchRestaurantData(restaurantId, tableNo);
+  }, [tableNo, fetchRestaurantData, type, restaurantId]);
   
 
   if (loading) {
@@ -30,7 +32,7 @@ const Restaurant = ({ restaurant, loading, error, fetchRestaurantData, type, tab
       <div className="flex flex-col items-center">
         <div className="flex items-center justify-center">
           <HaidilaoLogoMini className="w-16 h-16 rounded-full" />
-          <h1 className="ml-2 text-xl font-bold">{restaurant.name}</h1>
+          {restaurant && restaurant.name && <h1 className="ml-2 text-xl font-bold">{restaurant.name}</h1>}
         </div>
         <div className="flex items-center justify-center text-xl mt-2">
           <StarIcon className="w-5 h-5" />
@@ -50,6 +52,7 @@ const Restaurant = ({ restaurant, loading, error, fetchRestaurantData, type, tab
 const mapStateToProps = state => {
   return {
     restaurant: state.restaurant.restaurant,
+    table: state.restaurant.table,
     loading: state.restaurant.loading,
     error: state.restaurant.error,
     type: state.type,
@@ -58,7 +61,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchRestaurantData: (tableNo) => dispatch(fetchRestaurantData(tableNo))
+    fetchRestaurantData: (restaurantId, tableNo) => dispatch(fetchRestaurantData(restaurantId, tableNo))
   }
 }
 

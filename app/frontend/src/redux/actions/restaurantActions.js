@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-export const fetchRestaurantData = (tableNo) => {
+export const fetchRestaurantData = ( restaurantId, tableNo ) => {
     return async (dispatch) => {
         dispatch(fetchRestaurantRequest());
 
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/restaurant/table/${tableNo}`);
+            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/restaurant/${restaurantId}/table/${tableNo}`);
             dispatch(fetchRestaurantSuccess(response.data));
 
         } catch (error) {
@@ -23,7 +23,10 @@ export const fetchRestaurantRequest = () => {
 export const fetchRestaurantSuccess = (data) => {
     return {
         type: 'FETCH_RESTAURANT_SUCCESS',
-        payload: data
+        payload: {
+            restaurant: data.restaurant,
+            table: data.table,
+        }
     }
 }
 

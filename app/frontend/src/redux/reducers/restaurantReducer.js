@@ -14,10 +14,12 @@ export const restaurantReducer = (state = initialState, action) => {
             };
 
         case 'FETCH_RESTAURANT_SUCCESS':
+            console.log(action.payload);
             return {
                 ...state,
                 loading: false,
-                restaurant: action.payload,
+                restaurant: action.payload.restaurant,
+                table: action.payload.table,
                 error: '',
             };
 

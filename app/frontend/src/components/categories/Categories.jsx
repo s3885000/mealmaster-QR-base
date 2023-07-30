@@ -39,7 +39,7 @@ const Categories = () => {
   const [activeCategory, setActiveCategory] = useState('Best Seller');
 
   return (
-    <div className="flex sm:justify-center justify-start items-center bg-white w-full overflow-x-auto overflow-y-hidden hide-scrollbar pl-2 sm:pl-0">
+    <div className="flex sm:justify-center justify-start items-center bg-transparent mt-3 w-full overflow-x-auto overflow-y-hidden hide-scrollbar pl-2 sm:pl-0">
       <ul className="flex justify-start sm:justify-center items-center gap-2 sm:gap-4">
         {categories.map(category => (
           <Category 

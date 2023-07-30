@@ -42,7 +42,7 @@ const MenuOverview = () => {
   
 
   return (
-    <div className='MenuOverview flex flex-col space-y-5 pb-20'>
+    <div className='MenuOverview flex flex-col'>
       <Restaurant tableNo={tableNo}  restaurantId={restaurantId}/>
       <Categories />
       <Items type='food_item' onClick={handleDetailClick}></Items>

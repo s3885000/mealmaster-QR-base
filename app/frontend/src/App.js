@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
-import { OnGoing, Cart, Home, Login, LoginPassword, MenuDetail, MenuOverview, Payment, ScanQR, SignUp } from './screens';
+import { OnGoing, Cart, Home, Login, LoginPassword, MenuDetail, MenuOverview, Payment, ScanQR, SignUp, NearbyRestaurant } from './screens';
 import { Boxes, Navigation, Popups} from './components'
 import './App.css';
 import { Provider } from 'react-redux';
@@ -8,7 +8,7 @@ import store from './redux/store'
 
 const App = () => {
   const location = useLocation(); 
-  const noNavBarScreens = ['/menu-detail', '/cart', '/on-going', '/payment'];
+  const noNavBarScreens = ['/menu-detail', '/cart', '/on-going', '/payment', '/nearby-restaurants'];
 
   return (
     <>
@@ -25,6 +25,7 @@ const App = () => {
           <Route path="/menu-detail" element={<MenuDetail />} />
           <Route path="/menu-overview" element={<MenuOverview />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/nearby-restaurants" element={<NearbyRestaurant />} /> 
           <Route path="/popups" element={<Popups />} />
         </Routes>
       </div>
@@ -39,7 +40,6 @@ const AppWrapper = () => {
       <Provider store={store}> {/* Provider the Redux store to the app */}
       <App/>
       </Provider>
-        
     </Router>
   );
 };

@@ -79,7 +79,7 @@ const Items = ({ type }) => {
           </div>
         </ItemContainer>
       );
-    case 'nearby_restaurant':
+    case 'home_nearby_restaurant':
       return (
         <div className="w-44 h-48 rounded-xl border border-transparent flex flex-col items-center shadow-lg">
           <HaidilaoLogo className="w-44 h-30 rounded-t-xl" />
@@ -99,6 +99,31 @@ const Items = ({ type }) => {
           </div>
         </div>
       );
+    
+      case 'nearby_restaurant':
+  return (
+    <ItemContainer>
+      <HaidilaoLogo className="w-21 h-25 rounded-2xl" />
+      <div className="flex flex-col flex-grow -mb-3 ml-1">
+        <p className="font-bold text-base text-black overflow-ellipsis whitespace-nowrap overflow-hidden">Haidilao - Đồng Khởi</p>
+        <div className="flex items-center text-base text-primary">
+          <StarIcon className="w-3 h-3"/>
+          <p className="font-medium text-sm ml-1">4.9 (284)</p>
+        </div>
+        <div className="flex justify-between w-full">
+          <div className="flex items-center text-base text-primary">
+            <TimeIcon className="w-3 h-3"/>
+            <p className="font-medium text-sm ml-1">15-25 mins</p>
+          </div>
+          <p className="font-medium text-sm text-primary">0.2km</p>
+        </div>
+      </div>
+    </ItemContainer>
+  );
+
+      
+        
+      
     case 'home_history':
       return (
         <div className="w-44 h-48 rounded-xl border border-transparent flex flex-col items-center shadow-lg">

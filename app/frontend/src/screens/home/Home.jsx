@@ -27,7 +27,7 @@ const Home = () => {
         <div className="flex overflow-x-scroll hide-scrollbar px-3 pb-5 space-x-4">
           {[...Array(5)].map((_, index) => (
             <div key={index} className='space-x-34'>
-              <Items type='nearby_restaurant' />
+              <Items type='home_nearby_restaurant' />
             </div>
           ))}
         </div>

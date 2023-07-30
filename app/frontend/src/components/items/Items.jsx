@@ -6,7 +6,7 @@ import { Buttons, Popups } from '../../components';
 import { StarIcon, TimeIcon } from '../../asset/icons/box/index.js';
 
 const ItemContainer = ({ children }) => (
-  <div className="w-300 h-87 flex items-center p-2 rounded-md shadow-lg">
+  <div className="w-300 h-87 flex items-center p-2 rounded-xl shadow-lg">
     {children}
   </div>
 );
@@ -28,8 +28,8 @@ const Items = ({ type }) => {
   switch(type) {
     case 'food_item':
       return (
-        <ItemContainer>
-          <FoodOne className="w-24 h-24 rounded-2xl" onClick={handleDetailClick} />
+        <ItemContainer style={{width: '200px'}}>
+          <FoodOne className="w-20 h-24 rounded-2xl" onClick={handleDetailClick} />
           <div className="flex flex-col flex-grow ml-2">
             <p className="text-xl font-semibold">Neapolitan pizza</p>
             <p className="text-sm text-placeholders">Always a picnic favorite</p>
@@ -44,7 +44,7 @@ const Items = ({ type }) => {
       return (
         <>
           <ItemContainer>
-            <FoodTwo className="w-16 h-16 rounded-3xl" />
+            <FoodTwo className="w-16 h-16 rounded-xl" />
             <div className="flex flex-col flex-grow ml-2">
               <p className="text-lg font-medium">Spicy fresh crab</p>
               <div className="flex items-center space-x-1.5 text-sm text-placeholders mb-1">
@@ -79,7 +79,7 @@ const Items = ({ type }) => {
           </div>
         </ItemContainer>
       );
-    case 'nearby_restaurant':
+    case 'home_nearby_restaurant':
       return (
         <div className="w-44 h-48 rounded-xl border border-transparent flex flex-col items-center shadow-lg">
           <HaidilaoLogo className="w-44 h-30 rounded-t-xl" />
@@ -99,6 +99,31 @@ const Items = ({ type }) => {
           </div>
         </div>
       );
+    
+    case 'nearby_restaurant':
+      return (
+        <ItemContainer>
+          <HaidilaoLogo className="w-21 h-25 rounded-2xl" />
+          <div className="flex flex-col flex-grow -mb-3 ml-1">
+            <p className="font-bold text-base text-black overflow-ellipsis whitespace-nowrap overflow-hidden">Haidilao - Đồng Khởi</p>
+            <div className="flex items-center text-base text-primary">
+              <StarIcon className="w-3 h-3"/>
+              <p className="font-medium text-sm ml-1">4.9 (284)</p>
+            </div>
+            <div className="flex justify-between w-full">
+              <div className="flex items-center text-base text-primary">
+                <TimeIcon className="w-3 h-3"/>
+                <p className="font-medium text-sm ml-1">15-25 mins</p>
+              </div>
+              <p className="font-medium text-sm text-primary">0.2km</p>
+            </div>
+          </div>
+        </ItemContainer>
+      );
+
+      
+        
+      
     case 'home_history':
       return (
         <div className="w-44 h-48 rounded-xl border border-transparent flex flex-col items-center shadow-lg">
@@ -110,9 +135,8 @@ const Items = ({ type }) => {
             </div>
             <div className="flex justify-between w-full">
               <div className="flex items-center text-base">
-                <p className="font-medium text-sm ml-1">Items: 3</p>
+                <p className="font-medium text-sm ml-1">81.000 đ</p>
               </div>
-              <p className="font-bold text-sm text-primary">81.000 đ</p>
             </div>
           </div>
         </div>

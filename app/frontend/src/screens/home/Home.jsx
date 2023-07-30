@@ -27,14 +27,14 @@ const Home = () => {
         <div className="flex overflow-x-scroll hide-scrollbar px-3 pb-5 space-x-4">
           {[...Array(5)].map((_, index) => (
             <div key={index} className='space-x-34'>
-              <Items type='nearby_restaurant' />
+              <Items type='home_nearby_restaurant' />
             </div>
           ))}
         </div>
 
         <div className='flex justify-between items-center px-4 mt-7'>
           <h1 className='text-xl overflow-hidden whitespace-nowrap overflow-ellipsis'>History</h1>
-          <p onClick={() => handleSeeMoreClick('/history')} className='text-primary cursor-pointer'>
+          <p onClick={() => handleSeeMoreClick('/on-going')} className='text-primary cursor-pointer'>
             See More
           </p>
         </div>

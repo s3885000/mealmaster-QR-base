@@ -6,7 +6,7 @@ import { Buttons, Popups } from '../../components';
 import { StarIcon, TimeIcon } from '../../asset/icons/box/index.js';
 
 const ItemContainer = ({ children }) => (
-  <div className="w-300 h-87 flex items-center p-2 rounded-md shadow-lg">
+  <div className="w-300 h-87 flex items-center p-2 rounded-xl shadow-lg">
     {children}
   </div>
 );
@@ -28,8 +28,8 @@ const Items = ({ type }) => {
   switch(type) {
     case 'food_item':
       return (
-        <ItemContainer>
-          <FoodOne className="w-24 h-24 rounded-2xl" onClick={handleDetailClick} />
+        <ItemContainer style={{width: '200px'}}>
+          <FoodOne className="w-20 h-24 rounded-2xl" onClick={handleDetailClick} />
           <div className="flex flex-col flex-grow ml-2">
             <p className="text-xl font-semibold">Neapolitan pizza</p>
             <p className="text-sm text-placeholders">Always a picnic favorite</p>
@@ -44,7 +44,7 @@ const Items = ({ type }) => {
       return (
         <>
           <ItemContainer>
-            <FoodTwo className="w-16 h-16 rounded-3xl" />
+            <FoodTwo className="w-16 h-16 rounded-xl" />
             <div className="flex flex-col flex-grow ml-2">
               <p className="text-lg font-medium">Spicy fresh crab</p>
               <div className="flex items-center space-x-1.5 text-sm text-placeholders mb-1">

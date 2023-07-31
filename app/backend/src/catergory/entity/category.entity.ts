@@ -1,25 +1,22 @@
 import { MenuItem } from "src/menu_items/entity/menu_item.entity";
 import { Restaurant } from "src/restaurant/entity/restaurant.entity";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, JoinColumn } from "typeorm";
 
 @Entity()
 export class Category {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    restaurant_id: number;
+    @ManyToOne(() => Restaurant, restaurant => restaurant.category, { nullable: false, onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'restaurant_id' })
+    restaurant: Restaurant;
 
     @Column()
     name: string;
 
-    @Column()
+    @Column({ nullable: true })
     description: string;
 
-    @ManyToOne(() => Restaurant, restaurant => restaurant.category)
-    restaurant: Restaurant;
-
     @OneToMany(() => MenuItem, item => item.category)
-    item: MenuItem[];
-
+    items: MenuItem[];
 }

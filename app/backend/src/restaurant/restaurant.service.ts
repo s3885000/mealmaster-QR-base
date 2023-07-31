@@ -47,7 +47,11 @@ export class RestaurantService{
     
         return response;
     }
-    
+
+    async findEntityOne(id: number): Promise<Restaurant> {
+        return this.restaurantRepository.findOne({ where: { id }});
+    }
+
 
     async create(createRestaurantDto: CreateRestaurantRequestDto): Promise<CreateRestaurantResponseDto> {
         const { user_id, name, logo, banner } = createRestaurantDto;

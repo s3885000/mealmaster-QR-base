@@ -35,7 +35,7 @@ export class MenuItem {
     @Column({ default: true })
     status: boolean;
 
-    @ManyToOne(() => Category, category => category.item)
+    @ManyToOne(() => Category, category => category.items)
     category: Category;
 
     @OneToMany(() => OrderItem, orderItem => orderItem.menuItem)

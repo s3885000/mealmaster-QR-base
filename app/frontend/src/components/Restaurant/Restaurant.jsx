@@ -19,7 +19,6 @@ const Restaurant = ({ restaurant, loading, error, fetchRestaurantData, type }) =
     };
   };
 
-
   // useEffect(() => {
   //   fetchRestaurantData(restaurantId, tableNo);
   // }, [tableNo, fetchRestaurantData, type, restaurantId]);
@@ -43,7 +42,7 @@ const Restaurant = ({ restaurant, loading, error, fetchRestaurantData, type }) =
   };
 
   return (
-    <div className="w-120 h-auto border border-placeholders mx-auto justify-center items-center">
+    <div className="w-120 h-auto border rounded-lg border-transparent shadow-lg mx-auto justify-center items-center">
       <div className="flex flex-col items-center">
         <div className="flex items-center justify-center">
           <HaidilaoLogoMini className="w-16 h-16 rounded-full" />
@@ -56,7 +55,7 @@ const Restaurant = ({ restaurant, loading, error, fetchRestaurantData, type }) =
           <p className="ml-1 text-primary">15-25 mins</p>
         </div>
       </div>
-      <hr className="border border-placeholders w-4/5 mx-auto" />
+      <hr className="border border-gray w-4/5 h-0.5 mx-auto" />
       <div className="p-2 text-center">
         <p className="mb-2 text-l">{content[type]}</p>
       </div>

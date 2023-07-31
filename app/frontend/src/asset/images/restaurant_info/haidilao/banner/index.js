@@ -1,0 +1,1 @@
+export { ReactComponent as HaidilaoBanner } from './haidilaobanner.svg';

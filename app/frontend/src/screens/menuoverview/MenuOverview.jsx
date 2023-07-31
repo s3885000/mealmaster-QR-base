@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Categories, Restaurant, Items } from '../../components';
+import { HaidilaoBanner } from '../../asset/images/restaurant_info/haidilao/banner/index.js';
 import './menuoverview.css';
 import { useDispatch } from 'react-redux';
 import { updateType } from '../../redux/actions/typeActions';
@@ -41,7 +42,7 @@ const MenuOverview = () => {
   
 
   return (
-    <div className='MenuOverview flex flex-col space-y-5 pb-20'>
+    <div className='MenuOverview flex flex-col'>
       <Restaurant tableNo={tableNo}  restaurantId={restaurantId}/>
       <Categories />
       <Items type='food_item' onClick={handleDetailClick}></Items>

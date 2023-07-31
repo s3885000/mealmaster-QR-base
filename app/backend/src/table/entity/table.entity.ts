@@ -8,8 +8,8 @@ export class Tables {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    restaurant_id: number;
+    @ManyToOne(() => Restaurant, restaurant => restaurant.tables, )
+    restaurant: Restaurant;
 
     @OneToOne(() => QrCode, qrCode => qrCode.table)
     @JoinColumn()
@@ -24,6 +24,5 @@ export class Tables {
     @OneToMany(() => Order, order => order.table)
     order: Order[];
 
-    @ManyToOne(() => Restaurant, restaurant => restaurant.tables)
-    restaurant: Restaurant;
+
 }

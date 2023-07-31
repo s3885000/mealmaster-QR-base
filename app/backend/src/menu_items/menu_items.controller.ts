@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException } fr
 import { MenuItemsService } from './menu_items.service';
 import { MenuItem } from './entity/menu_item.entity';
 import { CreateMenuItemRequestDto } from './dto/resquest/CreateMenuItemRequestDto.dto';
-import { CreateCategoryResponseDto } from 'src/catergory/dto/response/CreateCategoryResponseDto.dto';
+import { CreateMenuItemResponseDto } from './dto/response/CreateMenuItemResponseDto.dto';
 
 @Controller('item')
 export class ItemsController {
@@ -27,7 +27,7 @@ export class ItemsController {
 
     //Create item
     @Post('create')
-    createMenuItem(@Body() createMenuItemDto: CreateMenuItemRequestDto): Promise<CreateCategoryResponseDto> {
+    createMenuItem(@Body() createMenuItemDto: CreateMenuItemRequestDto): Promise<CreateMenuItemResponseDto> {
         return this.menuItemsService.create(createMenuItemDto);
     }
 

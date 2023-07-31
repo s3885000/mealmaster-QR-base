@@ -45,6 +45,7 @@ const MenuOverview = () => {
     <div className='MenuOverview flex flex-col'>
       <Restaurant tableNo={tableNo}  restaurantId={restaurantId}/>
       <Categories />
+      <h2 className='text-black text-2xl pt-10 px-5'>Category Name</h2>
       <Items type='food_item' onClick={handleDetailClick}></Items>
       <Items type='food_item' onClick={handleDetailClick}></Items>
       <Items type='food_item' onClick={handleDetailClick}></Items>

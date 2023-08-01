@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
-import { OnGoing, Cart, Home, Login, LoginPassword, MenuDetail, MenuOverview, Payment, ScanQR, SignUp, NearbyRestaurant } from './screens';
+import { OnGoing, Cart, Home, Login, LoginPassword, MenuDetail, MenuOverview, Payment, Profile, ScanQR, SignUp, NearbyRestaurant } from './screens';
 import { Boxes, Navigation, Popups} from './components'
 import './App.css';
 import { Provider } from 'react-redux';

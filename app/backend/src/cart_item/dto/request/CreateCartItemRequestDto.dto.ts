@@ -1,23 +1,19 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { MenuItem } from "src/menu_items/entity/menu_item.entity";
+
 
 export class CreateCartItemRequestDto {
-    @IsNumber()
+    menuItem: MenuItem;
+    
     @IsNotEmpty()
-    cart_id: number;
-
     @IsNumber()
-    @IsNotEmpty()
-    menu_item_id: number;
-
-    @IsNumber()
-    @IsNotEmpty()
     quantity: number;
-
+    
+    @IsOptional()
     @IsString()
-    @IsNotEmpty()
     note: string;
-
-    @IsNumber()
+    
     @IsNotEmpty()
+    @IsNumber()
     price: number;
-}
+  }

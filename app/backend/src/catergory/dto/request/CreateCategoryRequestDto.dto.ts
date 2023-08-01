@@ -1,15 +1,31 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsIn, IsInt, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { categoryIdentifier } from "src/catergory/entity/categoryIdentifier";
+
 
 export class CreateCategoryRequestDto {
-    @IsNumber()
     @IsNotEmpty()
+    @IsInt()
     restaurant_id: number;
-
-    @IsString()
+    
     @IsNotEmpty()
+    @IsString()
     name: string;
 
-    @IsString()
     @IsNotEmpty()
-    description: string;
+    @IsIn([
+        categoryIdentifier.BEST_SELLER,
+        categoryIdentifier.APPETIZERS,
+        categoryIdentifier.BURGER,
+        categoryIdentifier.PIZZA,
+        categoryIdentifier.NOODLE,
+        categoryIdentifier.SOUP,
+        categoryIdentifier.RICE,
+        categoryIdentifier.BEVERAGE,
+        categoryIdentifier.DESSERT,
+    ])
+    identifier: categoryIdentifier;
+
+    @IsOptional()
+    @IsString()
+    description?: string;
 }

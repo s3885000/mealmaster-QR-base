@@ -1,27 +1,32 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString, IsUrl } from "class-validator";
+
 
 export class CreateMenuItemRequestDto {
-    @IsNumber()
     @IsNotEmpty()
+    @IsNumber()
     category_id: number;
-
-    @IsString()
+  
     @IsNotEmpty()
+    @IsString()
     name: string;
-
-    @IsNumber()
-    @IsNotEmpty()
-    description: number;
-
+  
     @IsString()
     @IsNotEmpty()
-    price: string;
-
+    description: string;
+  
+    @IsNotEmpty()
     @IsNumber()
+    price: number;
+  
     @IsNotEmpty()
-    is_best_seller: number;
-
-    @IsString()
+    @IsUrl()
+    image: string;
+  
     @IsNotEmpty()
-    status: string;
+    @IsBoolean()
+    is_best_seller: boolean;
+  
+    @IsBoolean()
+    @IsOptional()
+    status?: boolean = true;
 }

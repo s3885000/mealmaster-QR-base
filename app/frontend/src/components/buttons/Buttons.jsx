@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import './buttons.css';
-import { PlusIcon, MinusIcon, CartIcon, BackIcon } from '../../asset/icons/button/index.js';
+import { PlusIcon, MinusIcon, CartIcon, BackIcon, EditIcon, SearchIcon } from '../../asset/icons/button/index.js';
 
 
 const Buttons = ({ type, className, style, onClick, context, count, setCount = () => {} }) => {
   const [isClicked, setIsClicked] = useState(false);
 
-  // Context for button content
+  // Button content
   const buttonContentContexts = {
     guest: 'Access as a Guest',
     apply: 'Apply',
+    close: 'Close',
+    logout: 'Logout',
+    add_more: 'Add more Items',
+    scan_qr: 'Scan QR',
     continue: 'Continue',
     add_card: 'Add Card',
     popup: 'Apply',
@@ -18,26 +22,37 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     payment:'Payment Methods',
     self_pickup: 'Self Pickup',
     serve_to_table: 'Serve to Table',
+    order: 'Order Received',
+    on_going: 'On Going',
+    order_smth: 'Order Something Else',
+    rate: 'Rate & Review',
+    sign_up: 'Sign Up',
     plus: <PlusIcon />,
     minus: <MinusIcon />,
+    search:  <SearchIcon />,
     cart:  <CartIcon />,
-    back:  <BackIcon />
+    back:  <BackIcon />,
+    edit: <EditIcon />,
   };
 
-  // Context for button styles
+  // Button styles
   const buttonStylesContexts = {
     guest: 'bg-primary2 text-primary',
     self_pickup: isClicked ? 'bg-primary2 text-primary' : 'bg-secondary2 text-secondary',
     serve_to_table: isClicked ? 'bg-primary2 text-primary' : 'bg-secondary2 text-secondary',
-    payment: 'bg-secondary2 text-secondary',
+    payment: 'bg-primary2 text-primary',
     plus: 'bg-primary',
+    search: 'bg-tertiary',
+    sign_up: 'bg-primary2 text-primary',
     minus: 'bg-primary2',
+    order_smth: 'bg-primary2 text-primary',
     cart: 'bg-primary2 text-primary',
     back: 'bg-secondary text-primary',
-    default: 'bg-primary text-white'
+    default: 'bg-primary text-white',
+    edit:'text-primary'
   };
 
-  // Context for button size
+  // Button size
   const buttonSizeContexts = {
     self_pickup: 'size-half',
     serve_to_table: 'size-half',
@@ -45,7 +60,10 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     plus: 'size-mini',
     minus: 'size-mini',
     cart: 'size-mini',
-    back: 'size-mini'
+    search: 'size-mini',
+    back: 'size-mini',
+    edit: 'size-micro',
+    order: 'size-order'
   };
 
   let buttonContent = buttonContentContexts[context] || 'Default Content';

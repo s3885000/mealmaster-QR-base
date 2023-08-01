@@ -1,26 +1,53 @@
 import React from 'react';
-
-import {Boxes, Buttons, Categories, Header, Navigation, Popups} from './components'
-import {Activity, Cart, Home, Login, MenuDetail, MenuOverview, Payment, Profile, Scanqr, Signin} from './screens'
+import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
+import { OnGoing, Cart, Home, Login, LoginPassword, MenuDetail, MenuOverview, Payment, Profile, ScanQR, SignUp, NearbyRestaurant } from './screens';
+import { Boxes, Navigation, Popups} from './components'
 import './App.css';
+import { Provider } from 'react-redux';
+import store from './redux/store'
 
-const App = () => {
+const App = ({location}) => {
+  const noNavBarScreens = ['/menu-detail', '/cart', '/on-going', '/payment', '/nearby-restaurants'];
+
   return (
-    <div className='App'>
-        <Header></Header>
-        <Popups></Popups>
-        <Buttons context='apply'></Buttons>
-        <Buttons context='plus'></Buttons>
-        <Buttons context='minus'></Buttons>
-        <Buttons context='cart'></Buttons>
-        <Buttons context='back'></Buttons>
-        <Buttons context='self_pickup'></Buttons>
-        <Buttons context='serve_to_table'></Buttons>
-        <Boxes/>
-        <Categories></Categories>
-        <Navigation></Navigation>
-    </div>
+    <>
+      <div className="pb-16">
+        <Routes>
+          <Route path="/home" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/login-password" element={<LoginPassword />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/scanqr" element={<ScanQR />} />
+          <Route path="/boxes" element={<Boxes />} />
+          <Route path="/on-going" element={<OnGoing />} />
+          <Route path="/menu-detail" element={<MenuDetail />} />
+          <Route path="/restaurant/:restaurantId/table/:tableNo" element={<MenuOverview />} />
+          {/* <Route path="/menu-overview" element={<MenuOverview />} /> */}
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/nearby-restaurants" element={<NearbyRestaurant />} /> 
+          <Route path="/popups" element={<Popups />} />
+          <Route path="/profile" element={<Profile />} />
+        </Routes>
+      </div>
+      {!noNavBarScreens.includes(location.pathname) && <Navigation />}
+    </>
   );
+};
+
+const LocationProvider = () => {
+  const location = useLocation();
+  return <App location={location} />;
 }
 
-export default App;
+const AppWrapper = () => {
+  return (
+    <Router>
+      <Provider store={store}> {/* Provider the Redux store to the app */}
+      <LocationProvider />
+      </Provider>
+    </Router>
+  );
+};
+
+export default AppWrapper;

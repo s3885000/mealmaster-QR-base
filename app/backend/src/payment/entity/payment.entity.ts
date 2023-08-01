@@ -1,22 +1,27 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { User } from "src/user/entity/user.entity";
+import { Order } from "src/order/entity/order.entity";
 
 @Entity()
 export class Payment {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    order_id: number;
+    @OneToOne(() => Order, order => order.payment)
+    @JoinColumn()
+    order: Order;
+
+    @ManyToOne(() => User, user => user.payment)
+    user: User;
 
     @Column()
-    user_id: number;
+    payment_ref_id: string;
 
-    @Column()
-    payment_ref_is: number;
+    @CreateDateColumn({ type: 'timestamp' })
+    created_at: Date;
 
-    @CreateDateColumn()
-    payment_date: Date;
+    @UpdateDateColumn({ type: 'timestamp' })
+    updated_at: Date;
 
     @Column()
     payment_method: string;
@@ -27,6 +32,6 @@ export class Payment {
     @Column()
     payment_amount: number;
 
-    @ManyToOne(() => User, user => user.payment)
-    user: User;
+    
+
 }

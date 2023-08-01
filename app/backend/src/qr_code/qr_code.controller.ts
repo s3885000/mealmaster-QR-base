@@ -14,14 +14,14 @@ export class QrCodeController {
     constructor(private readonly qrCodeService: QrCodeService) {}
 
     //Get all QR codes
-    @Roles(UserRole.RESTAURANT_OWNER)
+    @Roles(UserRole.RESTAURANT_OWNER, UserRole.CUSTOMER, UserRole.GUEST)
     @Get()
     async findAll(): Promise<QrCode[]> {
         return this.qrCodeService.findAll();
     }
 
     //Get QR code by id
-    @Roles(UserRole.RESTAURANT_OWNER)
+    @Roles(UserRole.RESTAURANT_OWNER, UserRole.CUSTOMER, UserRole.GUEST)
     @Get(':id')
     async findOne(@Param('id') id: number): Promise<QrCode> {
         const qrCode = await this.qrCodeService.findOne(id);

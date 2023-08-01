@@ -11,8 +11,7 @@ import { RestaurantModule } from './restaurant/restaurant.module';
 import { QrCodeModule } from './qr_code/qr_code.module';
 import { OrderModule } from './order/order.module';
 import { TableModule } from './table/table.module';
-import { OrderStatusModule } from './order_status/order_status.module';
-import { PaymentReferenceModule } from './payment_reference/payment_reference.module';
+import { MenuItemsModule } from './menu_items/menu_items.module';
 
 
 @Module({
@@ -29,9 +28,8 @@ import { PaymentReferenceModule } from './payment_reference/payment_reference.mo
     TableModule,
     RestaurantModule,
     OrderModule,
-    OrderStatusModule,
-    PaymentReferenceModule,
     QrCodeModule,
+    MenuItemsModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({

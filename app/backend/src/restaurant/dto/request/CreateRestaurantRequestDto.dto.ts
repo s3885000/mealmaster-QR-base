@@ -1,19 +1,19 @@
-import { IS_ALPHA, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateRestaurantRequestDto {
-    @IsNumber()
-    @IsNotEmpty()
-    user_id: number;
+  @IsNumber({}, { message: 'user_id must be a number' })
+  @IsNotEmpty({ message: 'user_id should not be empty' })
+  user_id: number;
 
-    @IsString()
-    @IsNotEmpty()
-    name: string;
+  @IsString({ message: 'name must be a string' })
+  @IsNotEmpty({ message: 'name should not be empty' })
+  name: string;
 
-    @IsString()
-    @IsNotEmpty()
-    logo: string;
+  @IsString({ message: 'logo must be a string' })
+  @IsNotEmpty({ message: 'logo should not be empty' })
+  logo: string;
 
-    @IsString()
-    @IsNotEmpty()
-    banner: string;
+  @IsString({ message: 'banner must be a string' })
+  @IsNotEmpty({ message: 'banner should not be empty' })
+  banner: string;
 }

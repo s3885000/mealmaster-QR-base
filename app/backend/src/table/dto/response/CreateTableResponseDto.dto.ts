@@ -1,4 +1,4 @@
-
+import { Restaurant } from "src/restaurant/entity/restaurant.entity";
 
 export class createTableResponseDto {
     restaurant_id: number;

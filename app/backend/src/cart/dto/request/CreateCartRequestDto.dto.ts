@@ -1,31 +1,32 @@
 import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
+
 export class CreateCartRequestDto {
-    @IsNumber()
     @IsNotEmpty()
+    @IsNumber()
     user_id: number;
 
+    @IsNotEmpty()
     @IsString()
-    @IsNotEmpty()
     status: string;
-
-    @IsNumber()
+    
     @IsNotEmpty()
+    @IsNumber()
     pickup_type: number;
 
-    @IsString()
     @IsNotEmpty()
+    @IsString()
     selected_payment_method: string;
 
-    @IsNumber()
     @IsNotEmpty()
+    @IsNumber()
     total_price: number;
 
-    @IsNumber()
     @IsNotEmpty()
+    @IsNumber()
     total_item: number;
 
-    @IsString()
     @IsNotEmpty()
+    @IsString()
     note: string;
 }

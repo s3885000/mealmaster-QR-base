@@ -1,55 +1,53 @@
-import { Injectable, Res } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Cart } from "./entity/cart.entity";
-import { CreateCartResponseDto } from "./dto/response/CreateCartResponse.dto";
 import { CreateCartRequestDto } from "./dto/request/CreateCartRequestDto.dto";
-import { Restaurant } from "src/restaurant/entity/restaurant.entity";
-import { User } from "src/user/entity/user.entity";
+import { CreateCartResponseDto } from "./dto/response/CreateCartResponseDto.sto";
+import { UserService } from "src/user/user.service";
 
 @Injectable()
 export class CartService {
     constructor(
         @InjectRepository(Cart)
         private cartRepository: Repository<Cart>,
-        @InjectRepository(User)
-        private userRepository: Repository<User>,
+        private readonly userService: UserService,
     ) {}
-
-    async findAll(): Promise<Cart[]> {
-        return this.cartRepository.find();
-    }
 
     async findOne(id: number): Promise<Cart> {
         return this.cartRepository.findOne({ where: {id} })
     }
 
-    async create(createCartDto: CreateCartRequestDto, userId: number): Promise<CreateCartResponseDto> {
-        const user = await this.userRepository.findOne({where: {id: userId}})
-        const {user_id, status, pickup_type, selected_payment_method, total_price, total_item, note} = createCartDto;
+    async create(createCartDto: CreateCartRequestDto): Promise<CreateCartResponseDto> {
+        const { user_id, status, pickup_type, selected_payment_method, total_price, total_item, note } = createCartDto;
+
+        const userExists = await this.userService.findUserById(user_id);
+        if(!userExists) {
+            throw new NotFoundException('User not found!');
+        }
 
         const cart = new Cart();
-        cart.user_id = user_id;
+        cart.user = userExists;
         cart.status = status;
         cart.pickup_type = pickup_type;
         cart.selected_payment_method = selected_payment_method;
         cart.total_price = total_price;
         cart.total_item = total_item;
         cart.note = note;
-        cart.user = user;
+        
+        await this.cartRepository.save(cart);
 
-        const savedCart = await this.cartRepository.save(cart);
-
-        return {
-            id: savedCart.id,
-            user_id: savedCart.user_id,
-            status: savedCart.status,
-            pickup_type: savedCart.pickup_type,
-            selected_payment_method: savedCart.selected_payment_method,
-            total_item: savedCart.total_item,
-            total_price: savedCart.total_price,
-            note: savedCart.note,
-        }
+        const createCartResponseDto: CreateCartResponseDto = {
+            id: cart.id,
+            user: cart.user,
+            status: cart.status,
+            pickup_type: cart.pickup_type,
+            selected_payment_method: cart.selected_payment_method,
+            total_price: cart.total_price,
+            total_item: cart.total_item,
+            note: cart.note,
+        };
+        return createCartResponseDto;
     }
 
     async update(id: number, cart: Partial<Cart>): Promise<Cart> {

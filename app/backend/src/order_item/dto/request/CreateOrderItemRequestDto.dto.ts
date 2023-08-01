@@ -1,23 +1,24 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+
 
 export class CreateOrderItemRequestDto {
-    @IsNumber()
     @IsNotEmpty()
+    @IsNumber()
     order_id: number;
-
-    @IsNumber()
+    
     @IsNotEmpty()
+    @IsNumber()
     menu_item_id: number;
-
-    @IsNumber()
+    
     @IsNotEmpty()
+    @IsNumber()
     quantity: number;
-
+    
+    @IsOptional()
     @IsString()
-    @IsNotEmpty()
     note: string;
-
-    @IsNumber()
+    
     @IsNotEmpty()
+    @IsNumber()
     price: number;
 }

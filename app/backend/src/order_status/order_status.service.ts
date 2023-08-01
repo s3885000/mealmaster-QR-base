@@ -1,42 +1,55 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { OrderStatus } from "./entity/orderStatus.entity";
-import { CreateOrderStatusResponseDto } from "./dto/response/CreateOrderStatusResponseDto.dto";
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { OrderStatus } from './entity/orderStatus.entity';
+import { Repository } from 'typeorm';
+import { OrderService } from 'src/order/order.service';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class OrderStatusService {
+    private readonly logger = new Logger(OrderStatusService.name);
+
     constructor(
-        @InjectRepository(OrderStatus)
+        @InjectRepository (OrderStatus)
         private orderStatusRepository: Repository<OrderStatus>,
+        private orderService: OrderService
     ) {}
 
-    async findAll(): Promise<OrderStatus[]> {
-        return this.orderStatusRepository.find();
-    }
+    async update (order_id: number, status: string): Promise<OrderStatus> {
+        const order = await this.orderService.findOne(order_id);
 
-    async findOne(id: number): Promise<OrderStatus> {
-        return this.orderStatusRepository.findOne({ where: {id} })
-    }
-
-    async create(createOrderStatusDto: CreateOrderStatusResponseDto): Promise<string> {
-        const {order_id, status} = createOrderStatusDto;
+        if(!order) {
+            throw new NotFoundException('Order not found!');
+        }
 
         const orderStatus = new OrderStatus();
-        orderStatus.order_id = order_id;
         orderStatus.status = status;
+        orderStatus.order = order;
+        orderStatus.timestamp = new Date();
 
-        await this.orderStatusRepository.save(orderStatus);
-
-        return 'Order Status Added';
+        return this.orderStatusRepository.save(orderStatus);
     }
 
-    async update(id: number, orderStatus: Partial<OrderStatus>): Promise<OrderStatus> {
-        await this.orderStatusRepository.update(id, orderStatus);
-        return this.orderStatusRepository.findOne({ where: { id } });
+    @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+    async handleCron() {
+        this.logger.debug('Called when the current second is 1');
+        await this.deleteOldStatuses();
+
     }
 
-    async delete(id: number): Promise<void> {
-        await this.orderStatusRepository.delete(id);
+    async deleteOldStatuses() {
+        const oneDayAgo = new Date(Date.now() - 24*60*60*1000);
+
+        await this.orderStatusRepository
+            .createQueryBuilder()
+            .delete()
+            .from(OrderStatus)
+            .where("timestamp < :oneDayAgo", { oneDayAgo })
+            .execute();
+
+    }
+
+    async delete (orderStatusId: number): Promise<void> {
+        await this.orderStatusRepository.delete(orderStatusId)
     }
 }

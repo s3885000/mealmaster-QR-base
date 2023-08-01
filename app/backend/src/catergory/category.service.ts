@@ -1,18 +1,19 @@
-import { Injectable } from "@nestjs/common";
+import { ConflictException, Inject, Injectable, NotFoundException, forwardRef } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Category } from "./entity/category.entity";
-import { CreateCategoryResponseDto } from "./dto/response/CreateCategoryResponseDto.dto";
 import { CreateCategoryRequestDto } from "./dto/request/CreateCategoryRequestDto.dto";
-import { Restaurant } from "src/restaurant/entity/restaurant.entity";
+import { CreateCategoryResponseDto } from "./dto/response/CreateCategoryResponseDto.dto";
+import { RestaurantService } from "src/restaurant/restaurant.service";
+import { MenuItem } from "src/menu_items/entity/menu_item.entity";
 
 @Injectable()
 export class CategoryService {
     constructor(
         @InjectRepository(Category)
         private categoryRepository: Repository<Category>,
-        @InjectRepository(Restaurant)
-        private restaurantRepository: Repository<Restaurant>,
+        @Inject(forwardRef(() => RestaurantService))
+        private readonly restaurantService: RestaurantService,
     ) {}
 
     async findAll(): Promise<Category[]> {
@@ -23,24 +24,52 @@ export class CategoryService {
         return this.categoryRepository.findOne({ where: {id} })
     }
 
-    async create(createCategoryDto: CreateCategoryRequestDto, restaurantId: number): Promise<CreateCategoryResponseDto> {
-        const restaurant = await this.restaurantRepository.findOne({where: { id: restaurantId }});
-        const { restaurant_id, name, description } = createCategoryDto;
+    async findAllByRestaurant(restaurantId: number): Promise<Category[]> {
+        return this.categoryRepository.find({ where: { restaurant: { id: restaurantId }}});
+    }
 
+    async findItemsByRestaurantAndCategory(restaurantId: number, categoryId: number): Promise<MenuItem[]> {
+        const category = await this.categoryRepository.findOne({ where: { id: categoryId, restaurant: { id: restaurantId }}, relations: ['items']});
+        
+        if (!category || !category.items) {
+            throw new NotFoundException('Items not found!');
+        }
+
+        return category.items;
+    }
+
+    async create(createCategoryDto: CreateCategoryRequestDto): Promise<CreateCategoryResponseDto> {
+        const {name, description, restaurant_id, identifier} = createCategoryDto;
+
+        // Check if the restaurant exists
+        const restaurant = await this.restaurantService.findEntityOne(restaurant_id);
+        if (!restaurant) {
+            throw new NotFoundException('Restaurant not found!');
+        }
+
+        // Check if the category already exists
+        const existingCategory = await this.categoryRepository.findOne({ where: { restaurant: { id: restaurant.id }, name: name }});
+        if (existingCategory) {
+            throw new ConflictException('Category already exists!');
+        }
+        
         const category = new Category();
-        category.restaurant_id = restaurant_id;
+        category.restaurant = restaurant;
         category.name = name;
         category.description = description;
-        category.restaurant = restaurant;
+        category.identifier = identifier;
 
-        const savedCategory = await this.categoryRepository.save(category);
+        await this.categoryRepository.save(category);
 
-        return {
-            id: savedCategory.id,
-            restaurant_id: savedCategory.restaurant_id,
-            name: savedCategory.name,
-            description: savedCategory.description,
+        const createCategoryResponseDto: CreateCategoryResponseDto = {
+            id: category.id,
+            restaurant_id: restaurant.id,
+            name: category.name,
+            description: category.description,
+            identifier: category.identifier,
         };
+      
+        return createCategoryResponseDto;
     }
 
     async update(id: number, category: Partial<Category>): Promise<Category> {

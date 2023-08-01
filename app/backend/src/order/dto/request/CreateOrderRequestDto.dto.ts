@@ -1,35 +1,32 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { PickupType } from "src/order/entity/order.entity";
+
 
 export class CreateOrderRequestDto {
-    @IsNumber()
     @IsNotEmpty()
+    @IsNumber()
     restaurant_id: number;
-
-    @IsNumber()
+    
     @IsNotEmpty()
+    @IsNumber()
     table_id: number;
-
-    @IsNumber()
+    
     @IsNotEmpty()
+    @IsNumber()
     payment_id: number;
-
-    @IsNumber()
+    
     @IsNotEmpty()
+    @IsNumber()
     user_id: number;
-
-    @IsString()
+    
     @IsNotEmpty()
-    current_status: string;
-
     @IsNumber()
-    @IsNotEmpty()
     total_price: number;
-
-    @IsNumber()
+    
+    @IsEnum(PickupType)
+    pickup_type: PickupType;
+    
     @IsNotEmpty()
-    pickup_type: number;
-
     @IsString()
-    @IsNotEmpty()
     note: string;
 }

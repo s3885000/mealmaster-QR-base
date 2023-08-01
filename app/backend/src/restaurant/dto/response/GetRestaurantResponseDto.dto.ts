@@ -1,3 +1,4 @@
+import { Category } from "src/catergory/entity/category.entity";
 import { CreateResAddressResponseDto } from "src/res_address/dto/response/CreateResAddressResponseDto.dto";
 
 export class GetRestaurantResponseDto {
@@ -7,4 +8,5 @@ export class GetRestaurantResponseDto {
     logo: string;
     banner: string;
     address: CreateResAddressResponseDto;
+    categories: Category[];
 }

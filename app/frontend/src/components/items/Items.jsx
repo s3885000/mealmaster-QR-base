@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HaidilaoLogo } from '../../asset/images/restaurant_info/haidilao/logo/index.js';
 import { FoodOne, FoodTwo } from '../../asset/images/restaurant_info/haidilao/food/index.js';
 import { Buttons, Popups } from '../../components'; 
 import { StarIcon, TimeIcon } from '../../asset/icons/box/index.js';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchMenuItems } from '../../redux/actions/menuItemsActions.js';
+
 
 const ItemContainer = ({ children }) => (
   <div className="w-300 h-87 flex items-center p-2 rounded-xl shadow-lg">
@@ -11,11 +14,28 @@ const ItemContainer = ({ children }) => (
   </div>
 );
 
-const Items = ({ type }) => {
+const Items = ({ type, restaurantId, categoryId }) => {
   const [counter, setCounter] = useState(0);
   const [popupVisible, setPopupVisible] = useState(false);
 
   const navigate = useNavigate();
+
+  // redux
+  const menuItemsState = useSelector(state => state.menuItems);
+  const { loading, error, menuItems } = menuItemsState;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchMenuItems(restaurantId, categoryId));
+  }, [dispatch, restaurantId, categoryId])
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
+  if (error) {
+    return <div>{error}</div>
+  }
 
   const handleDetailClick = () => {
     navigate('/menu-detail');
@@ -27,19 +47,19 @@ const Items = ({ type }) => {
 
   switch(type) {
     case 'food_item':
-      return (
-        <ItemContainer style={{width: '200px'}}>
-          <FoodOne className="w-20 h-24 rounded-2xl" onClick={handleDetailClick} />
-          <div className="flex flex-col flex-grow ml-2">
-            <p className="text-xl font-semibold">Neapolitan pizza</p>
-            <p className="text-sm text-placeholders">Always a picnic favorite</p>
-            <p className="text-xl font-semibold">200,000đ</p>
-          </div>
-          <div className="ml-2">
-            <Buttons context='plus' count={counter} setCount={setCounter}/>
-          </div>
-        </ItemContainer>
-      );
+      return Array.isArray(menuItems) ? menuItems.map(( item, index ) => (
+        <ItemContainer key={index} className="flex justify-between items-center">
+        <FoodOne className="flex-shrink-0 flex-grow-0 w-20 h-24 rounded-2xl" onClick={handleDetailClick} />
+        <div className="flex-grow ml-2 overflow-hidden">
+          <p className="text-xl font-semibold truncate">{item.name}</p>
+          <p className="text-sm text-placeholders truncate">{item.description}</p>
+          <p className="text-xl font-semibold">{item.price}đ</p>
+        </div>
+        <div className="flex-shrink-0 flex-grow-0 ml-2 min-w-10">
+          <Buttons context='plus' count={counter} setCount={setCounter}/>
+        </div>
+      </ItemContainer>
+      )) : null;
     case 'food_item_cart':
       return (
         <>

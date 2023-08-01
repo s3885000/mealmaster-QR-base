@@ -1,11 +1,11 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException } from '@nestjs/common';
 import { MenuItemsService } from './menu_items.service';
 import { MenuItem } from './entity/menu_item.entity';
-import { CreateMenuItemRequestDto } from './dto/resquest/CreateMenuItemRequestDto.dto';
+import { CreateMenuItemRequestDto } from './dto/request/CreateMenuItemRequestDto.dto';
 import { CreateMenuItemResponseDto } from './dto/response/CreateMenuItemResponseDto.dto';
 
-@Controller('item')
-export class ItemsController {
+@Controller('menu-item')
+export class MenuItemsController {
     constructor(private readonly menuItemsService: MenuItemsService) {}
 
     //Get all items
@@ -31,9 +31,9 @@ export class ItemsController {
         return this.menuItemsService.create(createMenuItemDto);
     }
 
-    //Update item
+    // Update item
     @Put(':id')
-    async update (@Param('id') id: number, @Body() item: MenuItem): Promise<any> {
+    async update (@Param('id') id: number, @Body() item: CreateMenuItemRequestDto): Promise<any> {
         return this.menuItemsService.update(id, item);
     }
 

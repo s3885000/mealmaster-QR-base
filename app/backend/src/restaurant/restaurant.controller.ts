@@ -12,6 +12,7 @@ import { Roles } from 'src/auth/guards/role.dectorator';
 import { TableService } from 'src/table/table.service';
 import { Category } from 'src/catergory/entity/category.entity';
 import { CategoryService } from 'src/catergory/category.service';
+import { MenuItem } from 'src/menu_items/entity/menu_item.entity';
 
 @Controller('restaurant')
 //@UseGuards(AuthGuard, RolesGuard)
@@ -48,14 +49,19 @@ export class RestaurantController {
         if (!result) {
             throw new NotFoundException(`Table number ${tableNo} in the restaurant ${restaurantId} not found!`);
         }
-        return result;
+
+        //Get the categories associated with the restaurant
+        const categories = await this.categoryService.findAllByRestaurant(restaurantId);
+        
+        return { result, categories: categories };
     }
 
-    //Get restaurant category
-    @Get(':id/categories')
-    async getRestaurantCategories(@Param('id') id: number): Promise<Category[]> {
-        return this.categoryService.findAllByRestaurant(id);
+    //Get items by restaurant and associated categories
+    @Get(':restaurantId/category/:categoryId/items')
+    async findItemsByRestaurantAndCategory(@Param('restaurantId') restaurantId: number, @Param('categoryId') categoryId: number): Promise<MenuItem[]> {
+        return this.categoryService.findItemsByRestaurantAndCategory(restaurantId, categoryId);
     }
+
 
     //Create restaurant
     @Roles(UserRole.RESTAURANT_OWNER)

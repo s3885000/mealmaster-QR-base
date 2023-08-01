@@ -5,6 +5,7 @@ import { Category } from "./entity/category.entity";
 import { CreateCategoryRequestDto } from "./dto/request/CreateCategoryRequestDto.dto";
 import { CreateCategoryResponseDto } from "./dto/response/CreateCategoryResponseDto.dto";
 import { RestaurantService } from "src/restaurant/restaurant.service";
+import { MenuItem } from "src/menu_items/entity/menu_item.entity";
 
 @Injectable()
 export class CategoryService {
@@ -27,8 +28,18 @@ export class CategoryService {
         return this.categoryRepository.find({ where: { restaurant: { id: restaurantId }}});
     }
 
+    async findItemsByRestaurantAndCategory(restaurantId: number, categoryId: number): Promise<MenuItem[]> {
+        const category = await this.categoryRepository.findOne({ where: { id: categoryId, restaurant: { id: restaurantId }}, relations: ['items']});
+        
+        if (!category || !category.items) {
+            throw new NotFoundException('Items not found!');
+        }
+
+        return category.items;
+    }
+
     async create(createCategoryDto: CreateCategoryRequestDto): Promise<CreateCategoryResponseDto> {
-        const {name, description, restaurant_id} = createCategoryDto;
+        const {name, description, restaurant_id, identifier} = createCategoryDto;
 
         // Check if the restaurant exists
         const restaurant = await this.restaurantService.findEntityOne(restaurant_id);
@@ -46,6 +57,7 @@ export class CategoryService {
         category.restaurant = restaurant;
         category.name = name;
         category.description = description;
+        category.identifier = identifier;
 
         await this.categoryRepository.save(category);
 
@@ -54,6 +66,7 @@ export class CategoryService {
             restaurant_id: restaurant.id,
             name: category.name,
             description: category.description,
+            identifier: category.identifier,
         };
       
         return createCategoryResponseDto;

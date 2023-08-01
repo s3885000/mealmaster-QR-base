@@ -15,8 +15,8 @@ export class CreateMenuItemRequestDto {
     description: string;
   
     @IsNotEmpty()
-    @IsString()
-    price: string;
+    @IsNumber()
+    price: number;
   
     @IsNotEmpty()
     @IsUrl()

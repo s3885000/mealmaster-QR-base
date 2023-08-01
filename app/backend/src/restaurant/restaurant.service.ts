@@ -14,7 +14,6 @@ export class RestaurantService{
     constructor(
         @InjectRepository(Restaurant)
         private restaurantRepository: Repository<Restaurant>,
-        private readonly resAddressService: ResAddressService,
         @InjectRepository(ResAddress)
         private readonly resAddressRepository: Repository<ResAddress>,
     ) {}
@@ -26,7 +25,7 @@ export class RestaurantService{
     async findOne(id: number): Promise<GetRestaurantResponseDto> {
         let restaurant;
         try {
-            restaurant = await this.restaurantRepository.findOne({ where: {id}, relations: ["address"] });
+            restaurant = await this.restaurantRepository.findOne({ where: {id}, relations: ["address", "category", "category.items"] });
         } catch (error) {
             console.error(error.message);
             throw new InternalServerErrorException('Failed to get the restaurant');
@@ -43,6 +42,7 @@ export class RestaurantService{
             name: restaurant.name,
             logo: restaurant.logo,
             banner: restaurant.banner,
+            categories: restaurant.category,
         }
     
         return response;

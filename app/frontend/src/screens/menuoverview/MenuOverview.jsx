@@ -1,39 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Categories, Restaurant, Items } from '../../components';
-import { HaidilaoBanner } from '../../asset/images/restaurant_info/haidilao/banner/index.js';
+// import { HaidilaoBanner } from '../../asset/images/restaurant_info/haidilao/banner/index.js';
 import './menuoverview.css';
 import { useDispatch } from 'react-redux';
 import { updateType } from '../../redux/actions/typeActions';
-//import { fetchRestaurantData } from '../../redux/actions/restaurantActions';
-//import { fetchCategoryByRestaurant } from '../../redux/actions/categoryActions';
+import { fetchRestaurantData } from '../../redux/actions/restaurantActions';
 
 const MenuOverview = () => {
   const { restaurantId, tableNo } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const dummyFetchRestaurantData = (restaurantId, tableNo) => {
-    // return mock data
-    console.log("Mock fetching restaurant data", restaurantId, tableNo);
-  };
+  //Define state for active category ID and a function to update it
+  const [activeCategoryId, setActiveCategoryId] = useState(null);
 
-  const dummyFetchCategoryByRestaurant = (restaurantId) => {
-    // return mock data
-    console.log("Mock fetching categories data", restaurantId);
-  };
 
   useEffect(() => {
     dispatch(updateType('table_number'));
-    dummyFetchRestaurantData(restaurantId, tableNo);
-    dummyFetchCategoryByRestaurant(restaurantId);
+    dispatch(fetchRestaurantData(restaurantId, tableNo));
   }, [dispatch, restaurantId, tableNo]);
-
-  // useEffect(() => {
-  //   dispatch(updateType('table_number'));
-  //   dispatch(fetchRestaurantData(restaurantId, tableNo));
-  //   dispatch(fetchCategoryByRestaurant(restaurantId))
-  // }, [dispatch, restaurantId, tableNo]);
 
   const handleDetailClick = () => {
       navigate('/menu-detail');
@@ -44,11 +30,9 @@ const MenuOverview = () => {
   return (
     <div className='MenuOverview flex flex-col'>
       <Restaurant tableNo={tableNo}  restaurantId={restaurantId}/>
-      <Categories />
-      <Items type='food_item' onClick={handleDetailClick}></Items>
-      <Items type='food_item' onClick={handleDetailClick}></Items>
-      <Items type='food_item' onClick={handleDetailClick}></Items>
-      <Items type=''></Items>
+      <Categories setActiveCategoryId={setActiveCategoryId}/>
+      { activeCategoryId && <Items type='food_item' restaurantId={restaurantId} categoryId={activeCategoryId} onClick={handleDetailClick}/> }
+
     </div>
   );
 };

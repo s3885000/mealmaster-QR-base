@@ -6,8 +6,7 @@ import './App.css';
 import { Provider } from 'react-redux';
 import store from './redux/store'
 
-const App = () => {
-  const location = useLocation(); 
+const App = ({location}) => {
   const noNavBarScreens = ['/menu-detail', '/cart', '/on-going', '/payment', '/nearby-restaurants'];
 
   return (
@@ -23,8 +22,8 @@ const App = () => {
           <Route path="/boxes" element={<Boxes />} />
           <Route path="/on-going" element={<OnGoing />} />
           <Route path="/menu-detail" element={<MenuDetail />} />
-          {/* <Route path="/restaurant/:restaurantId/table/:tableNo" element={<MenuOverview />} /> */}
-          <Route path="/menu-overview" element={<MenuOverview />} />
+          <Route path="/restaurant/:restaurantId/table/:tableNo" element={<MenuOverview />} />
+          {/* <Route path="/menu-overview" element={<MenuOverview />} /> */}
           <Route path="/cart" element={<Cart />} />
           <Route path="/nearby-restaurants" element={<NearbyRestaurant />} /> 
           <Route path="/popups" element={<Popups />} />
@@ -35,11 +34,16 @@ const App = () => {
   );
 };
 
+const LocationProvider = () => {
+  const location = useLocation();
+  return <App location={location} />;
+}
+
 const AppWrapper = () => {
   return (
     <Router>
       <Provider store={store}> {/* Provider the Redux store to the app */}
-      <App/>
+      <LocationProvider />
       </Provider>
     </Router>
   );

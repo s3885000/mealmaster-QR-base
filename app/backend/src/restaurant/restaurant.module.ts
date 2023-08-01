@@ -7,7 +7,6 @@ import { ResAddress } from 'src/res_address/entity/resAddress.entity';
 import { ResAddressService } from 'src/res_address/res_address.service';
 import { TableModule } from 'src/table/table.module';
 import { CategoryModule } from 'src/catergory/category.module';
-import { CategoryService } from 'src/catergory/category.service';
 
 
 @Module({

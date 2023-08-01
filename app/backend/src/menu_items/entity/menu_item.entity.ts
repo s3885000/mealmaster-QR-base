@@ -9,16 +9,13 @@ export class MenuItem {
     id: number;
 
     @Column()
-    category_id: number;
-
-    @Column()
     name: string;
 
     @Column()
     description: string;
 
     @Column()
-    price: string;
+    price: number;
 
     @Column()
     image: string;

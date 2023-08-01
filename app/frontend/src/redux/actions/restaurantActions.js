@@ -5,7 +5,7 @@ export const fetchRestaurantData = ( restaurantId, tableNo ) => {
         dispatch(fetchRestaurantRequest());
 
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/restaurant/${restaurantId}/table/${tableNo}`);
+            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/restaurant/${restaurantId}/table/${tableNo}`, { withCredentials: true });
             dispatch(fetchRestaurantSuccess(response.data));
 
         } catch (error) {
@@ -26,6 +26,7 @@ export const fetchRestaurantSuccess = (data) => {
         payload: {
             restaurant: data.restaurant,
             table: data.table,
+            categories: data.categories,
         }
     }
 }

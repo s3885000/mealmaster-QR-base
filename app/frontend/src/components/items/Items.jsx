@@ -7,6 +7,9 @@ import { StarIcon, TimeIcon } from '../../asset/icons/box/index.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchMenuItems } from '../../redux/actions/menuItemsActions.js';
 
+const formatPrice = (price) => {
+  return price.toLocaleString('en-US');
+}
 
 const ItemContainer = ({ children }) => (
   <div className="w-300 h-87 flex items-center p-2 rounded-xl shadow-lg">
@@ -51,9 +54,9 @@ const Items = ({ type, restaurantId, categoryId }) => {
         <ItemContainer key={index} className="flex justify-between items-center">
         <FoodOne className="flex-shrink-0 flex-grow-0 w-20 h-24 rounded-2xl" onClick={handleDetailClick} />
         <div className="flex-grow ml-2 overflow-hidden">
-          <p className="text-xl font-semibold truncate">{item.name}</p>
+          <p className="text-base font-semibold truncate">{item.name}</p>
           <p className="text-sm text-placeholders truncate">{item.description}</p>
-          <p className="text-xl font-semibold">{item.price}đ</p>
+          <p className="text-base font-semibold">{formatPrice(item.price)}đ</p>
         </div>
         <div className="flex-shrink-0 flex-grow-0 ml-2 min-w-10">
           <Buttons context='plus' count={counter} setCount={setCounter}/>

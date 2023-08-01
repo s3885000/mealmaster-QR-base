@@ -11,6 +11,7 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     guest: 'Access as a Guest',
     apply: 'Apply',
     close: 'Close',
+    logout: 'Logout',
     add_more: 'Add more Items',
     scan_qr: 'Scan QR',
     continue: 'Continue',

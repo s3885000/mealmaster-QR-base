@@ -28,6 +28,7 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/nearby-restaurants" element={<NearbyRestaurant />} /> 
           <Route path="/popups" element={<Popups />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
       {!noNavBarScreens.includes(location.pathname) && <Navigation />}

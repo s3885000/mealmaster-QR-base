@@ -9,7 +9,7 @@ const Profile = () => {
   return (
     <div className='p-4'>
       <div className='m-4'>
-        <h1 className='text-3xl font-bold'>Account</h1>
+        <h1 className='text-2xl font-bold'>Account</h1>
         <h2 className='text-lg text-justify mb-3.75 text-gray'>Edit and manage you account</h2>
       </div>
 
@@ -43,17 +43,7 @@ const Profile = () => {
         <div className='flex flex-row my-2 mx-2'>
           <div className='col basis-3/4'>
             <h2 className='text-[#181818] opacity-30'>E-wallet</h2>
-            <p className='text-[#181818] opacity-50 font-medium'>234 9781 8465 ****</p>
-          </div>
-          <div className='flex justify-end items-center basis-1/4'>
-            <BackIcon className="rotate-180" />
-          </div>
-        </div>
-
-        <div className='flex flex-row my-2 mx-2'>
-          <div className='col basis-3/4'>
-            <h2 className='text-[#181818] opacity-30'>History</h2>
-            <p className='text-[#181818] opacity-50 font-medium'>Check your latest order</p>
+            <p className='text-[#181818] opacity-50 font-medium'>2374 9781 8465 ****</p>
           </div>
           <div className='flex justify-end items-center basis-1/4'>
             <BackIcon className="rotate-180" />
@@ -62,8 +52,8 @@ const Profile = () => {
       </div>
 
       <div className='m-4'>
-        <h1 className='text-3xl font-bold'>Help and feedback</h1>
-        <h2 className='text-lg text-justify mb-3.75 text-gray'>Reach us with your feedback and question</h2>
+        <h1 className='text-2xl font-bold'>Help and feedback</h1>
+        <h2 className='text-medium text-justify mb-3.75 text-gray'>Reach us with your feedback and question</h2>
       </div>
 
 
@@ -87,8 +77,10 @@ const Profile = () => {
         </div>
       </div>
 
-      <Buttons context='checkout'/>
+      <Buttons context='logout'/>
 
     </div>
   )
 }
+
+export default Profile;

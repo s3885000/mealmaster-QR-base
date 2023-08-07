@@ -64,7 +64,7 @@ export class TableService{
     
         const savedTable = await this.tableRepository.save(table);
     
-        const url = `http://localhost:3000/restaurant/${restaurant.id}/table/${table_no}`;
+        const url = `http://localhost:3001/restaurant/${restaurant.id}/table/${table_no}`;
     
         const qrCodeDto: CreateQrCodeDto = { url, table: savedTable};
     

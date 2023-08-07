@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString, IsUrl } from "class-validator";
+import { IsArray, IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString, IsUrl } from "class-validator";
 
 
 export class CreateMenuItemRequestDto {
@@ -18,9 +18,10 @@ export class CreateMenuItemRequestDto {
     @IsNumber()
     price: number;
   
-    @IsNotEmpty()
-    @IsUrl()
-    image: string;
+    @IsOptional()
+    @IsArray()
+    @IsString({ each: true})
+    images: string[];
   
     @IsNotEmpty()
     @IsBoolean()

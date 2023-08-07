@@ -1,0 +1,36 @@
+.carousel-image-container {
+    width: 100%;
+    height: 40vh; /* you can adjust this value */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel .slider-wrapper.axis-horizontal .slider {
+    left: 0;
+    right: 0;
+}
+
+.carousel-control-prev, .carousel-control-next {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    background: rgba(0, 0, 0, 0);
+    z-index: 100;
+    cursor: pointer;
+  }
+  
+  .carousel-control-prev {
+    left: 0;
+  }
+  
+  .carousel-control-next {
+    right: 0;
+  }

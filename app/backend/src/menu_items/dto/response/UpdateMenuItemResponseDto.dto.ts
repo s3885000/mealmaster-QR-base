@@ -1,6 +1,6 @@
 import { Category } from "src/catergory/entity/category.entity";
 
-export class CreateMenuItemResponseDto {
+export class UpdateMenuItemResponseDto {
     id: number;
     category: Category;
     name: string;

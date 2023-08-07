@@ -2,6 +2,7 @@ import { CartItem } from "src/cart_item/entity/cart_item.entity";
 import { Category } from "src/catergory/entity/category.entity";
 import { OrderItem } from "src/order_item/entity/orderItem.entity";
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Image } from "./image.entity";
 
 @Entity()
 export class MenuItem {
@@ -16,9 +17,6 @@ export class MenuItem {
 
     @Column()
     price: number;
-
-    @Column()
-    image: string;
 
     @Column()
     is_best_seller: boolean;
@@ -40,5 +38,8 @@ export class MenuItem {
 
     @OneToMany(() => CartItem, cartItem => cartItem.menuItem)
     cartItem: CartItem[];
+
+    @OneToMany(() => Image, image => image.menuItem, { eager: true})
+    images: Image[];
 
 }

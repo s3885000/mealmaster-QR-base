@@ -24,9 +24,11 @@ export const fetchRestaurantSuccess = (data) => {
     return {
         type: 'FETCH_RESTAURANT_SUCCESS',
         payload: {
-            restaurant: data.restaurant,
-            table: data.table,
+            restaurant: data.result.restaurant,
+            table: data.result.table,
             categories: data.categories,
+            banner: data.result.restaurant.banner,
+            logo: data.result.restaurant.logo,
         }
     }
 }

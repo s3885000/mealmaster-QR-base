@@ -1,10 +1,15 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Logo } from '../../asset/images/mealmaster_logo/index.js';
 import { Buttons } from '../../components';
 
 const Login = () => {
+    const { restaurantId, tableNo } = useParams();
     const navigate = useNavigate();
+
+    const navigateToMenuOverview = () => {
+        navigate(`/restaurant/${restaurantId}/table/${tableNo}`);
+    }
 
     const handleContinueClick = () => {
         navigate('/login-password');

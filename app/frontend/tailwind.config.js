@@ -5,6 +5,24 @@ module.exports = {
   ],
   theme: {
     extend: {
+      spacing: {
+        '14': '3.5rem',
+        '15': '3.75rem',
+        '16': '4rem', 
+        '17': '4.25rem', 
+        '18': '4.5rem', 
+        '19': '4.75rem',
+        '20': '5rem',
+      },
+      width: {
+        '299': '299px',
+        '267': '267px',
+        '15': '15rem',
+        '22': '5.25rem',
+      },
+      height: {
+        '120': '120px',
+      },
       colors: {
         primary: '#22BB9B',
         primary2: '#E9F8F5',
@@ -15,7 +33,7 @@ module.exports = {
         gray: '#C9C9C9',
       },
       fontFamily: {
-        'montserrat': ['Montserrat', 'sans-serif'],
+        'montserrat': ['Montserrat'],
       },
       fontSize: {
         '32px': '32px',

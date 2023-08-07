@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HaidilaoLogo } from '../../asset/images/restaurant_info/haidilao/logo/index.js';
-import { FoodOne, FoodTwo } from '../../asset/images/restaurant_info/haidilao/food/index.js';
+import { FoodTwo } from '../../asset/images/restaurant_info/haidilao/food/index.js';
 import { Buttons, Popups } from '../../components'; 
 import { StarIcon, TimeIcon } from '../../asset/icons/box/index.js';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,7 +12,7 @@ const formatPrice = (price) => {
 }
 
 const ItemContainer = ({ children }) => (
-  <div className="w-300 h-87 flex items-center p-2 rounded-xl shadow-lg">
+  <div className="w-300 h-87 flex items-center pl-4 pr-4 pt-4 pb-4 shadow-xl">
     {children}
   </div>
 );
@@ -50,19 +50,31 @@ const Items = ({ type, restaurantId, categoryId }) => {
 
   switch(type) {
     case 'food_item':
-      return Array.isArray(menuItems) ? menuItems.map(( item, index ) => (
+      return Array.isArray(menuItems) ? menuItems.map(( item, index ) => {
+        const imageURL = item.images && item.images[0] ? item.images[0].image_url : null;
+        if (!item.images || !item.images[0]) {
+          return null;
+        }
+
+        const handleDetailClick = () => {
+          navigate(`/menu-detail/${item.id}`);
+        };
+
+        return (
         <ItemContainer key={index} className="flex justify-between items-center">
-        <FoodOne className="flex-shrink-0 flex-grow-0 w-20 h-24 rounded-2xl" onClick={handleDetailClick} />
-        <div className="flex-grow ml-2 overflow-hidden">
-          <p className="text-base font-semibold truncate">{item.name}</p>
-          <p className="text-sm text-placeholders truncate">{item.description}</p>
-          <p className="text-base font-semibold">{formatPrice(item.price)}đ</p>
-        </div>
-        <div className="flex-shrink-0 flex-grow-0 ml-2 min-w-10">
-          <Buttons context='plus' count={counter} setCount={setCounter}/>
-        </div>
-      </ItemContainer>
-      )) : null;
+          <img src={imageURL} alt={item.name} className="flex-shrink-0 flex-grow-0 w-22 h-22 rounded-lg" onClick={handleDetailClick} />
+          <div className="flex-grow ml-2 overflow-hidden">
+            <p className="text-lg font-semibold truncate">{item.name}</p>
+            <p className="text-sm text-placeholders truncate">{item.description}</p>
+            <p className="mt-3.5 text-lg font-semibold">{formatPrice(item.price)}đ</p>
+          </div>
+          <div className="flex-shrink-0 flex-grow-0 ml-2 min-w-10">
+            <Buttons context='plus' count={counter} setCount={setCounter}/>
+          </div>
+        </ItemContainer>
+      );
+    }) : null;
+
     case 'food_item_cart':
       return (
         <>

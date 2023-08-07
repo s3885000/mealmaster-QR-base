@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { HaidilaoLogoMini } from '../../asset/images/restaurant_info/haidilao/logo/index.js';
 import { StarIcon, TimeIcon } from '../../asset/icons/box/index.js';
 import { fetchRestaurantData } from '../../redux/actions/restaurantActions.js';
 
@@ -9,11 +8,9 @@ import { fetchRestaurantData } from '../../redux/actions/restaurantActions.js';
 const Restaurant = ({ restaurant, loading, error, fetchRestaurantData, type }) => {
   let { restaurantId, tableNo } = useParams();
 
-  // const [restaurantData, setRestaurantData] = useState({});
+  const  bannerImage  =restaurant && restaurant.banner;
 
-  // useEffect(() => {
-  //   setRestaurantData(dummyFetchRestaurantData(restaurantId, tableNo));
-  // }, [tableNo, restaurantId]);
+  const logoImage  = restaurant && restaurant.logo;
 
   useEffect(() => {
     fetchRestaurantData(restaurantId, tableNo);
@@ -34,22 +31,25 @@ const Restaurant = ({ restaurant, loading, error, fetchRestaurantData, type }) =
   };
 
   return (
-    <div className="w-120 h-auto border rounded-lg border-transparent shadow-lg mx-auto justify-center items-center">
-      <div className="flex flex-col items-center">
-        <div className="flex items-center justify-center">
-          <HaidilaoLogoMini className="w-16 h-16 rounded-full" />
-          {restaurant && restaurant.name && <h1 className="ml-2 text-xl font-bold">{restaurant.name}</h1>}
+    <div className="relative">
+      <div style={{ backgroundImage: `url(${bannerImage})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '160px', width: '100%' }} className="rounded-b-lg"></div>
+      <div className="w-299 h-120 rounded-xl bg-white shadow-lg absolute left-1/2 bottom-0 transform -translate-x-1/2 translate-y-1/3 flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center">
+          <div className="flex items-center justify-center pt-4 flex-wrap">
+            <img src={logoImage} alt="Restaurant Logo" className="w-12 h-12 flex-shrink-0 rounded-full"/>  
+            {restaurant && restaurant.name && <h1 className="pl-1 text-xl not-italic font-semibold tracking-wide truncate w-15">{restaurant.name}</h1>}
+          </div>
+          <div className="flex items-center justify-center text-xl pb-1.5">
+            <StarIcon className="w-5 h-5" />
+            <p className="text-teal-500 text-xs not-italic font-semibold">4.9 (284)</p>
+            <TimeIcon className="w-5 h-5 ml-5" />
+            <p className="text-teal-500 text-xs not-italic font-semibold">15-25 mins</p>
+          </div>
         </div>
-        <div className="flex items-center justify-center text-xl mt-2">
-          <StarIcon className="w-5 h-5" />
-          <p className="ml-1 text-primary">4.9 (284)</p>
-          <TimeIcon className="w-5 h-5 ml-4" />
-          <p className="ml-1 text-primary">15-25 mins</p>
+        <hr className="border border-gray w-267 h-1 mx-auto" />
+        <div className="p-1 text-left">
+          <p className="text-teal-500 mb-3 text-xl not-italic font-semibold">{content[type]}</p>
         </div>
-      </div>
-      <hr className="border border-gray w-4/5 h-0.5 mx-auto" />
-      <div className="p-2 text-center">
-        <p className="mb-2 text-l">{content[type]}</p>
       </div>
     </div>
   );
@@ -70,9 +70,6 @@ const mapDispatchToProps = dispatch => {
     fetchRestaurantData: (restaurantId, tableNo) => dispatch(fetchRestaurantData(restaurantId, tableNo))
   }
 
-  // return {
-  //   fetchRestaurantData: (restaurantId, tableNo) => { console.log('Mock fetching')}
-  // }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Restaurant);

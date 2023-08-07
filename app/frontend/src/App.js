@@ -6,12 +6,14 @@ import './App.css';
 import { Provider } from 'react-redux';
 import store from './redux/store'
 
-const App = ({location}) => {
-  const noNavBarScreens = ['/menu-detail', '/cart', '/on-going', '/payment', '/nearby-restaurants'];
+const App = () => {
+  const location = useLocation();
+
+  const shouldShowNavBar = !['/menu-detail', '/cart', '/on-going', '/payment', '/nearby-restaurants'].some((path) => location.pathname.startsWith(path));
 
   return (
     <>
-      <div className="pb-16">
+      <div className={shouldShowNavBar ? "pb-16" : ""}>
         <Routes>
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -21,7 +23,7 @@ const App = ({location}) => {
           <Route path="/scanqr" element={<ScanQR />} />
           <Route path="/boxes" element={<Boxes />} />
           <Route path="/on-going" element={<OnGoing />} />
-          <Route path="/menu-detail" element={<MenuDetail />} />
+          <Route path="/menu-detail/:itemId" element={<MenuDetail />} />
           <Route path="/restaurant/:restaurantId/table/:tableNo" element={<MenuOverview />} />
           {/* <Route path="/menu-overview" element={<MenuOverview />} /> */}
           <Route path="/cart" element={<Cart />} />
@@ -30,7 +32,7 @@ const App = ({location}) => {
           <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
-      {!noNavBarScreens.includes(location.pathname) && <Navigation />}
+      {shouldShowNavBar && <Navigation />}
     </>
   );
 };

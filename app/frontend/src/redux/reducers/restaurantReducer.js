@@ -4,6 +4,8 @@ const initialState = {
     categories: [],
     error: '',
     type: 'table_number',
+    banner: null,
+    logo: null,
 }
 
 export const restaurantReducer = (state = initialState, action) => {
@@ -21,6 +23,8 @@ export const restaurantReducer = (state = initialState, action) => {
                 restaurant: action.payload.restaurant,
                 table: action.payload.table,
                 categories: action.payload.categories,
+                banner: action.payload.banner,
+                logo: action.payload.logo,
                 error: '',
             };
 

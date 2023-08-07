@@ -4,10 +4,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MenuItem } from './entity/menu_item.entity';
 import { MenuItemsController } from './menu_items.controller';
 import { CategoryModule } from 'src/catergory/category.module';
+import { Image } from './entity/image.entity';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([MenuItem]),
+        TypeOrmModule.forFeature([MenuItem, Image]),
         CategoryModule,
     ],
     controllers: [MenuItemsController],

@@ -29,7 +29,7 @@ export const fetchMenuItemsSuccess = (data) => {
 
 export const fetchMenuItemsFailure = (error) => {
     return {
-        type: 'FETCH_MEN_ITEMS_FAILURE',
+        type: 'FETCH_MENU_ITEMS_FAILURE',
         payload: error
     }
 }

@@ -3,8 +3,10 @@ import { MenuItemsService } from './menu_items.service';
 import { MenuItem } from './entity/menu_item.entity';
 import { CreateMenuItemRequestDto } from './dto/request/CreateMenuItemRequestDto.dto';
 import { CreateMenuItemResponseDto } from './dto/response/CreateMenuItemResponseDto.dto';
+import { UpdateMenuItemRequestDto } from './dto/request/UpdateMenuItemRequestDto.dto';
+import { UpdateMenuItemResponseDto } from './dto/response/UpdateMenuItemResponseDto.dto';
 
-@Controller('menu-item')
+@Controller('item')
 export class MenuItemsController {
     constructor(private readonly menuItemsService: MenuItemsService) {}
 
@@ -33,7 +35,7 @@ export class MenuItemsController {
 
     // Update item
     @Put(':id')
-    async update (@Param('id') id: number, @Body() item: CreateMenuItemRequestDto): Promise<any> {
+    async update (@Param('id') id: number, @Body() item: UpdateMenuItemRequestDto): Promise<UpdateMenuItemResponseDto> {
         return this.menuItemsService.update(id, item);
     }
 

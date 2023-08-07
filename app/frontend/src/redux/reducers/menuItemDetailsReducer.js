@@ -1,30 +1,31 @@
+// reducers/menuItemDetailsReducer.js
 const initialState = {
     loading: false,
-    menuItems: [],
-    error: '',
+    menuItem: {},
+    error: ''
 }
 
-export const menuItemsReducer = (state = initialState, action) => {
+export const menuItemDetailsReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'FETCH_MENU_ITEMS_REQUEST':
+        case 'FETCH_MENU_ITEM_DETAILS_REQUEST':
             return {
                 ...state,
                 loading: true
             };
 
-        case 'FETCH_MENU_ITEMS_SUCCESS':
+        case 'FETCH_MENU_ITEM_DETAILS_SUCCESS':
             return {
                 ...state,
                 loading: false,
-                menuItems: action.payload,
+                menuItem: action.payload,
                 error: '',
             };
 
-        case 'FETCH_MENU_ITEMS_FAILURE':
+        case 'FETCH_MENU_ITEM_DETAILS_FAILURE':
             return {
                 ...state,
                 loading: false,
-                menuItems: [],
+                menuItem: {},
                 error: action.payload,
             }
         

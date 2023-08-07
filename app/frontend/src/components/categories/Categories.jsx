@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { BestSeller, Burger, Pizza, Dessert, BestSellerActive, PizzaActive, BurgerActive, DessertActive } from '../../asset/icons/category/index.js';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,11 +24,11 @@ const iconMapping = {
 const Category = ({id, name, Icon, ActiveIcon, isActive, onClick}) => (
   <li className="text-center w-1/3 sm:w-auto">
     <button 
-      className={`flex flex-col items-center justify-center rounded-full ${isActive ? 'bg-white text-primary' : 'bg-white text-black'}`} 
+      className={`flex flex-col items-center justify-center rounded-full  ${isActive ? 'bg-white text-primary' : 'bg-white text-black'}`} 
       onClick={() => onClick(id)}
       style={{width: "105px", height: "105px"}}
     >
-      <div className={`rounded-full flex shadow-md items-center justify-center ${isActive ? 'bg-primary shadow' : 'bg-white'}`} style={{width: "66px", height: "66px"}}>
+      <div className={`rounded-full flex shadow-lg items-center justify-center ${isActive ? 'bg-primary shadow' : 'bg-white'}`} style={{width: "66px", height: "66px"}}>
         {isActive ? <ActiveIcon /> : <Icon />}
       </div>
       <div className="mt-1 text-xs sm:text-sm">
@@ -47,7 +47,7 @@ Category.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
-const Categories = ({ setActiveCategoryId }) => {
+const Categories = ({ setActiveCategoryId, setActiveCategoryName }) => {
   const restaurantState = useSelector(state => state.restaurant);
 
   const { categories, loading, error } = restaurantState;
@@ -56,14 +56,24 @@ const Categories = ({ setActiveCategoryId }) => {
   const dispatch = useDispatch();
   const [activeCategoryId, _setActiveCategoryId] = useState(null);
 
-  const setActiveCategory = (id) => {
+  const setActiveCategory = useCallback((id, name) => {
     setActiveCategoryId(id);
+    setActiveCategoryName(name);
     _setActiveCategoryId(id)
-  }
+  }, [setActiveCategoryId, setActiveCategoryName]);
 
   useEffect(() => {
     dispatch(fetchRestaurantData(restaurantId, tableNo));
   }, [dispatch, restaurantId, tableNo]);
+  
+  useEffect(() => {
+    // Set the initial active category to "Best Seller"
+    const bestSellerCategory = categories.find(category => category.identifier === "best-seller");
+    if (bestSellerCategory) {
+      setActiveCategory(bestSellerCategory.id, bestSellerCategory.name);
+    }
+  }, [categories, setActiveCategory]);
+  
 
   if (loading) {
     return <h2>Loading...</h2>
@@ -81,8 +91,8 @@ const Categories = ({ setActiveCategoryId }) => {
   });
 
   return (
-    <div className="flex sm:justify-center justify-start items-center bg-transparent mt-3 w-full overflow-x-auto overflow-y-hidden hide-scrollbar pl-2 sm:pl-0">
-      <ul className="flex justify-start sm:justify-center items-center gap-2 sm:gap-4">
+    <div className=" flex sm:justify-center justify-start items-center bg-transparent mt-14 w-full overflow-x-auto overflow-y-hidden hide-scrollbar sm:pl-0">
+      <ul className="flex justify-start sm:justify-center items-center gap-0 sm:gap-1">
         { sortedCategories.map((category) => {
           const { inactive: Icon, active: ActiveIcon } = iconMapping[category.identifier];
           return (
@@ -93,7 +103,7 @@ const Categories = ({ setActiveCategoryId }) => {
               Icon={ Icon }
               ActiveIcon={ ActiveIcon }
               isActive={ category.id === activeCategoryId }
-              onClick={ setActiveCategory }
+              onClick={() => setActiveCategory(category.id, category.name) }
             />
           )
         })}
@@ -103,7 +113,8 @@ const Categories = ({ setActiveCategoryId }) => {
 };
 
 Categories.propTypes = {
-  setActiveCategoryId: PropTypes.func.isRequired
+  setActiveCategoryId: PropTypes.func.isRequired,
+  setActiveCategoryName: PropTypes.func.isRequired,
 }
 
 export default Categories;

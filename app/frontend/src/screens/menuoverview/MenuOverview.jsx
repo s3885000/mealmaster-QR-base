@@ -15,6 +15,9 @@ const MenuOverview = () => {
   //Define state for active category ID and a function to update it
   const [activeCategoryId, setActiveCategoryId] = useState(null);
 
+  //Display category's name
+  const [activeCategoryName, setActiveCategoryName] = useState(null);
+
 
   useEffect(() => {
     dispatch(updateType('table_number'));
@@ -30,7 +33,8 @@ const MenuOverview = () => {
   return (
     <div className='MenuOverview flex flex-col'>
       <Restaurant tableNo={tableNo}  restaurantId={restaurantId}/>
-      <Categories setActiveCategoryId={setActiveCategoryId}/>
+      <Categories setActiveCategoryId={setActiveCategoryId} setActiveCategoryName={setActiveCategoryName}/>
+      { activeCategoryName && <h2 className="pl-6 pt-4 text-2xl not-italic font-medium">{activeCategoryName}</h2> }
       { activeCategoryId && <Items type='food_item' restaurantId={restaurantId} categoryId={activeCategoryId} onClick={handleDetailClick}/> }
 
     </div>

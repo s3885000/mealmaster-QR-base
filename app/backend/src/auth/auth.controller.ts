@@ -10,6 +10,8 @@ import { RefreshTokenGuard } from 'src/jwt/token/refreshToken.guard';
 import { LoginResponseDto } from 'src/user/dto/response/loginResponse.dto';
 import { OwnerLoginDto } from 'src/user/dto/request/ownerLogin.dto';
 import { AnonymousGuard } from './guards/anonymous.guard';
+import { phoneNumberValidateDto } from 'src/user/dto/request/phoneNumberValidationDto.dto';
+import { UserService } from 'src/user/user.service';
 
 
 @Controller('auth')
@@ -18,6 +20,7 @@ export class AuthController {
         private readonly anonymousService: AnonymousService,
         private readonly authService: AuthService,
         private readonly tokenService: TokenService,
+        private readonly userService: UserService,
         ) {}
 
     // Guest Login
@@ -37,6 +40,14 @@ export class AuthController {
     @Get('guest/protected')
     async getAnonymousProtectedRoute(@Request() req): Promise<string> {
         return `Hello, Guest user with ID: ${req.user.guest_id}`;
+    }
+
+    //Validate the phone number
+    @Post('validate-phone-number')
+    @HttpCode(HttpStatus.OK)
+    async validatePhoneNumber(@Body(ValidationPipe) phoneNumberValidateDto: phoneNumberValidateDto): Promise<{ valid: boolean }> {
+        const user = await this.userService.findUserByPhoneNumber(phoneNumberValidateDto.phone_number);
+        return { valid: user !== null };
     }
     
 

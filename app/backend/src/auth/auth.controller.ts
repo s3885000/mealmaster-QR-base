@@ -55,22 +55,22 @@ export class AuthController {
     @Post('login')
     @HttpCode(HttpStatus.OK)
     async customerLogin(@Body(ValidationPipe) loginUserDto: CustomerLoginDto, @Res({ passthrough: true}) response: Response): Promise<LoginResponseDto> {
-        const { refreshToken } = await this.authService.customerLogin(loginUserDto);
+        const { accessToken, refreshToken } = await this.authService.customerLogin(loginUserDto);
         
         response.cookie('authorization', refreshToken, { httpOnly: true, sameSite: 'strict' });
         
-        return { refreshToken };
+        return { accessToken, refreshToken };
     }
 
     // Restaurant owner login
     @Post('restaurant-owner/login')
     @HttpCode(HttpStatus.OK)
     async ownerLogin(@Body(ValidationPipe) loginUserDto: OwnerLoginDto, @Res({ passthrough: true}) response: Response): Promise<LoginResponseDto> {
-        const { refreshToken } = await this.authService.ownerLogin(loginUserDto);
+        const { accessToken, refreshToken } = await this.authService.ownerLogin(loginUserDto);
         
         response.cookie('authorization', refreshToken, { httpOnly: true, sameSite: 'strict' });
         
-        return { refreshToken };
+        return { accessToken, refreshToken };
     }
 
     // Authenticated protected route

@@ -1,36 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Logo } from '../../asset/images/mealmaster_logo/index.js';
 import { Buttons } from '../../components';
 import { useDispatch } from 'react-redux';
-import { loginUser } from '../../redux/actions/authThunk.js';
+import { loginUser, checkPhoneNumber } from '../../redux/actions/authThunk.js';
+import { useSelector } from 'react-redux';
 
 const Login = () => {
     const { restaurantId, tableNo } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const { phoneNumberExists } = useSelector((state) => state.auth);
     const [ phoneError, setPhoneError ] = useState('');
+
+    useEffect(() => {
+        if (phoneNumberExists === true) {
+            navigate('/login-password', { state: { phoneNumber: document.getElementById('phoneInput').value }});
+        } else if (phoneNumberExists === false) {
+            setPhoneError('* Phone number not found! Please sign up or use different phone number.');
+        }
+    }, [phoneNumberExists, navigate]);
 
     const handleContinueClick = async () => {
         const phoneNumber = document.getElementById('phoneInput').value;
 
         if(phoneNumber === '') {
-            setPhoneError('* Phone number is required');
+            setPhoneError('* Phone number is required!');
             return;
         }
 
         //Clear the error
         setPhoneError('');
 
-        //Trigger login action with the entered phone number and wait for a response
-        const IsPhoneNumberAvailable = await dispatch(loginUser({ phone_number: phoneNumber }));
-
-        if(IsPhoneNumberAvailable) {
-            navigate('/login-password');
-        } else {
-            setPhoneError('* Phone number not found! Please sign up or use different phone number.');
-        }
+        //Trigger phone number validation with the entered phone nuumber
+        dispatch(checkPhoneNumber(phoneNumber));
 
     };
 
@@ -51,8 +55,8 @@ const Login = () => {
             </div>
             <h1 className='font-bold text-2xl'>MealMaster</h1>
             <p className='text-sm font-medium mb-16'>Log In or Sign Up for free</p>
-            <div className='mb-1'>
-                <div className='relative w-80 h-14'>
+            <div className='mb-1 flex-col w-80'>
+                <div className='relative h-14'>
                     <input 
                         id='phoneInput'
                         className='w-full h-full px-7 text-sm bg-tertiary text-placeholders font-medium rounded-2xl'

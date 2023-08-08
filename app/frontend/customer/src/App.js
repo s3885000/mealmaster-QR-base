@@ -9,7 +9,7 @@ import store from './redux/store'
 const App = () => {
   const location = useLocation();
 
-  const shouldShowNavBar = !['/menu-detail', '/cart', '/on-going', '/payment', '/nearby-restaurants'].some((path) => location.pathname.startsWith(path));
+  const shouldShowNavBar = !['/menu-detail', '/cart', '/on-going', '/payment', '/nearby-restaurants', '/login'].some((path) => location.pathname.startsWith(path));
 
   return (
     <>

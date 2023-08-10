@@ -5,20 +5,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchRestaurantData } from '../../redux/actions/restaurantActions.js';
 import { useParams } from 'react-router-dom';
 
-// const categories = [
-//   { name: 'Best Seller', Icon: BestSeller, ActiveIcon: BestSellerActive },
-//   { name: 'Pizza', Icon: Pizza, ActiveIcon: PizzaActive },
-//   { name: 'Burger', Icon: Burger, ActiveIcon: BurgerActive },
-//   { name: 'Dessert', Icon: Dessert, ActiveIcon: DessertActive },
-//   // Add more categories here
-// ];
-
 
 const iconMapping = {
   "best-seller": { inactive: BestSeller, active: BestSellerActive },
   "burger": { inactive: Burger, active: BurgerActive },
   "pizza": { inactive: Pizza, active: PizzaActive },
-  "dessert": { inactive: Dessert, active: DessertActive},
+  "dessert": { inactive: Dessert, active: DessertActive },
+  "appetizer": { inactive: Appetizer, active: AppetizerActive },
+  "noodles": { inactive: Noodles, active: NoodlesActive },
+  "salad": { inactive: Salad, active: SaladActive },
+  "rice": { inactive: Rice, active: RiceActive },
+  "ice-cream": { inactive: iceCream, active: iceCreamActive },
+  "seafood": { inactive: Seafood, active: SeafoodActive },
 }
 
 const Category = ({id, name, Icon, ActiveIcon, isActive, onClick}) => (

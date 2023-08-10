@@ -24,7 +24,7 @@ const App = () => {
           <Route path="/boxes" element={<Boxes />} />
           <Route path="/on-going" element={<OnGoing />} />
           <Route path="/menu-detail/:itemId" element={<MenuDetail />} />
-          <Route path="/restaurant/:restaurantId/table/:tableNo" element={<MenuOverview />} />
+          <Route path="/menu-overview/:restaurantId/table/:tableNo" element={<MenuOverview />} />
           {/* <Route path="/menu-overview" element={<MenuOverview />} /> */}
           <Route path="/cart" element={<Cart />} />
           <Route path="/nearby-restaurants" element={<NearbyRestaurant />} /> 

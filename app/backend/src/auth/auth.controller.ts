@@ -25,14 +25,13 @@ export class AuthController {
 
     // Guest Login
     @Post('guest/login')
-    async anonymousLogin(@Res({ passthrough: true}) res: Response): Promise<{ id: string, refreshToken: string }> {
-        const user = await this.anonymousService.generateAnonymousUser();
-        const refreshToken = this.tokenService.generateRefreshToken(user.guest_id);
+    async anonymousLogin(@Res({ passthrough: true}) res: Response): Promise<{ accessToken: string, refreshToken: string }> {
+        const { accessToken, refreshToken } = await this.anonymousService.generateAnonymousUser();
 
         //Save the access token as a cookie
         res.cookie('authorization', refreshToken, { httpOnly: true, sameSite: 'strict' })
 
-        return { id: user.guest_id, refreshToken };
+        return { accessToken, refreshToken };
     }
 
     // Guest me

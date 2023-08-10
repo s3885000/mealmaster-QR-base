@@ -7,11 +7,12 @@ import { ResAddress } from 'src/res_address/entity/resAddress.entity';
 import { ResAddressService } from 'src/res_address/res_address.service';
 import { TableModule } from 'src/table/table.module';
 import { CategoryModule } from 'src/catergory/category.module';
+import { User } from 'src/user/entity/user.entity';
 
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Restaurant, ResAddress]),
+        TypeOrmModule.forFeature([Restaurant, ResAddress, User]),
         TableModule,
         CategoryModule,
     ],

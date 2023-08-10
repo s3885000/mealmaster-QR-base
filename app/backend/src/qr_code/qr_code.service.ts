@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { QrCode } from "./entity/qrCode.entity";
@@ -18,7 +18,7 @@ export class QrCodeService{
     }
 
     async findOne(id: number): Promise<QrCode> {
-        return this.qrCodeRepository.findOne({ where: {id}});
+        return this.qrCodeRepository.findOne({ where: { id }});
     }
 
     async create(createQrCodeDto: CreateQrCodeDto): Promise<CreateQrCodeResponseDto> {
@@ -42,6 +42,7 @@ export class QrCodeService{
         await this.qrCodeRepository.update(id, qrCode);
         return this.qrCodeRepository.findOne({ where: { id } });
     }
+
 
     async delete(id: number): Promise<void> {
         await this.qrCodeRepository.delete(id);

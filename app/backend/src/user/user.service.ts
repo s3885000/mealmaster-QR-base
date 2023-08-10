@@ -67,9 +67,7 @@ export class UserService {
   }
 
   async findUserByPhoneNumber(phone_number: string): Promise<User | undefined> {
-    console.log("Searching for phone number: ", phone_number);
     const user = await this.userRepository.findOne({ where: { phone_number } });
-    console.log("Found user: ", user);
     return user;
   }
   

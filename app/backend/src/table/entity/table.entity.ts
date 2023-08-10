@@ -11,7 +11,7 @@ export class Tables {
     @ManyToOne(() => Restaurant, restaurant => restaurant.tables, )
     restaurant: Restaurant;
 
-    @OneToOne(() => QrCode, qrCode => qrCode.table)
+    @OneToOne(() => QrCode, qrCode => qrCode.table, { onDelete: 'CASCADE' })
     @JoinColumn()
     qr_code: QrCode;
 

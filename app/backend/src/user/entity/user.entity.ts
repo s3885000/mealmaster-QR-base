@@ -1,9 +1,10 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { UserProfileResponseDto } from "../dto/response/userProfileResponse.dto";
 import { Order } from "src/order/entity/order.entity";
 import { Payment } from "src/payment/entity/payment.entity";
 import { Cart } from "src/cart/entity/cart.entity";
 import { PaymentReference } from "src/payment_reference/entity/paymentReference.entity";
+import { Restaurant } from "src/restaurant/entity/restaurant.entity";
 
 export enum UserRole {
     CUSTOMER = 'customer',
@@ -69,5 +70,8 @@ export class User {
 
     @OneToMany(() => PaymentReference, paymentRef => paymentRef.user)
     paymentRef: PaymentReference[];
+
+    @OneToOne(() => Restaurant, restaurant => restaurant.owner)
+    restaurant: Restaurant;
 
 }

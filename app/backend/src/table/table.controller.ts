@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException, UseGuards, Patch } from '@nestjs/common';
 import { CreateTableDto } from './dto/request/CreateTable.dto';
 import { Tables } from './entity/table.entity';
 import { TableService } from './table.service';
@@ -9,7 +9,7 @@ import { Roles } from 'src/auth/guards/role.dectorator';
 import { UserRole } from 'src/user/entity/user.entity';
 
 @Controller('table')
-@UseGuards(AuthGuard, RolesGuard)
+//@UseGuards(AuthGuard, RolesGuard)
 export class TableController {
     constructor(private readonly tableService: TableService) {}
 
@@ -45,6 +45,7 @@ export class TableController {
     async update( @Param('id') id: number, @Body() table: Tables): Promise<any> {
         return this.tableService.update(id, table);
     }
+    
 
     //Delete table
     @Roles(UserRole.RESTAURANT_OWNER)

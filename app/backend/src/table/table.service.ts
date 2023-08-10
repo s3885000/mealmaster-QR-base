@@ -64,7 +64,7 @@ export class TableService{
     
         const savedTable = await this.tableRepository.save(table);
     
-        const url = `http://localhost:3001/restaurant/${restaurant.id}/table/${table_no}`;
+        const url = `http://localhost:3001/menu-overview/${restaurant.id}/table/${table_no}`;
     
         const qrCodeDto: CreateQrCodeDto = { url, table: savedTable};
     
@@ -89,6 +89,8 @@ export class TableService{
         await this.tableRepository.update(id, table);
         return this.tableRepository.findOne({ where: { id } });
     }
+
+    
 
     async delete(id: number): Promise<void> {
         await this.tableRepository.delete(id);

@@ -15,14 +15,19 @@ export class AnonymousService {
         private readonly jwtService: JwtService,
         private readonly tokenService: TokenService) {}
 
-    async generateAnonymousUser(): Promise<User> {
+    async generateAnonymousUser(): Promise<{ accessToken:string, refreshToken: string }> {
         const user = new User();
         user.is_guest = true;
         user.role = UserRole.GUEST;
         user.guest_id = uuid();
         // Generate refresh token for the guest user
-        user.refresh_token = this.tokenService.generateRefreshToken(user.guest_id);
-        return await this.userRepository.save(user);
+        const refreshToken = this.tokenService.generateRefreshToken(user.guest_id);
+        const accessToken = this.tokenService.generateAccessToken(user.guest_id);
+
+        user.refresh_token = refreshToken;
+        await this.userRepository.save(user);
+
+        return { accessToken, refreshToken };
     }
     
     async isAnonymousUser(guest_id: string): Promise<boolean> {

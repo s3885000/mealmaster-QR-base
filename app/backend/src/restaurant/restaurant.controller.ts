@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException, UsePipes, ValidationPipe, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException, UsePipes, ValidationPipe, UseGuards, Request } from '@nestjs/common';
 import { CreateRestaurantRequestDto } from './dto/request/CreateRestaurantRequestDto.dto';
 import { Restaurant } from './entity/restaurant.entity';
 import { RestaurantService } from './restaurant.service';
@@ -15,7 +15,7 @@ import { CategoryService } from 'src/catergory/category.service';
 import { MenuItem } from 'src/menu_items/entity/menu_item.entity';
 
 @Controller('restaurant')
-//@UseGuards(AuthGuard, RolesGuard)
+@UseGuards(RolesGuard)
 export class RestaurantController {
     constructor(
         private readonly restaurantService: RestaurantService,
@@ -34,13 +34,8 @@ export class RestaurantController {
     //@Roles(UserRole.RESTAURANT_OWNER, UserRole.CUSTOMER, UserRole.GUEST)
     @Get(':id')
     async findOne(@Param('id') id: number): Promise<GetRestaurantResponseDto> {
-        const restaurant = await this.restaurantService.findOne(id);
-        if(!restaurant) {
-            throw new NotFoundException('Restaurant not found!');
-        } else {
-            return restaurant;
-        }
-    }
+        return this.restaurantService.findOne(id);
+      }
 
     //Get restaurant and table number
     @Get(':restaurantId/table/:tableNo')
@@ -66,16 +61,20 @@ export class RestaurantController {
     //Create restaurant
     @Roles(UserRole.RESTAURANT_OWNER)
     @Post('create')
-    async create(@Body() createRestaurantDto: CreateRestaurantRequestDto): Promise<CreateRestaurantResponseDto> {
-    return this.restaurantService.create(createRestaurantDto);
-    }
+    async create(@Request() req, @Body() createRestaurantDto: CreateRestaurantRequestDto): Promise<CreateRestaurantResponseDto> {
+        const userId = req.user.id;
+        return this.restaurantService.create(createRestaurantDto, userId);
+      }
+      
     
     //Update restaurant
     @Roles(UserRole.RESTAURANT_OWNER)
     @Put(':id')
-    async update( @Param('id') id: number, @Body() restaurant: Restaurant): Promise<any> {
-        return this.restaurantService.update(id, restaurant);
+    async update(@Request() req, @Param('id') restaurantId: number, @Body() updateRestaurantDto: CreateRestaurantRequestDto): Promise<Restaurant> {
+        const userId = req.user.id;
+        return this.restaurantService.update(updateRestaurantDto, userId, restaurantId);
     }
+      
 
     @Roles(UserRole.RESTAURANT_OWNER)
     @Put(':id/address')
@@ -85,13 +84,9 @@ export class RestaurantController {
 
     //Delete restaurant
     @Roles(UserRole.RESTAURANT_OWNER)
-    @Delete(':id')
-    async delete(@Param('id') id: number): Promise<any> {
-        //Handle the error if restaurant does not exist
-        const restaurant = await this.restaurantService.findOne(id);
-        if (!restaurant) {
-            throw new NotFoundException('Restaurant does not exist');
-        }
-        return this.restaurantService.delete(id);
-    }
+    async delete(@Request() req, @Param('id') restaurantId: number): Promise<void> {
+        const userId = req.user.id;
+        return this.restaurantService.delete(userId, restaurantId);
+      }
+      
 }

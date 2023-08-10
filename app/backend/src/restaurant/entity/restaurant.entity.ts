@@ -1,16 +1,14 @@
-import { Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Tables } from "src/table/entity/table.entity";
 import { Order } from "src/order/entity/order.entity";
 import { Category } from "src/catergory/entity/category.entity";
 import { ResAddress } from "src/res_address/entity/resAddress.entity";
+import { User } from "src/user/entity/user.entity";
 
 @Entity()
 export class Restaurant {
     @PrimaryGeneratedColumn()
     id: number;
-
-    @Column()
-    user_id: number;
 
     @Column()
     name: string;
@@ -36,6 +34,10 @@ export class Restaurant {
     @OneToMany(() => Category, category => category.restaurant)
     category: Category[];
 
-    @OneToOne(() => ResAddress, address => address.restaurant, {cascade: true, eager: true})
+    @OneToOne(() => ResAddress, address => address.restaurant, { cascade: true, eager: true })
     address: ResAddress;
+
+    @OneToOne(() => User, user => user.restaurant, { nullable: true })
+    @JoinColumn()
+    owner: User;
 }

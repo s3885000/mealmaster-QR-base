@@ -15,7 +15,6 @@ export class Category {
     @Column({
         type: 'enum',
         enum: categoryIdentifier,
-        default: categoryIdentifier.BEST_SELLER,
     })
     identifier: categoryIdentifier;
 

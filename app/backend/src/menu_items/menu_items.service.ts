@@ -14,24 +14,29 @@ import { UpdateMenuItemResponseDto } from "./dto/response/UpdateMenuItemResponse
 export class MenuItemsService {
     constructor(
         @InjectRepository(MenuItem)
-        private itemRepository: Repository<MenuItem>,
+        private menuItemRepository: Repository<MenuItem>,
         private readonly categoryService: CategoryService,
         @InjectRepository(Image)
         private imageRepository: Repository<Image>
     ) {}
 
     async findAll(): Promise<MenuItem[]> {
-        return this.itemRepository.find({ relations: ['images']});
+        return this.menuItemRepository.find({ relations: ['images']});
     }
 
     async findOne(id: number): Promise<MenuItem> {
-        const item = await this.itemRepository.findOne({ where: {id}, relations: ['category', 'images'] })
+        const item = await this.menuItemRepository.findOne({ where: {id}, relations: ['category', 'images'] })
         if (!item) {
             throw new NotFoundException('Item not found');
         } else {
             return item;
         }
     }
+
+    async findBestSellers(): Promise<MenuItem[]> {
+        return this.menuItemRepository.find({ where: { is_best_seller: true }, relations: ['images'] });
+    }
+
 
     async create(createMenuItemDto: CreateMenuItemRequestDto): Promise<CreateMenuItemResponseDto> {
         const {category_id, name, description, price, is_best_seller, status} = createMenuItemDto;
@@ -59,7 +64,7 @@ export class MenuItemsService {
         item.status = status != undefined ? status : true;
 
 
-        await this.itemRepository.save(item);
+        await this.menuItemRepository.save(item);
 
         const createMenyItemResponseDto: CreateMenuItemResponseDto = {
             id: item.id,
@@ -76,14 +81,14 @@ export class MenuItemsService {
     }
 
     async update(id: number, updateMenuItemDto: UpdateMenuItemRequestDto): Promise<UpdateMenuItemResponseDto> {
-        const existingItem = await this.itemRepository.findOne({ where: { id }, relations: ['category']});
+        const existingItem = await this.menuItemRepository.findOne({ where: { id }, relations: ['category']});
         if (!existingItem) {
           throw new NotFoundException(`Item with id ${id} not found!`);
         }
 
         console.log("Existing category ID:", existingItem.category.id);
     
-        const {category_id, name, description, price, images, is_best_seller, status} = updateMenuItemDto;
+        const {category_id, name, description, price, is_best_seller, status} = updateMenuItemDto;
 
         console.log("Category ID from request:", category_id);
         
@@ -116,7 +121,7 @@ export class MenuItemsService {
             await this.imageRepository.save(existingItem.images);
         }
     
-        await this.itemRepository.save(existingItem);
+        await this.menuItemRepository.save(existingItem);
 
         const updatedMenuItemResponseDto : UpdateMenuItemResponseDto = {
             id: existingItem.id,
@@ -133,7 +138,7 @@ export class MenuItemsService {
     }
     
     async delete(id: number): Promise<void> {
-        const result = await this.itemRepository.delete(id);
+        const result = await this.menuItemRepository.delete(id);
         if (result.affected === 0) {
             throw new NotFoundException(`Item with id ${id} not found!`);
         }

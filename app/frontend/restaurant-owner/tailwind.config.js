@@ -26,11 +26,10 @@ module.exports = {
       colors: {
         primary: '#22BB9B',
         primary2: '#E9F8F5',
-        secondary: '#FF9012',
-        secondary2: '#FFF4E7',
         tertiary: '#F7F7F8',
         placeholders: '#8D8D8D',
         gray: '#C9C9C9',
+        error:'#E45851',
       },
       fontFamily: {
         'montserrat': ['Montserrat'],

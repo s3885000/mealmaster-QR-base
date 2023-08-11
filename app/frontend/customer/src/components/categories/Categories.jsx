@@ -1,6 +1,28 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { BestSeller, Burger, Pizza, Dessert, BestSellerActive, PizzaActive, BurgerActive, DessertActive } from '../../asset/icons/category/index.js';
+import { BestSeller, 
+  Burger, 
+  Pizza,
+  Appetizer, 
+  Dessert,
+  Noodles,
+  Salad,
+  Rice,
+  IceCream, 
+  Seafood,
+  BestSellerActive, 
+  PizzaActive, 
+  BurgerActive, 
+  DessertActive, 
+  AppetizerActive,
+  NoodlesActive,
+  SaladActive,
+  RiceActive,
+  IceCreamActive,
+  SeafoodActive, 
+  Beverage,
+  BeverageActive
+  } from '../../asset/icons/category/index.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRestaurantData } from '../../redux/actions/restaurantActions.js';
 import { useParams } from 'react-router-dom';
@@ -15,9 +37,16 @@ const iconMapping = {
   "noodles": { inactive: Noodles, active: NoodlesActive },
   "salad": { inactive: Salad, active: SaladActive },
   "rice": { inactive: Rice, active: RiceActive },
-  "ice-cream": { inactive: iceCream, active: iceCreamActive },
+  "ice-cream": { inactive: IceCream, active: IceCreamActive },
   "seafood": { inactive: Seafood, active: SeafoodActive },
+  "beverage": { inactive: Beverage, active: BeverageActive },
 }
+
+const defaultBestSellerCategory = {
+  id: -1, 
+  name: "Best Seller",
+  identifier: "best-seller",
+};
 
 const Category = ({id, name, Icon, ActiveIcon, isActive, onClick}) => (
   <li className="text-center w-1/3 sm:w-auto">
@@ -26,7 +55,7 @@ const Category = ({id, name, Icon, ActiveIcon, isActive, onClick}) => (
       onClick={() => onClick(id)}
       style={{width: "105px", height: "105px"}}
     >
-      <div className={`rounded-full flex shadow-lg items-center justify-center ${isActive ? 'bg-primary shadow' : 'bg-white'}`} style={{width: "66px", height: "66px"}}>
+      <div className={`rounded-full flex drop-shadow-md items-center justify-center ${isActive ? 'bg-primary' : 'bg-white'}`} style={{width: "66px", height: "66px"}}>
         {isActive ? <ActiveIcon /> : <Icon />}
       </div>
       <div className="mt-1 text-xs sm:text-sm">
@@ -57,22 +86,27 @@ const Categories = ({ setActiveCategoryId, setActiveCategoryName }) => {
   const setActiveCategory = useCallback((id, name) => {
     setActiveCategoryId(id);
     setActiveCategoryName(name);
-    _setActiveCategoryId(id)
+    _setActiveCategoryId(id);
   }, [setActiveCategoryId, setActiveCategoryName]);
 
   useEffect(() => {
     dispatch(fetchRestaurantData(restaurantId, tableNo));
   }, [dispatch, restaurantId, tableNo]);
-  
+
+  // Adjust categories to ensure "Best Seller" always exists and is first
+  const adjustedCategories = useMemo(() => {
+    const bestSellerExists = categories.some(category => category.identifier === "best-seller");
+    if (bestSellerExists) return categories;
+    return [defaultBestSellerCategory, ...categories];
+  }, [categories]);
+
   useEffect(() => {
-    // Set the initial active category to "Best Seller"
-    const bestSellerCategory = categories.find(category => category.identifier === "best-seller");
+    const bestSellerCategory = adjustedCategories.find(category => category.identifier === "best-seller");
     if (bestSellerCategory) {
       setActiveCategory(bestSellerCategory.id, bestSellerCategory.name);
     }
-  }, [categories, setActiveCategory]);
+  }, [adjustedCategories, setActiveCategory]);
   
-
   if (loading) {
     return <h2>Loading...</h2>
   }
@@ -81,17 +115,10 @@ const Categories = ({ setActiveCategoryId, setActiveCategoryName }) => {
     return <h2>{error}</h2>
   }
 
-  // Sort best seller appear first
-  const sortedCategories = [...categories].sort((a, b) => {
-    if (a.identifier === "best-seller") return -1;
-    if (b.identifier === "best-seller") return 1;
-    return 0;
-  });
-
   return (
     <div className=" flex sm:justify-center justify-start items-center bg-transparent mt-14 w-full overflow-x-auto overflow-y-hidden hide-scrollbar sm:pl-0">
       <ul className="flex justify-start sm:justify-center items-center gap-0 sm:gap-1">
-        { sortedCategories.map((category) => {
+        { adjustedCategories.map((category) => {
           const { inactive: Icon, active: ActiveIcon } = iconMapping[category.identifier];
           return (
             <Category 

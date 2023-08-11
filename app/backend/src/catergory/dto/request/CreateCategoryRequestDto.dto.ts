@@ -13,15 +13,16 @@ export class CreateCategoryRequestDto {
 
     @IsNotEmpty()
     @IsIn([
-        categoryIdentifier.BEST_SELLER,
-        categoryIdentifier.APPETIZERS,
+        categoryIdentifier.APPETIZER,
         categoryIdentifier.BURGER,
         categoryIdentifier.PIZZA,
-        categoryIdentifier.NOODLE,
-        categoryIdentifier.SOUP,
+        categoryIdentifier.NOODLES,
+        categoryIdentifier.SEAFOOD,
         categoryIdentifier.RICE,
         categoryIdentifier.BEVERAGE,
         categoryIdentifier.DESSERT,
+        categoryIdentifier.SALAD,
+        categoryIdentifier.ICECREAM,
     ])
     identifier: categoryIdentifier;
 

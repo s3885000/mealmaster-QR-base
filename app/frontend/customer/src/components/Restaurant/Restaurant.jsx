@@ -32,12 +32,12 @@ const Restaurant = ({ restaurant, loading, error, fetchRestaurantData, type }) =
 
   return (
     <div className="relative">
-      <div style={{ backgroundImage: `url(${bannerImage})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '160px', width: '100%' }} className="rounded-b-lg"></div>
+      <div style={{ backgroundImage: `url(${bannerImage})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '196px', width: '100%' }} className="rounded-b-xl"></div>
       <div className="w-299 h-120 rounded-xl bg-white shadow-lg absolute left-1/2 bottom-0 transform -translate-x-1/2 translate-y-1/3 flex flex-col items-center justify-center">
         <div className="flex flex-col items-center">
-          <div className="flex items-center justify-center pt-4 flex-wrap">
-            <img src={logoImage} alt="Restaurant Logo" className="w-12 h-12 flex-shrink-0 rounded-full"/>  
-            {restaurant && restaurant.name && <h1 className="pl-1 text-xl not-italic font-semibold tracking-wide truncate w-15">{restaurant.name}</h1>}
+          <div className="flex items-center justify-center ml-2 mt-6 flex-wrap">
+            <img src={logoImage} alt="Restaurant Logo" className="w-10 h-10 flex-shrink-0 rounded-lg"/>  
+            {restaurant && restaurant.name && <h1 className="pl-2 text-xl not-italic font-semibold tracking-normal truncate w-15">{restaurant.name}</h1>}
           </div>
           <div className="flex items-center justify-center text-xl pb-1.5">
             <StarIcon className="w-5 h-5" />

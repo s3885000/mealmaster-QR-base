@@ -1,12 +1,13 @@
 
 export enum categoryIdentifier {
-    BEST_SELLER = "best-seller",
-    APPETIZERS = "appetizers",
-    SOUP = "soup",
+    APPETIZER = "appetizer",
     BURGER = "burger",
     PIZZA = "pizza",
     DESSERT = "dessert",
-    NOODLE = "noodle",
+    NOODLES = "noodles",
     RICE = "rice",
     BEVERAGE = "beverage",
+    SALAD = "salad",
+    ICECREAM = "ice-cream",
+    SEAFOOD = "seafood",
 }

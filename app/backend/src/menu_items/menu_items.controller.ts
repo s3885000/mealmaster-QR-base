@@ -27,6 +27,11 @@ export class MenuItemsController {
         }
     }
 
+    @Get('best-sellers')
+    async findBestSellers(): Promise<MenuItem[]> {
+        return this.menuItemsService.findBestSellers();
+    }
+
     //Create item
     @Post('create')
     createMenuItem(@Body() createMenuItemDto: CreateMenuItemRequestDto): Promise<CreateMenuItemResponseDto> {

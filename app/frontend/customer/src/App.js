@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
-import { OnGoing, Cart, Home, Login, LoginPassword, MenuDetail, MenuOverview, Payment, Profile, ScanQR, SignUp, NearbyRestaurant } from './screens';
+import { OnGoing, Cart, Home, Login, LoginPassword, MenuDetail, MenuOverview, Payment, EditProfile, ScanQR, SignUp, NearbyRestaurant } from './screens';
 import { Boxes, Navigation, Popups} from './components'
 import './App.css';
 import { Provider } from 'react-redux';
@@ -29,7 +29,7 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/nearby-restaurants" element={<NearbyRestaurant />} /> 
           <Route path="/popups" element={<Popups />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<EditProfile />} />
         </Routes>
       </div>
       {shouldShowNavBar && <Navigation />}

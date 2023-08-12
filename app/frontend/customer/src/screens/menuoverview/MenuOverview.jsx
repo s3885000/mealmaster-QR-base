@@ -9,8 +9,6 @@ import { fetchBestSellers } from '../../redux/actions/menuItemsActions';
 
 const MenuOverview = () => {
   const { restaurantId, tableNo } = useParams();
-  console.log("Categories restaurantId:", restaurantId);
-  console.log("Categories tableNo:", tableNo);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,7 +22,7 @@ const MenuOverview = () => {
   useEffect(() => {
     dispatch(updateType('table_number'));
     dispatch(fetchRestaurantData(restaurantId, tableNo));
-    dispatch(fetchBestSellers(restaurantId))
+    dispatch(fetchBestSellers(restaurantId, tableNo));
   }, [dispatch, restaurantId, tableNo]);
 
   const handleDetailClick = () => {

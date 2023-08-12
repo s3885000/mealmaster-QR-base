@@ -1,26 +1,53 @@
-import { useSelector } from "react-redux"
-import { useHistory } from "react-router-dom"
+import { useSelector } from "react-redux";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
-const redirectAfterLogin = 'redirectAfterLogin';
+export const redirectAfterLogin = 'redirectAfterLogin';
 
 export const useAuthRedirect = (targetURL) => {
     // Get the authentication state from Redux
-    const { isAuthenicated } = useSelector(state => state.auth);
+    const { isAuthenticated } = useSelector(state => state.auth);
+    //console.log("Authentication status:", isAuthenticated);
 
-    // Access the history object to navigate to other routes
-    const history = useHistory();
+    // Access the navigate function from React Router v6 to navigate to other routes
+    const navigate = useNavigate();
+
+    // Access the current location
+    const location = useLocation();
+
+    
 
     useEffect(() => {
-        if (!isAuthenicated) {
-            //Save the target URL to localStorage so that can redirect back to it after login
-            localStorage.setItem(redirectAfterLogin, targetURL);
-            history.push('/login'); 
-        }else {
-            //If the user is already logged in, redirect to the target URL if it's provided
-            if (targetURL) {
-                history.push(targetURL);
+        // console.log("Current path:", location.pathname);
+        // console.log("Provided targetURL:", targetURL);
+        // console.log("Stored redirectAfterLogin:", localStorage.getItem(redirectAfterLogin));
+
+
+        // Exclusion list
+        const exclusionRoutes = ['/login-password'];
+
+        // Check if the current route is in the exclusion list
+        if (exclusionRoutes.includes(location.pathname)) {
+            return;
+        }
+
+        if (!isAuthenticated) {
+            if (!localStorage.getItem(redirectAfterLogin) && targetURL !== "/login") {
+                // console.log("Setting redirectAfterLogin to:", targetURL);
+                localStorage.setItem(redirectAfterLogin, targetURL);
+            } else if (localStorage.getItem(redirectAfterLogin) === '/login') {
+                localStorage.removeItem(redirectAfterLogin); // Clear the wrong value
+            }
+            navigate('/login'); 
+        
+        } else {
+            // If the user is already logged in, redirect to the target URL if it's provided
+            const redirectURL = localStorage.getItem(redirectAfterLogin) || targetURL || '/home';
+            localStorage.removeItem(redirectAfterLogin);
+            if (location.pathname !== redirectURL) {
+                // console.log("Redirecting to stored/target URL:", redirectURL);
+                navigate(redirectURL);
             }
         }
-    }, [isAuthenicated, targetURL, history]);
+    }, [isAuthenticated, targetURL, navigate, location.pathname]);
 }

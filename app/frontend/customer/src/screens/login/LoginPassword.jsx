@@ -3,7 +3,7 @@ import { Logo } from '../../asset/images/mealmaster_logo/index.js';
 import { Buttons } from '../../components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { loginUser } from '../../redux/actions/authThunk.js';
+import { loginUser } from '../../redux/actions/authentication/authThunk.js';
 
 const LoginPassword = () => {
     const location = useLocation();

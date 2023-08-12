@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export const fetchMenuItems = (restaurantId, categoryId, tableNo) => {
-    console.log('fetchMenuItems tableNo:', tableNo);
     return async (dispatch) => {
         dispatch(fetchMenuItemsRequest());
 
@@ -21,7 +20,8 @@ export const fetchMenuItems = (restaurantId, categoryId, tableNo) => {
 }
 
 export const fetchBestSellers = (restaurantId, tableNo) => {
-    console.log('fetchBestSellers tableNo:', tableNo);
+    console.log('Restaurant ID:', restaurantId);
+    console.log('Table No:', tableNo);
     return async (dispatch) => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/restaurant/${restaurantId}/table/${tableNo}/best-sellers`, { withCredentials: true });

@@ -31,7 +31,7 @@ const Items = ({ type, restaurantId, categoryId }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(restaurantId && categoryId && tableNo) {
+    if(restaurantId && categoryId !== undefined && tableNo !== undefined) {
         dispatch(fetchMenuItems(restaurantId, categoryId, tableNo));
     }
   }, [dispatch, restaurantId, categoryId, tableNo]);
@@ -44,10 +44,6 @@ const Items = ({ type, restaurantId, categoryId }) => {
   if (error) {
     return <div>{error}</div>
   }
-
-  const handleDetailClick = () => {
-    navigate('/menu-detail');
-  };
 
   const togglePopup = () => {
     setPopupVisible(!popupVisible);

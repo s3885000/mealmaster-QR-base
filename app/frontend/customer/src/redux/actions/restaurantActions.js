@@ -6,7 +6,6 @@ export const fetchRestaurantData = ( restaurantId, tableNo ) => {
 
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/restaurant/${restaurantId}/table/${tableNo}`, { withCredentials: true });
-            console.log('API Response:', response.data);
             dispatch(fetchRestaurantSuccess(response.data));
 
         } catch (error) {

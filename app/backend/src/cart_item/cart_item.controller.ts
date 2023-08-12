@@ -27,8 +27,8 @@ export class CartItemController {
 
   // Create cart item
   @Post('create')
-  createCartItem(@Body() createCartItemDto: CreateCartItemRequestDto): Promise<CreateCartItemResponseDto> {
-    return this.cartItemService.create(createCartItemDto);
+  createCartItem(@Body() createCartItemDto: CreateCartItemRequestDto, @Body('cartId') cartId: number): Promise<CreateCartItemResponseDto> {
+    return this.cartItemService.create(createCartItemDto, cartId);
   }
 
   // Update cart item

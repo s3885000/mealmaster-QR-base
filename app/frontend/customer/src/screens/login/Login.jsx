@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Logo } from '../../asset/images/mealmaster_logo/index.js';
 import { Buttons } from '../../components';
 import { useDispatch } from 'react-redux';
-import { loginUser, checkPhoneNumber } from '../../redux/actions/authThunk.js';
+import { loginUser, checkPhoneNumber } from '../../redux/actions/authentication/authThunk.js';
 import { useSelector } from 'react-redux';
+import { redirectAfterLogin } from '../../hooks/useAuthRedirect';
 
 const Login = () => {
-    const { restaurantId, tableNo } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -38,12 +38,15 @@ const Login = () => {
 
     };
 
-    const handleGuestClick = () => {
-        //Trigger login action with guest flag
-        dispatch(loginUser({}, true));
-        navigate('/guest'); 
-    };
-
+    const handleGuestClick = async () => {
+        const success = await dispatch(loginUser({}, true));
+        if (success) {
+          const redirectURL = localStorage.getItem(redirectAfterLogin) || '/default-url';
+          localStorage.removeItem(redirectAfterLogin);
+          navigate(redirectURL);
+        }
+      };
+    
     const handleSignupClick = () => {
         navigate('/signup'); 
     };

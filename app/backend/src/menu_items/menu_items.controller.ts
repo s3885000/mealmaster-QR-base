@@ -27,10 +27,6 @@ export class MenuItemsController {
         }
     }
 
-    @Get('restaurant/:restaurantId/table/:tableNo/best-sellers')
-    async findBestSellersByRestaurantAndTable(@Param('restaurantId') restaurantId: number, @Param('tableNo') tableNo: number): Promise<MenuItem[]> {
-        return this.menuItemsService.findBestSellersByRestaurantAndTable(restaurantId, tableNo);
-    }
     
     //Create item
     @Post('create')

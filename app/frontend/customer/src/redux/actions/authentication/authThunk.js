@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { loginSuccess, loginFailure, logout, checkPhoneNumberSuccess, checkPhoneNumberFailure, checkPhoneNumberRequest } from './authActions';
+import { loginSuccess, loginFailure, logout, checkPhoneNumberSuccess, checkPhoneNumberFailure, checkPhoneNumberRequest,} from './authActions';
 
 export const checkPhoneNumber = (phoneNumber) => {
   return async (dispatch) => {
@@ -40,11 +40,13 @@ export const loginUser = (credentials, isGuest = false) => {
       }
 
     } catch (error) {
-        console.log('Login error:', error.response ? error.response.data : error);
+      console.log('Login error:', error.response ? error.response.data : error);
       dispatch(loginFailure(error));
+      return false;
     }
   };
 };
+
 
 export const logoutUser = () => {
   return async (dispatch) => {

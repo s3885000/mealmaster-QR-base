@@ -1,8 +1,10 @@
-import { AUTH_LOGIN_SUCCESS, AUTH_LOGIN_FAILURE, AUTH_LOGOUT, CHECK_PHONE_NUMBER_REQUEST, CHECK_PHONE_NUMBER_SUCCESS, CHECK_PHONE_NUMBER_FAILURE } from "../actions/authActions";
+import { AUTH_LOGIN_SUCCESS, AUTH_LOGIN_FAILURE, AUTH_LOGOUT, CHECK_PHONE_NUMBER_REQUEST, CHECK_PHONE_NUMBER_SUCCESS, CHECK_PHONE_NUMBER_FAILURE } from "../../actions/authentication/authActions";
 
 const initialState = {
-    isAuthenticated: false,
-    user: null,
+    isAuthenticated: !!localStorage.getItem('accessToken'),
+    user: {
+        accessToken: localStorage.getItem('accessToken'),
+    },
     error: null,
     checkingPhoneNumber: false,
     phoneNumberExists: null,

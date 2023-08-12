@@ -30,7 +30,7 @@ const MenuDetail = () => {
   };
 
   const handleBackClick = () => {
-    navigate('/menu-overview');
+    navigate(-1);
   };
 
   const handleAddToCartClick = () => {
@@ -55,12 +55,12 @@ const MenuDetail = () => {
   return (
     <div className='relative flex flex-col items-start justify-start h-screen px-0 pt-0 space-y-8 overflow-y-auto'>
       <div className='relative w-full'>
-        <Buttons context='back' className='absolute top-6 left-6 z-50' onClick={handleBackClick}/>
+        <Buttons context='back' className='absolute top-7 left-6 z-50 drop-shadow-2xl' onClick={handleBackClick}/>
         <div className="w-full h-80 relative z-10">
           <Carousel 
             showStatus={false} 
             showThumbs={false} 
-            className="w-full h-full absolute top-0 left-0"
+            className="w-full h-full absolute top-4 left-0"
             renderArrowPrev={(onclickHandler, hasPrev) => hasPrev && (
               <div onClick={onclickHandler} className='carousel-control-prev'/>
             )}
@@ -81,15 +81,15 @@ const MenuDetail = () => {
         <div className='w-full truncate mb-4'>
           <h2 className='text-3xl font-bold'>{menuItem?.name}</h2>
         </div>
-        <p className='text-l text-justify mb-3.5 font-normal leading-5'>{menuItem?.description}</p>
+        <p className='first-word-spacing text-l text-justify mb-1 font-light leading-5'>{menuItem?.description}</p>
 
       </div>
 
-      <div className="flex flex-col justify-end w-full sticky bottom-1 bg-white py-3">
-        <div className='mb-3.5 mt-5'>
+      <div className="flex flex-col justify-end w-full sticky bottom-1 bg-white pb-3 pt-2">
+        <div className='mb-3.5'>
           <label className='text-lg font-medium my-1'>Note to restaurant</label>
           <textarea
-            className='px-2 text-l bg-gray opacity-50 text-black font-medium rounded-lg w-full h-15 resize-none mt-2'
+            className=' textarea-placeholder px-2 text-l bg-gray opacity-50 text-black font-medium rounded-lg w-full h-15 resize-none mt-2'
             name='foodItemNotes'
             onChange={handleChange}
             placeholder='Enter your notes here'

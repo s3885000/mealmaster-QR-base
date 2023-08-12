@@ -9,8 +9,6 @@ const initialState = {
 };
 
 export const authReducer = (state = initialState, action) => {
-    console.log('Current State:', state);
-    console.log('Action:', action);
     switch (action.type) {
         //Check valid phone number action handler
         case CHECK_PHONE_NUMBER_REQUEST:

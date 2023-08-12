@@ -27,11 +27,11 @@ export class MenuItemsController {
         }
     }
 
-    @Get('best-sellers')
-    async findBestSellers(): Promise<MenuItem[]> {
-        return this.menuItemsService.findBestSellers();
+    @Get('restaurant/:restaurantId/table/:tableNo/best-sellers')
+    async findBestSellersByRestaurantAndTable(@Param('restaurantId') restaurantId: number, @Param('tableNo') tableNo: number): Promise<MenuItem[]> {
+        return this.menuItemsService.findBestSellersByRestaurantAndTable(restaurantId, tableNo);
     }
-
+    
     //Create item
     @Post('create')
     createMenuItem(@Body() createMenuItemDto: CreateMenuItemRequestDto): Promise<CreateMenuItemResponseDto> {

@@ -28,6 +28,10 @@ export class CategoryService {
         return this.categoryRepository.find({ where: { restaurant: { id: restaurantId }}});
     }
 
+    async findByRestaurant(restaurantId: number): Promise<Category[]> {
+        return this.categoryRepository.find({ where: { restaurant: { id: restaurantId }}});
+    }
+
     async findItemsByRestaurantAndCategory(restaurantId: number, categoryId: number): Promise<MenuItem[]> {
         const category = await this.categoryRepository.findOne({ where: { id: categoryId, restaurant: { id: restaurantId }}, relations: ['items']});
         

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { HaidilaoLogo } from '../../asset/images/restaurant_info/haidilao/logo/index.js';
 import { FoodTwo } from '../../asset/images/restaurant_info/haidilao/food/index.js';
 import { Buttons, Popups } from '../../components'; 
@@ -18,6 +18,8 @@ const ItemContainer = ({ children }) => (
 );
 
 const Items = ({ type, restaurantId, categoryId }) => {
+  const { tableNo } = useParams();
+
   const [counter, setCounter] = useState(0);
   const [popupVisible, setPopupVisible] = useState(false);
 
@@ -29,8 +31,11 @@ const Items = ({ type, restaurantId, categoryId }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchMenuItems(restaurantId, categoryId));
-  }, [dispatch, restaurantId, categoryId])
+    if(restaurantId && categoryId && tableNo) {
+        dispatch(fetchMenuItems(restaurantId, categoryId, tableNo));
+    }
+  }, [dispatch, restaurantId, categoryId, tableNo]);
+
 
   if (loading) {
     return <div>Loading...</div>
@@ -49,6 +54,32 @@ const Items = ({ type, restaurantId, categoryId }) => {
   }
 
   switch(type) {
+    case 'best_sellers':
+      return Array.isArray(menuItems) ? menuItems.map(( item, index ) => {
+        const imageURL = item.images && item.images[0] ? item.images[0].image_url : null;
+        if (!item.images || !item.images[0]) {
+          return null;
+        }
+
+        const handleDetailClick = () => {
+          navigate(`/menu-detail/${item.id}`);
+        };
+
+        return (
+        <ItemContainer key={index} className="flex justify-between items-center">
+          <img src={imageURL} alt={item.name} className="flex-shrink-0 flex-grow-0 w-22 h-22 rounded-lg" onClick={handleDetailClick} />
+          <div className="flex-grow ml-2 overflow-hidden">
+            <p className="text-lg font-semibold truncate">{item.name}</p>
+            <p className="text-sm text-placeholders truncate">{item.description}</p>
+            <p className="mt-3.5 text-lg font-semibold">{formatPrice(item.price)}đ</p>
+          </div>
+          <div className="flex-shrink-0 flex-grow-0 ml-2 min-w-10">
+            <Buttons context='plus' count={counter} setCount={setCounter}/>
+          </div>
+        </ItemContainer>
+      );
+    }) : null;
+    
     case 'food_item':
       return Array.isArray(menuItems) ? menuItems.map(( item, index ) => {
         const imageURL = item.images && item.images[0] ? item.images[0].image_url : null;

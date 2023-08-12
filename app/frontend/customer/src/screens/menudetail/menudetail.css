@@ -34,3 +34,13 @@
   .carousel-control-next {
     right: 0;
   }
+
+  .first-word-spacing::before {
+    content: "\00a0\00a0\00a0"; 
+    display: inline;
+}
+
+.textarea-placeholder::placeholder {
+  padding-top: 10px; 
+  line-height: normal;
+}

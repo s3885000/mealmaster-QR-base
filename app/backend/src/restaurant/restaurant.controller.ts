@@ -13,6 +13,7 @@ import { TableService } from 'src/table/table.service';
 import { Category } from 'src/catergory/entity/category.entity';
 import { CategoryService } from 'src/catergory/category.service';
 import { MenuItem } from 'src/menu_items/entity/menu_item.entity';
+import { MenuItemsService } from 'src/menu_items/menu_items.service';
 
 @Controller('restaurant')
 @UseGuards(RolesGuard)
@@ -21,6 +22,7 @@ export class RestaurantController {
         private readonly restaurantService: RestaurantService,
         private readonly tableService: TableService,
         private readonly categoryService: CategoryService,
+        private readonly menuItemsService: MenuItemsService,
         ) {}
 
     //Get all restaurants
@@ -57,7 +59,12 @@ export class RestaurantController {
         return this.categoryService.findItemsByRestaurantAndCategory(restaurantId, categoryId);
     }
 
-
+    //Get best seller items by restaurant and table number
+    @Get(':restaurantId/table/:tableNo/best-sellers')
+    async findBestsellersByRestaurantAndTable(@Param('restaurantId') restaurantId: number, @Param('tableNo') tableNo: number): Promise<MenuItem[]> {
+        return this.menuItemsService.findBestSellersByRestaurantAndTable(restaurantId, tableNo)
+    }
+    
     //Create restaurant
     @Roles(UserRole.RESTAURANT_OWNER)
     @Post('create')

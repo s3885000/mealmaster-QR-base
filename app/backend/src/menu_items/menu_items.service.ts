@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { In, Repository } from "typeorm";
 import { MenuItem } from "./entity/menu_item.entity";
 import { CreateMenuItemRequestDto } from "./dto/request/CreateMenuItemRequestDto.dto";
 import { CreateMenuItemResponseDto } from "./dto/response/CreateMenuItemResponseDto.dto";
@@ -8,6 +8,7 @@ import { CategoryService } from "src/catergory/category.service";
 import { Image } from "./entity/image.entity";
 import { UpdateMenuItemRequestDto } from "./dto/request/UpdateMenuItemRequestDto.dto";
 import { UpdateMenuItemResponseDto } from "./dto/response/UpdateMenuItemResponseDto.dto";
+import { TableService } from "src/table/table.service";
 
 
 @Injectable()
@@ -17,7 +18,8 @@ export class MenuItemsService {
         private menuItemRepository: Repository<MenuItem>,
         private readonly categoryService: CategoryService,
         @InjectRepository(Image)
-        private imageRepository: Repository<Image>
+        private imageRepository: Repository<Image>,
+        private readonly tableService: TableService
     ) {}
 
     async findAll(): Promise<MenuItem[]> {
@@ -33,10 +35,23 @@ export class MenuItemsService {
         }
     }
 
-    async findBestSellers(): Promise<MenuItem[]> {
-        return this.menuItemRepository.find({ where: { is_best_seller: true }, relations: ['images'] });
+    async findBestSellersByRestaurantAndTable(restaurantId: number, tableNo: number): Promise<MenuItem[]> {
+        // First, validate the restaurant and table combination
+        await this.tableService.findByRestaurantAndTableNumber(restaurantId, tableNo);
+    
+        // Fetch categories associated with Restaurant
+        const categories = await this.categoryService.findByRestaurant(restaurantId);
+    
+        // Get category id
+        const categoryIds = categories.map(category => category.id);
+    
+        // Find best sellers under those categories.
+        return this.menuItemRepository.find({
+            where: { is_best_seller: true, category: { id: In(categoryIds) } },
+            relations: ['images']
+        });
     }
-
+    
 
     async create(createMenuItemDto: CreateMenuItemRequestDto): Promise<CreateMenuItemResponseDto> {
         const {category_id, name, description, price, is_best_seller, status} = createMenuItemDto;

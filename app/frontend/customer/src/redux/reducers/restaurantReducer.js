@@ -29,12 +29,31 @@ export const restaurantReducer = (state = initialState, action) => {
             };
 
         case 'FETCH_RESTAURANT_FAILURE':
+            console.log('Error:', action.payload);
             return {
                 ...state,
                 loading: false,
                 restaurant: [],
                 error: action.payload,
             }
+
+        case 'SET_RESTAURANT_ID':
+            return {
+                ...state,
+                restaurantId: action.payload
+            };
+
+        case 'SET_TABLE_NO':
+            return {
+                ...state,
+                tableNo: action.payload
+            };
+
+        case 'SET_CURRENT_CATEGORY':
+            return {
+                ...state,
+                currentCategoryId: action.payload
+            };
         
         default:
             return state;

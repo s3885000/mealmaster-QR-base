@@ -8,6 +8,7 @@ import { ResAddressService } from 'src/res_address/res_address.service';
 import { TableModule } from 'src/table/table.module';
 import { CategoryModule } from 'src/catergory/category.module';
 import { User } from 'src/user/entity/user.entity';
+import { MenuItemsModule } from 'src/menu_items/menu_items.module';
 
 
 @Module({
@@ -15,6 +16,7 @@ import { User } from 'src/user/entity/user.entity';
         TypeOrmModule.forFeature([Restaurant, ResAddress, User]),
         TableModule,
         CategoryModule,
+        MenuItemsModule
     ],
     controllers: [RestaurantController],
     providers: [RestaurantService, ResAddressService],

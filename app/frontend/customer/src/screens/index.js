@@ -8,6 +8,7 @@ export { default as MenuOverview } from './menuoverview/MenuOverview';
 export { default as NearbyRestaurant } from './nearby-restaurant/NearbyRestaurant';
 export { default as Payment } from './payment/Payment';
 export { default as Profile } from './profile/Profile';
+export { default as EditProfile } from './edit-profile/EditProfile';
 export { default as ScanQR } from './scanqr/ScanQr';
 export { default as SignUp } from './signup/Signup';
 

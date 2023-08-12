@@ -12,6 +12,7 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     apply: 'Apply',
     close: 'Close',
     logout: 'Logout',
+    save: 'Save',
     add_more: 'Add more Items',
     scan_qr: 'Scan QR',
     continue: 'Continue',

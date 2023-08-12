@@ -6,3 +6,4 @@ export { ReactComponent as FilterIcon } from './filter.svg';
 export { ReactComponent as OnGoingIcon } from './ongoing.svg';
 export { ReactComponent as QRCodeIcon } from './qrcode.svg';
 export { ReactComponent as SearchIcon } from './search.svg';
+export { ReactComponent as ViewIcon } from './view.svg';

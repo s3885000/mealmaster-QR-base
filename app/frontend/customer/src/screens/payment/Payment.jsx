@@ -1,38 +1,41 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Buttons } from '../../components';
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
 const Payment = () => {
-  const [cardholderName, setCardholderName] = useState('');
-  const [cardNumber, setCardNumber] = useState('');
-  const [expirationDate, setExpirationDate] = useState('');
-  const [cvv, setCvv] = useState('');
-
-  const setInputState = {
-    cardholderName: setCardholderName,
-    cardNumber: setCardNumber,
-    expirationDate: setExpirationDate,
-    cvv: setCvv
-  };
-
-  const handleChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setInputState[name](value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log({cardholderName, cardNumber, expirationDate, cvv});
-  }
+  const stripe = useStripe();
+  const elements = useElements();
   const navigate = useNavigate();
 
-    const handleBackClick = () => {
-        navigate('/cart');
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!stripe || !elements) {
+      // Stripe.js has not yet loaded.
+      return;
+    }
+
+    const cardElement = elements.getElement(CardElement);
+
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: 'card',
+      card: cardElement,
+    });
+
+    if (error) {
+      console.log('[error]', error);
+    } else {
+      console.log('[PaymentMethod]', paymentMethod);
+      // You can now send the paymentMethod.id to your server for further processing
+    }
+  }
+
+  const handleBackClick = () => {
+      navigate('/cart');
+  };
 
   return (
-    //Title for the page
     <div className='flex flex-col items-center justify-start h-screen px-5 pt-20 space-y-6'>
       <div className='flex items-center justify-between w-full mb-5'>
         <Buttons context='back' className='mr-6' onClick={handleBackClick}/>
@@ -41,47 +44,9 @@ const Payment = () => {
       <form onSubmit={handleSubmit} className='w-full'>
         <div className='flex flex-col items-center w-full space-y-5'>
           <label className='w-full flex flex-col items-center'>
-            <span className='text-left w-80'>Cardholder Name</span>
-            <input
-              className='px-7 text-sm bg-tertiary text-black font-medium rounded-lg w-80 h-10'
-              type='text'
-              name='cardholderName'
-              onChange={handleChange}
-              placeholder=''
-            />
+            <span className='text-left w-80'>Card Details</span>
+            <CardElement className='px-7 text-sm bg-tertiary text-black font-medium rounded-lg w-80 h-10' />
           </label>
-          <label className='w-full flex flex-col items-center'>
-            <span className='text-left w-80'>Card Number</span>
-            <input
-              className='px-7 text-sm bg-tertiary text-black font-medium rounded-lg w-80 h-10'
-              type='text'
-              name='cardNumber'
-              onChange={handleChange}
-              placeholder=''
-            />
-          </label>
-          <div className='flex space-x-1 justify-center w-full'>
-            <label className='w-full flex flex-col items-center'>
-              <span className='text-left w-36'>Expiration Date</span>
-              <input
-                className='px-7 text-sm bg-tertiary text-black font-medium rounded-lg w-36 h-10'
-                type='text'
-                name='expirationDate'
-                onChange={handleChange}
-                placeholder=''
-              />
-            </label>
-            <label className='w-full flex flex-col items-center'>
-              <span className='text-left w-36'>CVV</span>
-              <input
-                className='px-7 text-sm bg-tertiary text-black font-medium rounded-lg w-36 h-10'
-                type='text'
-                name='cvv'
-                onChange={handleChange}
-                placeholder=''
-              />
-            </label>
-          </div>
         </div>
         <div className="flex justify-center w-full mt-2">
           <Buttons context="add_card" onClick={handleBackClick}></Buttons>

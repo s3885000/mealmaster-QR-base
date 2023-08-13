@@ -16,7 +16,7 @@ const Navigation = () => {
   const location = useLocation();
 
   return (
-    <nav className="fixed bottom-0 z-10 flex bg-white w-full h-16 lg:h-full lg:w-20 lg:flex-col lg:left-0 lg:py-4 lg:px-4">
+    <nav className="fixed bottom-0 z-10 flex bg-white w-full h-16 p-2 lg:h-full lg:w-20 lg:flex-col lg:left-0 lg:py-4 lg:px-4">
       <div className="hidden lg:flex lg:justify-center w-full mb-4">
         <Logo className='w-20 h-20 rounded-xl'/> 
       </div>

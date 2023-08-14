@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Buttons, Items, Popups } from '../../components';
 
 const Cart = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [popupVisible, setPopupVisible] = useState(false);
   const [cartEmpty, setCartEmpty] = useState(false);
 
@@ -22,6 +23,13 @@ const Cart = () => {
     }
   }
 
+  useEffect(() => {
+    // Check if the current location state has a 'fromPayment' key and set the cart to empty
+    if (location.state?.fromPayment) {
+      setCartEmpty(true);
+    }
+  }, [location]);
+
   return (
     <div className='flex flex-col items-center justify-start min-h-screen px-5 pt-20 space-y-3 overflow-y-auto'>
       <div className='flex items-center justify-between w-full mb-5'>
@@ -31,7 +39,7 @@ const Cart = () => {
 
       {cartEmpty ? (
         <div className='flex flex-col items-center justify-center h-full space-y-3'>
-          <p className='text-center'>Your cart is currently empty, please add more item to view your cart.</p>
+          <p className='text-center'>Your cart is currently empty, please add more items to view your cart.</p>
         </div>
       ) : (
         <>

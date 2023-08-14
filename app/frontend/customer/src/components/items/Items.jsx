@@ -105,7 +105,7 @@ const Items = ({ type, restaurantId, categoryId }) => {
     case 'food_item_cart':
       return (
         <>
-          <ItemContainer>
+          <ItemContainer className="rounded-xl">
             <FoodTwo className="w-16 h-16 rounded-xl" />
             <div className="flex flex-col flex-grow ml-2">
               <p className="text-lg font-medium">Spicy fresh crab</p>

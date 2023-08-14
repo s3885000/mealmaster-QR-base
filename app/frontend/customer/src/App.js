@@ -1,7 +1,7 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { OnGoing, Cart, Home, Login, LoginPassword, MenuDetail, MenuOverview, Payment, Profile, ScanQR, SignUp, NearbyRestaurant } from './screens';
-import { Boxes, Navigation, Popups} from './components'
+import { Boxes, Navigation, Popups } from './components'
 import './App.css';
 import { Provider } from 'react-redux';
 import store from './redux/store'
@@ -13,6 +13,15 @@ const stripePromise = loadStripe("pk_test_51NeUwHG8F2Gq2NFCGiVzCgCjO6HGSidP13Ej5
 
 const App = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const PaymentSuccess = () => {
+    useEffect(() => {
+      navigate('/cart');
+    }, [navigate]);
+
+    return null;  
+  };
 
   useAuthRedirect(location.pathname);
 
@@ -27,12 +36,12 @@ const App = () => {
           <Route path="/login-password" element={<LoginPassword />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/payment" element={<Payment />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/scanqr" element={<ScanQR />} />
           <Route path="/boxes" element={<Boxes />} />
           <Route path="/on-going" element={<OnGoing />} />
           <Route path="/menu-detail/:itemId" element={<MenuDetail />} />
           <Route path="/menu-overview/:restaurantId/table/:tableNo" element={<MenuOverview />} />
-          {/* <Route path="/menu-overview" element={<MenuOverview />} /> */}
           <Route path="/cart" element={<Cart />} />
           <Route path="/nearby-restaurants" element={<NearbyRestaurant />} /> 
           <Route path="/popups" element={<Popups />} />

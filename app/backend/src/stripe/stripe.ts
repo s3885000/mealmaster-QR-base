@@ -1,8 +1,8 @@
-const express = require('express');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY); 
-const dotenv = require('dotenv');
-const cors = require('cors');
-const fetch = require('node-fetch');
+import express from 'express';
+import stripePackage from 'stripe';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import fetch from 'node-fetch';
 
 dotenv.config();
 
@@ -11,18 +11,22 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-async function fetchCartDetails() {
-    try {
-        const response = await fetch('http://your-actual-api-endpoint.com/cart'); // Update this
-        if (!response.ok) {
-            throw new Error("Failed to fetch cart details");
-        }
-        const data = await response.json();
-        return data.items; 
-    } catch (error) {
-        console.error("Error fetching cart details:", error);
-        throw error;
+interface CartItem {
+    name: string;
+    currency: string;
+    unit_amount: number;
+    quantity: number;
+}
+
+const stripe = new stripePackage(process.env.STRIPE_SECRET_KEY as string);
+
+async function fetchCartDetails(): Promise<CartItem[]> {
+    const response = await fetch('http://your-api-endpoint.com/cart');
+    if (!response.ok) {
+        throw new Error("Failed to fetch cart details");
     }
+    const data = await response.json() as { items: CartItem[] };
+    return data.items;
 }
 
 app.post('/payment', async (req, res) => {
@@ -44,18 +48,18 @@ app.post('/payment', async (req, res) => {
             payment_method_types: ['card'],
             line_items,
             mode: 'payment',
-            success_url: '/cart',
-            cancel_url: '/payment',
+            success_url: 'http://localhost:3000/cart',
+            cancel_url: 'http://localhost:3000/payment',
         });
 
         res.json({ id: session.id });
     } catch (error) {
-        console.error("Error creating Stripe session:", error);
+        console.error("Error:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
 
-const PORT = 4000; 
+const PORT = 4000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

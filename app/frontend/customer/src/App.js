@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import { OnGoing, Cart, Home, Login, LoginPassword, MenuDetail, MenuOverview, Payment, Profile, ScanQR, SignUp, NearbyRestaurant } from './screens';
 import { Boxes, Navigation, Popups } from './components'
 import './App.css';
@@ -9,19 +9,10 @@ import { useAuthRedirect } from './hooks/useAuthRedirect';
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
-const stripePromise = loadStripe("pk_test_51NeUwHG8F2Gq2NFCGiVzCgCjO6HGSidP13Ej5G4PszuEM4HRC4ZR8k7culS9UNotBLyPpr7wNcFNzx4JlA5y3S3j00V58hXZLd");
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
 const App = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-
-  const PaymentSuccess = () => {
-    useEffect(() => {
-      navigate('/cart');
-    }, [navigate]);
-
-    return null;  
-  };
 
   useAuthRedirect(location.pathname);
 
@@ -36,7 +27,6 @@ const App = () => {
           <Route path="/login-password" element={<LoginPassword />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/payment" element={<Payment />} />
-          <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/scanqr" element={<ScanQR />} />
           <Route path="/boxes" element={<Boxes />} />
           <Route path="/on-going" element={<OnGoing />} />

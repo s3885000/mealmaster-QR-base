@@ -1,1 +1,1 @@
-export { ReactComponent as ProfilePic } from './profilepic.svg';
+export { ReactComponent as ProfilePic } from './profile_pic.svg';

@@ -29,6 +29,8 @@
     "@nestjs/schedule": "^2.2.3",
     "@nestjs/typeorm": "^9.0.1",
     "@nestjsplus/cookies": "^1.1.1",
+    "@stripe/react-stripe-js": "^2.1.2",
+    "@stripe/stripe-js": "^2.0.0",
     "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
@@ -43,6 +45,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "short-uuid": "^4.2.2",
+    "stripe": "^12.18.0",
     "typeorm": "^0.3.16",
     "uuidv4": "^6.2.13"
   },

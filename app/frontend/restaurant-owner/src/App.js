@@ -1,39 +1,26 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AddIcon, DeleteIcon, DownloadIcon, EditIcon, FilterIcon, OnGoingIcon, QRCodeIcon, SearchIcon, ViewIcon} from './asset/icons/button';
-import { Navigation, Buttons } from './components'
+import { Navigation, Header, Items } from './components'
+import './App.css';
 
 const App = () => {
   return (
     <Router>
+      <Header />
       <Navigation />
-      <div className="min-h-screen flex flex-col justify-center items-center space-y-4"> {/* Added centering styles */}
-        <Buttons context='create_account_login' /> 
-        <Buttons context='create_account_signup' /> 
-        <Buttons context='login' />
-        <Buttons context='already' />
-        <Buttons context='email' />
-        <Buttons context='cancel' />
-        <Buttons context='on_going' />
-        <Buttons context='update' />
-        <Buttons context='details' />
-        <Buttons context='accept' />
-        <Buttons context='decline' />
-        <Buttons context='save' />
-        <Buttons context='ready' />
-        <Buttons context='add_icon' />
-        <Buttons context='download' />
-        <Buttons context='delete' />
-        <EditIcon />
-        <FilterIcon />
-        <OnGoingIcon />
-        <QRCodeIcon />
-        <SearchIcon />
-        <ViewIcon />
+      <div className="main-content">
+        <Items type="tables" />
+        <Items type="categories" state="active" />
+        <Items type="categories" state="inactive" />
+        <Items type="food_item" state="active" />
+        <Items type="food_item" state="inactive" />
+        <Items type="orders" state="in_progress" />
+        <Items type="orders" state="active" />
+        <Items type="orders" state="inactive" />
+        <Routes>
+          <Route path="/navigation" element={<Navigation />} /> 
+        </Routes>
       </div>
-      <Routes>
-        <Route path="/navigation" element={<Navigation />} /> 
-      </Routes>
     </Router>
   );
 };

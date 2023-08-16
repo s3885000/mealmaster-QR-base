@@ -6,6 +6,10 @@ import './App.css';
 import { Provider } from 'react-redux';
 import store from './redux/store'
 import { useAuthRedirect } from './hooks/useAuthRedirect';
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+
+const stripePromise = loadStripe("pk_test_51NeUwHG8F2Gq2NFCGiVzCgCjO6HGSidP13Ej5G4PszuEM4HRC4ZR8k7culS9UNotBLyPpr7wNcFNzx4JlA5y3S3j00V58hXZLd");
 
 const App = () => {
   const location = useLocation();
@@ -48,8 +52,10 @@ const LocationProvider = () => {
 const AppWrapper = () => {
   return (
     <Router>
-      <Provider store={store}> {/* Provider the Redux store to the app */}
-      <LocationProvider />
+      <Provider store={store}>
+        <Elements stripe={stripePromise}>
+          <LocationProvider />
+        </Elements>
       </Provider>
     </Router>
   );

@@ -40,8 +40,8 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     login: 'bg-primary rounded-md text-white font-bold',
     create_account_signup: 'bg-primary rounded-md text-white font-bold',
     email: 'bg-primary rounded-md text-white font-bold',
-    cancel: 'bg-white text-red-500 border-2 border-red-500',
-    decline: 'bg-white text-red-500 border-2 border-red-500',
+    cancel: 'bg-white text-error border-2 border-error',
+    decline: 'bg-white text-error border-2 border-error',
     save: 'bg-primary text-white rounded-md',
     add: 'bg-primary text-white rounded-md',
     update: 'bg-primary text-white rounded-md',
@@ -51,7 +51,8 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     ready: 'bg-primary text-white rounded-md',
     add_icon: 'bg-primary text-white rounded-md flex flex-col items-center justify-center',
     download: 'bg-primary text-white rounded-md flex flex-col items-center justify-center',
-    delete: 'bg-error text-white rounded-md flex flex-col items-center justify-center'
+    delete: 'bg-error text-white rounded-md flex flex-col items-center justify-center',
+    on_going_icon: 'border-2 border-primary text-primary rounded-md flex items-center justify-center',
   };
 
   // Button size
@@ -73,6 +74,7 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     add_icon: 'w-[50px] h-[50px] rounded-[12px]',
     download: 'w-[50px] h-[50px] rounded-[12px]',
     delete: 'w-[50px] h-[50px] rounded-[12px]',
+    on_going_icon: 'w-[40px] h-[40px] rounded-[12px]',
   };
 
   let buttonContent = buttonContentContexts[context] || 'Default Content';

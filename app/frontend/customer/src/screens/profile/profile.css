@@ -1,0 +1,4 @@
+.first-word-spacing::before {
+    content: "\00a0\00a0\00a0"; 
+    display: inline;
+}

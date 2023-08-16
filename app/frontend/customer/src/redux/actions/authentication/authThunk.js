@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../../../services/api';
 import { loginSuccess, loginFailure, logout, checkPhoneNumberSuccess, checkPhoneNumberFailure, checkPhoneNumberRequest,} from './authActions';
 
 export const checkPhoneNumber = (phoneNumber) => {
@@ -6,9 +6,8 @@ export const checkPhoneNumber = (phoneNumber) => {
     dispatch(checkPhoneNumberRequest());
 
     try {
-      const url = `${process.env.REACT_APP_API_BASE_URL}/auth/validate-phone-number`;
-      const response = await axios.post(url, { phone_number: phoneNumber });
-      console.log('Server Response:', response.data);
+      const response = await api.post('/auth/validate-phone-number', { phone_number: phoneNumber });
+      //console.log('Server Response:', response.data);
       dispatch(checkPhoneNumberSuccess(response.data.valid));
     } catch (error) {
       console.log( 'Phone number check error: ' + error.response ? error.response.data : error );
@@ -21,10 +20,10 @@ export const loginUser = (credentials, isGuest = false) => {
   return async (dispatch) => {
     try {
       const url = isGuest
-        ? `${process.env.REACT_APP_API_BASE_URL}/auth/guest/login`
-        : `${process.env.REACT_APP_API_BASE_URL}/auth/login`;
+        ? `/auth/guest/login`
+        : `/auth/login`;
 
-      const response = await axios.post(url, credentials, {
+      const response = await api.post(url, credentials, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -51,7 +50,7 @@ export const loginUser = (credentials, isGuest = false) => {
 export const logoutUser = () => {
   return async (dispatch) => {
     try {
-      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/auth/logout`);
+      await api.post(`/auth/logout`);
     } catch (error) {
       console.log('Logout error:', error.response ? error.response.data : error);
     }

@@ -3,7 +3,7 @@ import './buttons.css';
 import { PlusIcon, MinusIcon, CartIcon, BackIcon, EditIcon, SearchIcon } from '../../asset/icons/button/index.js';
 
 
-const Buttons = ({ type, className, style, onClick, context, count, setCount = () => {} }) => {
+const Buttons = ({ type, className, style, onClick, context, count, setCount = () => {}, isServeToTable }) => {
   const [isClicked, setIsClicked] = useState(false);
 
   // Button content
@@ -38,8 +38,8 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
   // Button styles
   const buttonStylesContexts = {
     guest: 'bg-primary2 text-primary',
-    self_pickup: isClicked ? 'bg-primary2 text-primary' : 'bg-secondary2 text-secondary',
-    serve_to_table: isClicked ? 'bg-primary2 text-primary' : 'bg-secondary2 text-secondary',
+    self_pickup: isServeToTable === false ? 'bg-primary2 text-primary' : 'bg-secondary2 text-secondary',
+    serve_to_table: isServeToTable === true ? 'bg-primary2 text-primary' : 'bg-secondary2 text-secondary',
     payment: 'bg-primary2 text-primary',
     plus: 'bg-primary',
     search: 'bg-tertiary',

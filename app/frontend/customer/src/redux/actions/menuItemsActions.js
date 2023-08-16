@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../../services/api';
 
 export const fetchMenuItems = (restaurantId, categoryId, tableNo) => {
     return async (dispatch) => {
@@ -11,7 +11,7 @@ export const fetchMenuItems = (restaurantId, categoryId, tableNo) => {
         }
 
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/restaurant/${restaurantId}/category/${categoryId}/items`, { withCredentials: true });
+            const response = await api.get(`/restaurant/${restaurantId}/category/${categoryId}/items`, { withCredentials: true });
             dispatch(fetchMenuItemsSuccess(response.data));
         } catch (error) {
             dispatch(fetchMenuItemsFailure(error.message));
@@ -20,11 +20,9 @@ export const fetchMenuItems = (restaurantId, categoryId, tableNo) => {
 }
 
 export const fetchBestSellers = (restaurantId, tableNo) => {
-    console.log('Restaurant ID:', restaurantId);
-    console.log('Table No:', tableNo);
     return async (dispatch) => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/restaurant/${restaurantId}/table/${tableNo}/best-sellers`, { withCredentials: true });
+            const response = await api.get(`/restaurant/${restaurantId}/table/${tableNo}/best-sellers`, { withCredentials: true });
             dispatch(fetchMenuItemsSuccess(response.data));
         } catch (error) {
             dispatch(fetchMenuItemsFailure(error.message));

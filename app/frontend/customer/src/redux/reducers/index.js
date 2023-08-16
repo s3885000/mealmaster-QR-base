@@ -4,7 +4,8 @@ import { menuItemsReducer } from './menuItemsReducer';
 import { typeReducer } from './typeReducer';
 import { menuItemDetailsReducer } from './menuItemDetailsReducer';
 import { authReducer } from './authentication/authReducer';
-
+import  cartReducer  from './cartReducer';
+import userReducer from './userReducer';
 
 
 export default combineReducers({
@@ -12,5 +13,7 @@ export default combineReducers({
   menuItems: menuItemsReducer,
   menuItemDetails: menuItemDetailsReducer,
   auth: authReducer,
-  type: typeReducer
+  cart: cartReducer,
+  type: typeReducer,
+  user: userReducer,
 });

@@ -2,10 +2,13 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Buttons } from '../../components';
 
-const Popups = ({visible, type, onClose}) => {
+const Popups = ({visible, type, onClose, onApply, currentNotes, onUpdateNotes}) => {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef(null);
+  const [localNotes, setLocalNotes] = useState(currentNotes);
+
+
 
   const handleNavigation = (path) => {
     navigate(path);
@@ -48,13 +51,20 @@ const Popups = ({visible, type, onClose}) => {
       <>
         <h2 className='text-2xl font-bold mb-4'>Edit notes</h2>
         <div className='mb-3.75'>
-          <textarea
-            className='px-2 text-l bg-gray opacity-50 text-black font-medium rounded-lg mb-5 w-full h-24 resize-none'
-            name='foodItemNotes'
-            placeholder='Enter your notes here'
-          />
+        <textarea
+          className='px-2 text-l bg-gray opacity-50 text-black font-medium rounded-lg mb-5 w-full h-24 resize-none'
+          name='foodItemNotes'
+          value={localNotes}
+          onChange={(e) => setLocalNotes(e.target.value)}
+          placeholder='Enter your notes here'
+        />
         </div>
-        <Buttons context='apply' className='mb-5' />
+        <Buttons context='apply' className='mb-5' onClick={() => {
+          if (onUpdateNotes) {
+            onUpdateNotes(localNotes);
+          }
+          onClose();  
+        }} />
       </>
     ),
     'cart_empty': (

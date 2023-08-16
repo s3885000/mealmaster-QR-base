@@ -16,7 +16,6 @@ import { MenuItem } from 'src/menu_items/entity/menu_item.entity';
 import { MenuItemsService } from 'src/menu_items/menu_items.service';
 
 @Controller('restaurant')
-@UseGuards(RolesGuard)
 export class RestaurantController {
     constructor(
         private readonly restaurantService: RestaurantService,
@@ -40,6 +39,7 @@ export class RestaurantController {
       }
 
     //Get restaurant and table number
+    @UseGuards(AuthGuard)
     @Get(':restaurantId/table/:tableNo')
     async findByRestaurantAndTableNumber(@Param('restaurantId') restaurantId: number, @Param('tableNo') tableNo:number): Promise<any> {
         const result = await this.tableService.findByRestaurantAndTableNumber(restaurantId, tableNo);
@@ -66,6 +66,7 @@ export class RestaurantController {
     }
     
     //Create restaurant
+    @UseGuards(AuthGuard, RolesGuard)
     @Roles(UserRole.RESTAURANT_OWNER)
     @Post('create')
     async create(@Request() req, @Body() createRestaurantDto: CreateRestaurantRequestDto): Promise<CreateRestaurantResponseDto> {

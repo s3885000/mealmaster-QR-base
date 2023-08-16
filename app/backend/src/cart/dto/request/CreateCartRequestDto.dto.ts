@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsArray, IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { CartStatus, PickupType } from "src/cart/entity/cart.entity";
 
 
 export class CreateCartRequestDto {
@@ -6,17 +7,11 @@ export class CreateCartRequestDto {
     @IsNumber()
     user_id: number;
 
-    @IsNotEmpty()
-    @IsString()
-    status: string;
+    @IsEnum(CartStatus)
+    status: CartStatus;
     
-    @IsNotEmpty()
-    @IsNumber()
-    pickup_type: number;
-
-    @IsNotEmpty()
-    @IsString()
-    selected_payment_method: string;
+    @IsEnum(PickupType)
+    pickup_type: PickupType;
 
     @IsNotEmpty()
     @IsNumber()
@@ -26,7 +21,4 @@ export class CreateCartRequestDto {
     @IsNumber()
     total_item: number;
 
-    @IsNotEmpty()
-    @IsString()
-    note: string;
 }

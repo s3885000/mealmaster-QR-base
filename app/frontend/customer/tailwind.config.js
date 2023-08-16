@@ -58,5 +58,7 @@ module.exports = {
       }
     },
   },
-  plugins: ['@tailwindcss/typography'],
+  plugins: [
+    '@tailwindcss/typography',
+    require('tailwind-scrollbar-hide')],
 }

@@ -3,6 +3,7 @@ import { Cart } from './entity/cart.entity';
 import { CartService } from './cart.service';
 import { CreateCartRequestDto } from './dto/request/CreateCartRequestDto.dto';
 import { CreateCartResponseDto } from './dto/response/CreateCartResponseDto.sto';
+import { UpdatePickupTypeDto } from './dto/request/UpdatePickUpTypeDto.dto';
 
 @Controller('cart')
 export class CartController {
@@ -11,19 +12,32 @@ export class CartController {
     // Get cart by id
     @Get(':id')
     async findOne(@Param('id') id:number): Promise<Cart> {
-        const cart = await this.cartService.findOne(id);
-        if(!cart) {
-            throw new NotFoundException('Cart not found!')
-        } else {
-            return cart;
-        }
+        return this.cartService.findOne(id);
     }
+
+    @Put(':id/pickup-type')
+    async updatePickupType(@Param('id') id: number, @Body() updatePickupTypeDto: UpdatePickupTypeDto): Promise<Cart> {
+        return await this.cartService.updatePickupType(id, updatePickupTypeDto.pickup_type);
+    }
+    
 
     // Create cart
     @Post('create')
     async create(@Body() createCartDto: CreateCartRequestDto): Promise<CreateCartResponseDto> {
-        return this.cartService.create(createCartDto);
+      const createdCart = await this.cartService.create(createCartDto);
+      if (!createdCart) {
+        throw new NotFoundException('Failed to create cart');
+      }
+      return {
+        id: createdCart.id,
+        user: createdCart.user,
+        status: createdCart.status,  // return status
+        pickup_type: createdCart.pickup_type,
+        total_price: createdCart.total_price,
+        total_item: createdCart.total_item,
+      };
     }
+
 
     //Update cart
     @Put(':id')

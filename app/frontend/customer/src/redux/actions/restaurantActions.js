@@ -1,11 +1,11 @@
-import axios from 'axios';
+import api from '../../services/api';
 
 export const fetchRestaurantData = ( restaurantId, tableNo ) => {
     return async (dispatch) => {
         dispatch(fetchRestaurantRequest());
 
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/restaurant/${restaurantId}/table/${tableNo}`, { withCredentials: true });
+            const response = await api.get(`/restaurant/${restaurantId}/table/${tableNo}`, { withCredentials: true });
             dispatch(fetchRestaurantSuccess(response.data));
 
         } catch (error) {

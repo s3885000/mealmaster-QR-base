@@ -62,8 +62,12 @@ export class UserService {
     return this.userRepository.findOne({ where: { id: userId }});
   }
 
-  async findUserByGuestId(guestId: string): Promise<User | undefined> {
-    return this.userRepository.findOne({ where: { guest_id: guestId }});
+  async findGuestByUserId(guestId: number): Promise<User | undefined> {
+    const user = this.userRepository.findOne({ where: { id : guestId, is_guest: true }});
+    if (!user) {
+      throw new UnauthorizedException('Guest user not found!');
+    }
+    return user;
   }
 
   async findUserByPhoneNumber(phone_number: string): Promise<User | undefined> {

@@ -7,6 +7,9 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMenuItemDetails } from '../../redux/actions/menuItemDetailsActions';
 import './menudetail.css';
+import { addToCart, decreaseItemQuantity } from '../../redux/actions/cartActions';
+import { decodeToken } from '../../services/api.js';
+
 
 const formatPrice = (price) => {
   return price ? price.toLocaleString('en-US'): "N/A";
@@ -29,12 +32,45 @@ const MenuDetail = () => {
     setFoodItemNotes(event.target.value);
   };
 
+  const handleAddToCart = () => {
+    const decodedToken = decodeToken();
+    if (decodedToken && decodedToken.sub) {
+        const userId = parseInt(decodedToken.sub);
+
+        const itemToAdd = {
+            ...menuItem,
+            quantity: counter + 1,
+        };
+
+        dispatch(addToCart(userId, itemToAdd));
+        setCounter(counter + 1);
+    } else {
+        console.error("Unable to get user Id from token");
+    }
+  };
+
+  const handleDecreaseQuantity = () => {
+    if (counter === 0) return;
+
+    const decodedToken = decodeToken();
+    if (decodedToken && decodedToken.sub) {
+        const userId = parseInt(decodedToken.sub);
+        dispatch(decreaseItemQuantity(userId, menuItem));
+
+        if (counter > 0) {
+            setCounter(counter - 1);
+        }
+    } else {
+        console.error("Unable to get user Id from token");
+    }
+  };
+
   const handleBackClick = () => {
     navigate(-1);
   };
 
   const handleAddToCartClick = () => {
-    navigate('/menu-overview');
+    navigate(-1);
   };
 
   useEffect(() => {
@@ -99,9 +135,9 @@ const MenuDetail = () => {
           <h2 className='text-3xl font-medium'>{formatPrice(menuItem?.price)} đ</h2>
 
           <div className="flex items-center">
-            <Buttons context='minus' count={counter} setCount={setCounter} />
+            <Buttons context='minus' count={counter} setCount={handleDecreaseQuantity} />
             <p className="mx-2 text-xl">{counter}</p>
-            <Buttons context='plus' count={counter} setCount={setCounter} />
+            <Buttons context='plus' count={counter} setCount={handleAddToCart} />
           </div>
         </div>
 

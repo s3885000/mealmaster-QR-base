@@ -10,7 +10,7 @@ export class CartItem {
     @Column()
     quantity: number;
 
-    @Column()
+    @Column({ nullable: true })
     note: string;
 
     @Column()
@@ -19,6 +19,6 @@ export class CartItem {
     @ManyToOne(() => MenuItem, menuItem => menuItem.cartItem)
     menuItem: MenuItem;
 
-    @ManyToOne(() => Cart, cart => cart.cartItem, {onDelete: 'CASCADE' })
+    @ManyToOne(() => Cart, cart => cart.cartItem, { onDelete: 'CASCADE' })
     cart: Cart;
 }

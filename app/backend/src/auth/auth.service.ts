@@ -23,12 +23,10 @@ export class AuthService {
     let user: User | undefined;
 
     if ('phone_number' in loginUserDto) {
-        // This is a CustomerLoginDto
         user = await this.userRepository.findOne({ where: { phone_number: loginUserDto.phone_number, role: UserRole.CUSTOMER } });
-      } else if ('email' in loginUserDto) {
-        // This is a OwnerLoginDto
+    } else if ('email' in loginUserDto) {
         user = await this.userRepository.findOne({ where: { email: loginUserDto.email, role: UserRole.RESTAURANT_OWNER } });
-      }
+    }
 
     if (!user) {
         throw new NotFoundException('User not found!');
@@ -59,25 +57,21 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
-
   async logoutUser(accessToken: string): Promise<void> {
     const payload = await this.tokenService.validateToken(accessToken);
     const userId = payload.sub;
     
-    // Check if the user is a guest
-    const user = await this.userService.findUserById(userId);
-    const isGuest = user?.is_guest ?? false;
-    const guestId = user?.guest_id ?? null;
-    
     // Invalidate the refresh token
     await this.tokenService.invalidateRefreshToken(userId.toString());
     
-    // Delete the guest user if applicable
-    if (isGuest && guestId) {
-      await this.anonymousService.deleteAnonymousUser(guestId);
+    // Check if the user is a guest and delete if applicable
+    const user = await this.userService.findUserById(Number(userId));
+    if (user?.is_guest) {
+      await this.anonymousService.deleteAnonymousUser(user.guest_id);
     }
     
     // Clear the refresh token for user
     await this.userService.clearRefreshToken(userId.toString());
   }
 }
+

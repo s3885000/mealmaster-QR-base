@@ -6,9 +6,11 @@ import { Buttons, Popups } from '../../components';
 import { StarIcon, TimeIcon } from '../../asset/icons/box/index.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchMenuItems } from '../../redux/actions/menuItemsActions.js';
+import { addToCart, decreaseItemQuantity, removeFromCart, updateCartItemNote } from '../../redux/actions/cartActions.js';
+import { decodeToken }from '../../services/api.js';
 
 const formatPrice = (price) => {
-  return price.toLocaleString('en-US');
+  return price ? price.toLocaleString('en-US') : '0';
 }
 
 const ItemContainer = ({ children }) => (
@@ -17,18 +19,63 @@ const ItemContainer = ({ children }) => (
   </div>
 );
 
-const Items = ({ type, restaurantId, categoryId }) => {
+const Items = ({ type, restaurantId, categoryId, cartItemId, ...itemProps }) => {
   const { tableNo } = useParams();
 
   const [counter, setCounter] = useState(0);
   const [popupVisible, setPopupVisible] = useState(false);
+  const [addedToCart] = useState({});
+  const [notes]= useState("");
+  const [currentNotes, setCurrentNotes] = useState("");
 
   const navigate = useNavigate();
 
-  // redux
+  // redux food_items
   const menuItemsState = useSelector(state => state.menuItems);
   const { loading, error, menuItems } = menuItemsState;
   const dispatch = useDispatch();
+
+  // redux cart items
+  const cartItems = useSelector(state => state.cart.items);
+
+  const handleAddToCart = (item) => {
+    const decodedToken = decodeToken();
+    if (decodedToken && decodedToken.sub) {
+        const userId = parseInt(decodedToken.sub);
+      
+        const existingCartItem = cartItems.find(cartItem => cartItem.menuItem.id === item.id);
+        if (existingCartItem) {
+          // Increase its quantity by 1 for the food_item_cart
+          if (type === 'food_item_cart') {
+            dispatch(addToCart(userId, {...item, quantity: existingCartItem.quantity + 1, note: notes }));
+          }
+        } else {
+          dispatch(addToCart(userId, {...item, quantity: 1, note: notes }));
+        }
+    } else {
+        console.error("Unable to get user Id from token");
+    }
+  };
+
+  const handleDecreaseQuantity = (itemId) => {
+    const decodedToken = decodeToken();
+    if (decodedToken && decodedToken.sub) {
+        const userId = parseInt(decodedToken.sub);
+
+        // For 'best_sellers' and 'food_item', remove the entire item from the cart
+        if (type === 'best_sellers' || type === 'food_item') {
+          const cartItemToRemove = cartItems.find(cartItem => cartItem.menuItem.id === itemId);
+          if (cartItemToRemove) {
+              dispatch(removeFromCart(cartItemToRemove.id));
+          }
+        } else {
+            dispatch(decreaseItemQuantity(userId, { id: itemId }));
+        }
+
+    } else {
+        console.error("Unable to get user Id from token");
+    }
+  };
 
   useEffect(() => {
     if(restaurantId && categoryId !== undefined && tableNo !== undefined) {
@@ -48,43 +95,20 @@ const Items = ({ type, restaurantId, categoryId }) => {
   const togglePopup = () => {
     setPopupVisible(!popupVisible);
   }
+  
 
   switch(type) {
     case 'best_sellers':
-      return Array.isArray(menuItems) ? menuItems.map(( item, index ) => {
-        const imageURL = item.images && item.images[0] ? item.images[0].image_url : null;
-        if (!item.images || !item.images[0]) {
-          return null;
-        }
-
-        const handleDetailClick = () => {
-          navigate(`/menu-detail/${item.id}`);
-        };
-
-        return (
-        <ItemContainer key={index} className="flex justify-between items-center">
-          <img src={imageURL} alt={item.name} className="flex-shrink-0 flex-grow-0 w-22 h-22 rounded-lg" onClick={handleDetailClick} />
-          <div className="flex-grow ml-2 overflow-hidden">
-            <p className="text-lg font-semibold truncate">{item.name}</p>
-            <p className="text-sm text-placeholders truncate">{item.description}</p>
-            <p className="mt-3.5 text-lg font-semibold">{formatPrice(item.price)}đ</p>
-          </div>
-          <div className="flex-shrink-0 flex-grow-0 ml-2 min-w-10">
-            <Buttons context='plus' count={counter} setCount={setCounter}/>
-          </div>
-        </ItemContainer>
-      );
-    }) : null;
-    
     case 'food_item':
       return Array.isArray(menuItems) ? menuItems.map(( item, index ) => {
+        const isItemInCart = addedToCart[item.id] || cartItems.some(cartItem => cartItem.menuItem.id === item.id);
         const imageURL = item.images && item.images[0] ? item.images[0].image_url : null;
         if (!item.images || !item.images[0]) {
-          return null;
+            return null;
         }
 
         const handleDetailClick = () => {
-          navigate(`/menu-detail/${item.id}`);
+            navigate(`/menu-detail/${item.id}`);
         };
 
         return (
@@ -96,36 +120,61 @@ const Items = ({ type, restaurantId, categoryId }) => {
             <p className="mt-3.5 text-lg font-semibold">{formatPrice(item.price)}đ</p>
           </div>
           <div className="flex-shrink-0 flex-grow-0 ml-2 min-w-10">
-            <Buttons context='plus' count={counter} setCount={setCounter}/>
+            {isItemInCart ? (
+              <Buttons 
+                  context='minus' 
+                  onClick={() => handleDecreaseQuantity(item.id)}
+              />
+            ) : (
+              <Buttons 
+                  context='plus' 
+                  onClick={() => handleAddToCart(item)}
+              />
+            )}
           </div>
         </ItemContainer>
       );
-    }) : null;
+      }) : null;
 
     case 'food_item_cart':
       return (
         <>
           <ItemContainer>
-            <FoodTwo className="w-16 h-16 rounded-xl" />
-            <div className="flex flex-col flex-grow ml-2">
-              <p className="text-lg font-medium">Spicy fresh crab</p>
+            <img src={itemProps.images && itemProps.images[0] ? itemProps.images[0].image_url : null} alt={itemProps.name} className="w-16 h-16 rounded-xl" />
+            <div className="flex-grow ml-2 overflow-hidden">
+              <p className="text-base font-medium leading-4 text-left truncate">{itemProps.name}</p>
               <div className="flex items-center space-x-1.5 text-sm text-placeholders mb-1">
-                <p>No Spice</p>
+                <span className='truncate w-1/3'>{currentNotes || "Notes"}</span>
                 <Buttons context='edit' onClick={togglePopup} />
               </div>
-              <div className="flex items-center">
-                <p className="text-xl font-medium ml-2">35,000đ</p>
+              <div className="flex items-center mt-2">
+                <p className="text-base font-medium leading-5 text-left">{formatPrice(itemProps.price)}đ</p>
               </div>
             </div>
             <div className="flex items-center">
-              <Buttons context='minus' count={counter} setCount={setCounter} />
-              <p className="mx-2 text-xl">{counter}</p>
-              <Buttons context='plus' count={counter} setCount={setCounter} />
+            <Buttons 
+              context='minus' 
+              count={counter} 
+              setCount={setCounter} 
+              onClick={() => handleDecreaseQuantity(itemProps.id)}
+            />
+              <p className="mx-2 text-xl">{itemProps.quantity}</p>
+              <Buttons context='plus' count={counter} setCount={setCounter} onClick={() => handleAddToCart(itemProps)}/>
             </div>
           </ItemContainer>
-          <Popups type="notes" visible={popupVisible} /> {/* Popup */}
+          <Popups 
+            visible={popupVisible} 
+            type='notes' 
+            onClose={togglePopup} 
+            currentNotes={currentNotes}
+            onUpdateNotes={(updatedNotes) => {
+              dispatch(updateCartItemNote(cartItemId, updatedNotes));
+              setCurrentNotes(updatedNotes);
+            }} 
+          />
         </>
       );
+
     case 'food_item_on_going':
       return (
         <ItemContainer>

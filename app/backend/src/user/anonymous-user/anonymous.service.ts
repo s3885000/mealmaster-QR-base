@@ -20,13 +20,17 @@ export class AnonymousService {
         user.is_guest = true;
         user.role = UserRole.GUEST;
         user.guest_id = uuid();
-        // Generate refresh token for the guest user
-        const refreshToken = this.tokenService.generateRefreshToken(user.guest_id);
-        const accessToken = this.tokenService.generateAccessToken(user.guest_id);
-
+        
+        // Save the user to the database FIRST
+        await this.userRepository.save(user);
+        
+        // After saving, the user's id will be populated
+        const refreshToken = this.tokenService.generateRefreshToken(user.id.toString());
+        const accessToken = this.tokenService.generateAccessToken(user.id.toString());
+    
         user.refresh_token = refreshToken;
         await this.userRepository.save(user);
-
+    
         return { accessToken, refreshToken };
     }
     

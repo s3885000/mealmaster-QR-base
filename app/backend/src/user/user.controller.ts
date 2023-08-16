@@ -33,7 +33,7 @@ export class UsersController {
   // Get User Profile
   @Get(':id/profile')
   @UseGuards(AuthGuard, RolesGuard)
-  @Roles(UserRole.CUSTOMER, UserRole.RESTAURANT_OWNER)
+  @Roles(UserRole.CUSTOMER, UserRole.RESTAURANT_OWNER, UserRole.GUEST)
   @HttpCode(HttpStatus.OK)
   async getProfile(@Param('id') id: number): Promise<User> {
     return await this.userService.getUserProfile(id);

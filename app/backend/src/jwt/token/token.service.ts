@@ -15,16 +15,16 @@ export class TokenService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>) {}
 
-  generateAccessToken(userId: string): string {
-    const payload = { sub: userId };
-    const expiresIn = this.configService.get<string>('auth.accessTokenExpiration');
-    return this.jwtService.sign(payload, { expiresIn });
+  generateAccessToken(userId: number | string): string {
+      const payload = { sub: userId.toString() }; // Convert to string to ensure consistency
+      const expiresIn = this.configService.get<string>('auth.accessTokenExpiration');
+      return this.jwtService.sign(payload, { expiresIn });
   }
 
-  generateRefreshToken(userId: string): string {
-    const payload = { sub: userId };
-    const expiresIn = this.configService.get<string>('auth.refreshTokenExpiration');
-    return this.jwtService.sign(payload, { expiresIn });
+  generateRefreshToken(userId: number | string): string {
+      const payload = { sub: userId.toString() }; // Convert to string to ensure consistency
+      const expiresIn = this.configService.get<string>('auth.refreshTokenExpiration');
+      return this.jwtService.sign(payload, { expiresIn });
   }
 
   async refreshAccessToken(oldRefreshToken: string): Promise<{accessToken: string, refreshToken:string}> {
@@ -62,6 +62,14 @@ export class TokenService {
       return this.jwtService.verify(token, options);
     } catch (error) {
       throw new UnauthorizedException('Invalid token');
+    }
+  }
+
+  async validateAccessToken(token: string, options?: JwtVerifyOptions): Promise<any> {
+    try {
+        return await this.jwtService.verifyAsync(token, options);
+    } catch (error) {
+        throw new UnauthorizedException('Invalid token');
     }
   }
 }

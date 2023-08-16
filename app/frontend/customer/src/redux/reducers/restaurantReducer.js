@@ -29,7 +29,7 @@ export const restaurantReducer = (state = initialState, action) => {
             };
 
         case 'FETCH_RESTAURANT_FAILURE':
-            console.log('Error:', action.payload);
+            //console.log('Error:', action.payload);
             return {
                 ...state,
                 loading: false,

@@ -1,11 +1,11 @@
-import axios from 'axios'
+import api from '../../services/api';
 
 export const fetchMenuItemDetails = (itemId) => {
     return async (dispatch) => {
         dispatch(fetchMenuItemDetailsRequest());
 
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/item/${itemId}`, { withCredentials: true });
+            const response = await api.get(`/item/${itemId}`, { withCredentials: true });
 
             dispatch(fetchMenuItemDetailsSuccess(response.data));
         } catch (error) {

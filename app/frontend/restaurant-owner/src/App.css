@@ -1,34 +1,38 @@
-* {
-  margin: 0;
-  padding: 0;
-  font-family: 'Montserrat', sans-serif;
+.App {
+  text-align: center;
 }
 
-body {
-  overflow-y: auto;
-  height: 100vh;  
-  background-color: #E5E5E5;  
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
 }
 
-#root {
-  height: 100%;
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
-.App {
-  flex-grow: 1;
-  overflow-y: auto;
-  background-color: #E5E5E5; 
+.App-link {
+  color: #61dafb;
 }
 
-.main-content {
-  padding-left: 0; /* For mobile */
-}
-
-/* At your lg breakpoint */
-@media (min-width: 1024px) { /* This is the typical lg breakpoint for Tailwind, adjust if yours is different */
-  .main-content {
-      padding-left: 5rem; /* This should be the width of your left navigation */
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }

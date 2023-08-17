@@ -1,4 +1,7 @@
+export { default as Banner } from './banner/Banner';
+export { default as Boxes } from './boxes/Boxes';
 export { default as Buttons } from './buttons/Buttons';
+export { default as Categories } from './categories/Categories';
 export { default as Header } from './header/Header';
 export { default as Items } from './items/Items';
 export { default as Navigation } from './navigation/Navigation';

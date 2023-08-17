@@ -21,3 +21,14 @@ body {
   overflow-y: auto;
   background-color: #E5E5E5; 
 }
+
+.main-content {
+  padding-left: 0; /* For mobile */
+}
+
+/* At your lg breakpoint */
+@media (min-width: 1024px) { /* This is the typical lg breakpoint for Tailwind, adjust if yours is different */
+  .main-content {
+      padding-left: 5rem; /* This should be the width of your left navigation */
+  }
+}

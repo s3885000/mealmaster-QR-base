@@ -1,63 +1,122 @@
-import PropTypes from "prop-types";
-import React from "react";
-// import { FileMobile } from "../FileMobile";
-import "./items.css";
+import React, { useState } from 'react';
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { AddIcon, DeleteIcon, DownloadIcon, DragDropIcon, EditIcon, FilterIcon, HideIcon, OnGoingIcon, SearchIcon, ViewIcon } from '../../asset/icons/button/index.js';
 
-const MenuItemsCard = ({ className, hasTableCardSelected = true }) => {
+const ItemContainer = ({ children, onClick }) => (
+  <div 
+    className="w-[380px] md:w-[700px] lg:w-[930px] xl:w-[1080px] 2xl:w-[1080px] h-16 md:h-[70px] lg:h-[70px] flex items-center bg-white rounded-md p-2 md:p-4"
+    onClick={onClick}
+  >
+    {children}
+  </div>
+);
+
+const ItemType = 'ITEM';
+
+const DraggableItem = ({ children, id, onMove }) => {
+  const [, ref] = useDrag({
+    type: ItemType,
+    item: { id }
+  });
+
+  const [, drop] = useDrop({
+    accept: ItemType,
+    hover: (draggedItem) => {
+      if (draggedItem.id !== id) {
+        onMove(draggedItem.id, id);
+        draggedItem.id = id;
+      }
+    }
+  });
+
+  return <div ref={(node) => ref(drop(node))}>{children}</div>;
+};
+
+const Items = ({ type, state: initialState, index, onMove }) => {
+  const [state, setState] = useState(initialState);
+  
+  const toggleState = () => {
+    setState(prevState => (prevState === 'active' ? 'inactive' : 'active'));
+  };
+
   return (
-    <div className={`menu-items-card ${className}`}>
-      {hasTableCardSelected && (
-        <div className="table-card-selected">
-          <div className="overlap-2">
-            <div className="div-2">
-              <div className="overlap-3">
-                {/* <div className="div-2">
-                  <FileMobile
-                    className="file-04-mobile"
-                    contentClassName="file-04-mobile-instance"
-                    hasName={false}
-                    hasUploading={false}
-                    overlapClassName="file-mobile-instance"
-                    visible={false}
-                  />
-                </div> */}
-                <div className="rectangle-2" />
-                <div className="text-wrapper">Spacy fresh crab</div>
-                <div className="price">35,000 đ</div>
-                <img
-                  className="icon-options"
-                  alt="Icon options"
-                  src="https://anima-uploads.s3.amazonaws.com/projects/64d9fa6d02fb4419cf588807/releases/64d9fcfad59d4c01448dd49a/img/icon-options-15.svg"
-                />
-              </div>
-            </div>
-            <div className="group">
-              <div className="overlap-group-wrapper">
-                <div className="overlap-group-2">
-                  <div className="copy">🍖</div>
-                  <div className="text-wrapper-2">🍤</div>
-                </div>
-              </div>
-            </div>
-            <img
-              className="img"
-              alt="Shape"
-              src="https://anima-uploads.s3.amazonaws.com/projects/64d9fa6d02fb4419cf588807/releases/64d9fcfad59d4c01448dd49a/img/shape-4.svg"
-            />
-            <img
-              className="vector"
-              alt="Vector"
-              src="https://anima-uploads.s3.amazonaws.com/projects/64d9fa6d02fb4419cf588807/releases/64d9fcfad59d4c01448dd49a/img/vector-3.svg"
-            />
-          </div>
-        </div>
-      )}
-    </div>
+    type === 'tables' 
+      ? renderSwitch(type, state, index) 
+      : <DraggableItem id={index} onMove={onMove}>
+          {renderSwitch(type, state, index, toggleState)}
+        </DraggableItem>
   );
 };
 
-MenuItemsCard.propTypes = {
-  hasTableCardSelected: PropTypes.bool,
+const renderSwitch = (type, state, index, toggleState = null) => {
+  switch (type) {
+    case 'tables':
+      return (
+        <ItemContainer className="flex justify-between items-center"> 
+          <div className="flex items-center space-x-3 md:space-x-5 lg:space-x-8"> 
+            <input type="checkbox" className="mr-2" />
+            <span className="text-sm md:text-base lg:text-lg font-bold text-black">Table 1</span>
+            <span className="text-xs md:text-sm lg:text-base font-bold text-gray">Near window</span>
+          </div>
+          <div className="flex items-center space-x-3 md:space-x-5 lg:space-x-10"> 
+            <button onClick={(e) => {
+                e.stopPropagation(); 
+                console.log('Download button clicked');
+              }} 
+              className="ml-3 md:ml-5 lg:ml-8 w-5 md:w-6 lg:w-auto h-5 md:h-6 lg:h-auto">
+              <DownloadIcon />
+            </button>
+            <button onClick={(e) => {
+                e.stopPropagation();
+                console.log('Edit button clicked');
+              }} 
+              className="bg-transparent border-none cursor-pointer w-5 md:w-6 lg:w-auto h-5 md:h-6 lg:h-auto">
+              <EditIcon />
+            </button>
+          </div>
+        </ItemContainer>
+      );
+
+    case 'categories':
+      const textColor = state === 'active' ? 'text-primary' : 'text-gray';
+
+      return (
+        <ItemContainer 
+          className="flex justify-between items-center"
+          onClick={toggleState}
+        >
+          <div className={`flex-grow flex items-center space-x-3 md:space-x-5 lg:space-x-8`}> 
+            <h2 className={`text-sm md:text-base lg:text-lg font-bold ${textColor}`}>Best Seller</h2>
+          </div>
+          <div className="flex items-center space-x-3 md:space-x-5 lg:space-x-10"> 
+            <button onClick={(e) => {
+                e.stopPropagation();
+                console.log('Edit button clicked');
+              }} 
+              className="bg-transparent border-none cursor-pointer w-5 md:w-6 lg:w-auto h-5 md:h-6 lg:h-auto">
+              <EditIcon />
+            </button>
+            <DragDropIcon />
+          </div>
+        </ItemContainer>
+      );
+
+    case 'food_item':
+      // ... existing 'food_item' code ...
+
+    case 'orders':
+      // ... existing 'orders' code ...
+
+    default:
+      return null;
+  }
 };
 
-export default MenuItemsCard
+const WrappedItems = (props) => (
+  <DndProvider backend={HTML5Backend}>
+    <Items {...props} />
+  </DndProvider>
+);
+
+export default WrappedItems;

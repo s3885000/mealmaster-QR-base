@@ -4,7 +4,7 @@ import { Buttons } from '../../components';
 
 const Popups = ({visible, type, onClose}) => {
   const navigate = useNavigate();
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(true);
   const popupRef = useRef(null);
 
   const handleNavigation = (path) => {
@@ -18,7 +18,7 @@ const Popups = ({visible, type, onClose}) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setShowPopup(false);
+        setShowPopup(true);
       }
     };
     
@@ -29,126 +29,58 @@ const Popups = ({visible, type, onClose}) => {
   }, [popupRef]);
 
   const popupContent = {
-    // 'order_completed': (
-    //   <>
-    //     <h2 className='text-2xl font-bold mb-4'>Order Completed!</h2>
-    //     <p className='text-lg mb-3'>Register to save your order history</p>
-    //     <Buttons context='rate' className='mb-5' onClick={() => handleNavigation('/on-going')}></Buttons>
-    //     <Buttons context='order_smth' onClick={() => handleNavigation('/menu-overview')}></Buttons>
-    //   </>
-    // ),
-    'add_category': (
+    'order_completed': (
       <>
-        <h2 className='text-2xl font-bold mb-4'>Add Category</h2>
-        <div className="group-1">
-          <p className="name">
-            <span className="text-wrapper">Name</span>
-            <span className="span">*</span>
-          </p>
-          <div className="input-data-wrapper">
-            <div className="input-data">Enter category name</div>
-          </div>
-        </div>
-        <Buttons context='cancel' className='mb-5' onClick={() => handleNavigation('')}></Buttons>
-        <Buttons context='create' className='mb-5' onClick={() => handleNavigation('')}></Buttons>
+        <h2 className='text-2xl font-bold mb-4'>Order Completed!</h2>
+        <p className='text-lg mb-3'>Register to save your order history</p>
+        <Buttons context='rate' className='mb-5' onClick={() => handleNavigation('/on-going')}></Buttons>
+        <Buttons context='order_smth' onClick={() => handleNavigation('/menu-overview')}></Buttons>
       </>
     ),
-
-    'edit_category': (
+    'thank_you': (
       <>
-        <h2 className='text-2xl font-bold mb-4'>Edit Category</h2>
-        <div className="group-1">
-          <p className="name">
-            <span className="text-wrapper">Name</span>
-            <span className="span">*</span>
-          </p>
-          <div className="input-data-wrapper">
-            <div className="input-data">Enter category name</div>
-          </div>
-        </div>
-        <Buttons context='cancel' className='mb-5' onClick={() => handleNavigation('')}></Buttons>
-        <Buttons context='create' className='mb-5' onClick={() => handleNavigation('')}></Buttons>
+        <h2 className='text-2xl font-bold mb-4'>Thank you for your order</h2>
+        <p className='text-lg mb-3'>Track your order in the “On Going” screen</p>
+        <Buttons context='on_going' className='mb-5' onClick={() => handleNavigation('/on-going')}></Buttons>
       </>
     ),
-
-    'add_food': (
+    'notes': (
       <>
-        <h2 className='text-2xl font-bold mb-4'>Add Food</h2>
-        <div className="group-2">
-          <p className="name">
-            <span className="text-wrapper">Name</span>
-            <span className="span">*</span>
-          </p>
-          <div className="input-data-wrapper">
-            <div className="input-data">Enter food name</div>
-          </div>
+        <h2 className='text-2xl font-bold mb-4'>Edit notes</h2>
+        <div className='mb-3.75'>
+          <textarea
+            className='px-2 text-l bg-gray opacity-50 text-black font-medium rounded-lg mb-5 w-full h-24 resize-none'
+            name='foodItemNotes'
+            placeholder='Enter your notes here'
+          />
         </div>
-        <div className="group-3">
-          <p className="description">
-            <span className="text-wrapper">Description</span>
-            <span className="span">*</span>
-          </p>
-          <div className="input-data-wrapper">
-            <div className="input-data">Enter description</div>
-          </div>
-        </div>
-        <div className="group-4">
-          <p className="price">
-            <span className="text-wrapper">Price</span>
-            <span className="span">*</span>
-          </p>
-          <div className="input-data-wrapper">
-            <div className="input-data">Enter price</div>
-          </div>
-        </div>
-        <div className="group-5">
-          <div className="lable-2">Image</div>
-        </div>
-        <Buttons context='cancel' className='mb-5' onClick={() => handleNavigation('/')}></Buttons>
-        <Buttons context='create' className='mb-5' onClick={() => handleNavigation('/')}></Buttons>
+        <Buttons context='apply' className='mb-5' />
       </>
     ),
-
-    'edit_food': (
+    'cart_empty': (
       <>
-        <h2 className='text-2xl font-bold mb-4'>Edit Food</h2>
-        <div className="group-2">
-          <p className="name">
-            <span className="text-wrapper">Name</span>
-            <span className="span">*</span>
-          </p>
-          <div className="input-data-wrapper">
-            <div className="input-data">Enter food name</div>
-          </div>
-        </div>
-        <div className="group-3">
-          <p className="description">
-            <span className="text-wrapper">Description</span>
-            <span className="span">*</span>
-          </p>
-          <div className="input-data-wrapper">
-            <div className="input-data">Enter description</div>
-          </div>
-        </div>
-        <div className="group-4">
-          <p className="price">
-            <span className="text-wrapper">Price</span>
-            <span className="span">*</span>
-          </p>
-          <div className="input-data-wrapper">
-            <div className="input-data">Enter price</div>
-          </div>
-        </div>
-        <div className="group-5">
-          <div className="lable-2">Image</div>
-        </div>
-        <Buttons context='cancel' className='mb-5' onClick={() => handleNavigation('/')}></Buttons>
-        <Buttons context='create' className='mb-5' onClick={() => handleNavigation('/')}></Buttons>
+        <h2 className='text-2xl font-bold mb-4'>Cart is Empty</h2>
+        <p className='text-lg mb-3'>Your cart is currently empty, please add more item to view your cart.</p>
+        <Buttons context='add_more' className='mb-5' />
+      </>
+    ),
+    'delete_item': (
+      <>
+        <h2 className='text-2xl font-bold mb-4'>Delete this Item</h2>
+        <p className='text-lg mb-3'>By clicking ‘Apply’ you agree to delete this item from your cart.</p>
+        <Buttons context='apply' className='mb-5' />
+      </>
+    ),
+    'food_ready': (
+      <>
+        <h2 className='text-2xl font-bold mb-4'>Food is Ready</h2>
+        <p className='text-lg mb-3'>Your food is ready to pick up at counter! Press Order Received when you’re done.</p>
+        <Buttons context='close' className='mb-5' onClick={onClose}></Buttons>
       </>
     ),
   };
 
-  if (!showPopup) return null;
+  // if (!showPopup) return null;
 
   return (
     <div className='fixed inset-0 bg-black bg-opacity-50 z-50 h-screen'>

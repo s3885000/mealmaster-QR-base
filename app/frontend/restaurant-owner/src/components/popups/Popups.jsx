@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import { Buttons } from '../../components';
+import { Upload } from '../../asset/icons/misc/index.js';
 
 const Popups = ({visible, type, onClose}) => {
   // const navigate = useNavigate();
@@ -121,7 +122,15 @@ const Popups = ({visible, type, onClose}) => {
     ),
     'add_food': (
       <>
-          <h1 className='px-3 text-2xl font-bold bg-white rounded-t-xl w-fit'>Add Food</h1>
+        <form className='grid justify-items-center'>
+          <label class="block">
+            <input  type="file" name="table_name" accept='image/*' hidden/>
+            <div className='outline outline-2 outline-black outline-dashed rounded-md w-fit grid justify-items-center p-4'>
+              <Upload className='w-14 h-14'/>
+              <p className='text-center'>Preferred size is 400px * 300px<br/>Drag 'n' drop some files here, or click to select file</p>
+            </div>
+          </label>
+        </form>
       </>
     ),
     'edit_food': (

@@ -74,17 +74,39 @@ const Popups = ({visible, type, onClose}) => {
   const popupContent = {
     'alert': (
       <>
-          <h1 className='px-3 text-2xl font-bold bg-white rounded-t-xl w-fit'>Alert</h1>
+        <h1 className='text-2xl font-bold text-center'>Table 10 Has A New Order!</h1>
+        <div className='flex flex-row justify-center'>
+          <Buttons context='cancel' className='m-5' />
+          <Buttons context='add_more' className='m-5' />
+        </div>
       </>
     ),
     'add_table': (
       <>
-          <h1 className='px-3 text-2xl font-bold bg-white rounded-t-xl w-fit'>Add Table</h1>
+        <form>
+          <label class="block">
+            <span class="block text-2xl font-bold">Name*</span>
+            <input class="border border-gray rounded-md placeholder-slate-400 w-full" placeholder="Enter table name" type="text" name="table_name"/>
+          </label>
+        </form>
+        <div className='flex flex-row justify-center'>
+          <Buttons context='cancel' className='m-5' />
+          <Buttons context='add_more' className='m-5' />
+        </div>
       </>
     ),
     'edit_table': (
       <>
-          <h1 className='px-3 text-2xl font-bold bg-white rounded-t-xl w-fit'>Edit Table</h1>
+        <form>
+          <label class="block">
+            <span class="block text-2xl font-bold">Name*</span>
+            <input class="border border-gray rounded-md placeholder-slate-400 w-full" placeholder="Enter table name" type="text" name="table_name"/>
+          </label>
+        </form>
+        <div className='flex flex-row justify-center'>
+          <Buttons context='cancel' className='m-5' />
+          <Buttons context='add_more' className='m-5' />
+        </div>
       </>
     ),
     'add_category': (
@@ -122,7 +144,7 @@ const Popups = ({visible, type, onClose}) => {
         <div ref={popupRef} className={`bg-gray px-6 pt-4 rounded-t-3xl w-full text-center`}>
           {popupHeader[type]}
         </div>
-        <div ref={popupRef} className={`bg-white px-6 py-4 rounded-b-3xl w-full text-center`}>
+        <div ref={popupRef} className={`bg-white px-6 py-4 rounded-b-3xl w-full`}>
           {popupContent[type]}
         </div>
       </div>

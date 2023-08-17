@@ -10,7 +10,7 @@ const App = () => {
     //     <Route path="/navigation" element={<Navigation />} /> 
     //   </Routes>
     // </Router>
-    <Popups type="add_category" showPopup="show"/>
+    <Popups type="add_table" showPopup="show"/>
   );
 };
 

@@ -27,6 +27,8 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     order_smth: 'Order Something Else',
     rate: 'Rate & Review',
     sign_up: 'Sign Up',
+
+    cancel: 'Cancel',
   };
 
   // Button styles
@@ -43,7 +45,9 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     cart: 'bg-primary2 text-primary',
     back: 'bg-secondary text-primary',
     default: 'bg-primary text-white',
-    edit:'text-primary'
+    edit:'text-primary',
+
+    cancel:'text-pink-500 outline outline-2 outline-pink-500',
   };
 
   // Button size
@@ -57,7 +61,9 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     search: 'size-mini',
     back: 'size-mini',
     edit: 'size-micro',
-    order: 'size-order'
+    order: 'size-order',
+
+    cancel: '',
   };
 
   let buttonContent = buttonContentContexts[context] || 'Default Content';

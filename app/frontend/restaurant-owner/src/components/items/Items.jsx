@@ -178,9 +178,9 @@ const renderSwitch = (type, state, index, toggleState = null, iconState, toggleI
         <ItemContainer>
           <div className={`flex-grow flex items-center space-x-3 md:space-x-5 lg:space-x-8`}>
             <span className={`text-sm md:text-base lg:text-lg font-bold ${orderColor}`}>Order ID: #ABC123</span>
-            <span className="text-xs md:text-sm lg:text-base text-gray">Timestamp: 20/12/2023 12:48</span>
-            <span className="text-xs md:text-sm lg:text-base text-gray">Table: 15</span>
-            <span className="text-xs md:text-sm lg:text-base text-gray">Total: 1,500,000</span>
+            <span className="text-xs md:text-sm lg:text-base text-black">Timestamp: 20/12/2023 12:48</span>
+            <span className="text-xs md:text-sm lg:text-base text-black">Table: 15</span>
+            <span className="text-xs md:text-sm lg:text-base text-black">Total: 1,500,000</span>
           </div>
           <Buttons context="details" />
         </ItemContainer>

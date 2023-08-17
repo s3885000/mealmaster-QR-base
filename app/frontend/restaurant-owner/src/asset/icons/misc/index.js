@@ -1,1 +1,0 @@
-export { ReactComponent as Upload } from './cms_upload.svg';

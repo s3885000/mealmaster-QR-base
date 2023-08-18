@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navigation, Header, Items, Buttons, Popups } from './components'; 
-import { Login, SignUp } from './screens'; 
+import { Login, PasswordRecovery, SignUp } from './screens'; 
 import './App.css';
 
 const App = () => {
@@ -25,6 +25,7 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<Login />} /> 
           <Route path="/signup" element={<SignUp />} /> 
+          <Route path="/password-recovery" element={<PasswordRecovery />} /> 
         </Routes>
       </div>
       {activePopup && <Popups type={activePopup} onClose={closePopup} visible={true} />}

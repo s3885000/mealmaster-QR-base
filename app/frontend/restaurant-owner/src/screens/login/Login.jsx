@@ -52,7 +52,7 @@ const Login = () => {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                 </label>
-                {emailError && <div className='text-red-500 text-xs mt-1'>{emailError}</div>}
+                {emailError && <div className='text-error text-xs mt-1'>{emailError}</div>}
 
                 <label className="block w-full mb-5">
                     Password
@@ -70,7 +70,7 @@ const Login = () => {
                         </button>
                     </div>
                 </label>
-                {passwordError && <div className='text-red-500 text-xs mt-1'>{passwordError}</div>}
+                {passwordError && <div className='text-error text-xs mt-1'>{passwordError}</div>}
 
                 <button onClick={handleForgotPasswordClick} className="text-gray mb-5 w-full text-left self-start">
                     Forgot Password?

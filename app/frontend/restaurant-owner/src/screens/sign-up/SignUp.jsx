@@ -40,6 +40,7 @@ const Login = () => {
             <div className="flex flex-col items-center justify-start flex-1 bg-white p-10 w-full md:w-1/2">
                 <div className="mt-1/3 mb-4">
                     <h1 className="flex flex-col items-center text-2xl font-bold mt-40">Create an Account</h1>
+                    <p className="flex flex-col items-center text-md font-medium">Create an account to manage your restaurant</p>
                 </div>
 
                 <label className="block w-full mb-5">

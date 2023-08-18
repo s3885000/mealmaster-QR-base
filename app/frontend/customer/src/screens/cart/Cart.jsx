@@ -9,7 +9,7 @@ const Cart = () => {
   const [cartEmpty, setCartEmpty] = useState(false);
 
   const handlePaymentClick = () => {
-    navigate('/payment');
+    navigate('/payment-options'); // Updated to route to PaymentOptions
   };
 
   const handleBackClick = () => {

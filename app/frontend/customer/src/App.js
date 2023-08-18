@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
-import { OnGoing, Cart, Home, Login, LoginPassword, MenuDetail, MenuOverview, Payment, Profile, ScanQR, SignUp, NearbyRestaurant } from './screens';
+import { OnGoing, Cart, Home, Login, LoginPassword, MenuDetail, MenuOverview, Payment, Profile, ScanQR, SignUp, NearbyRestaurant, PaymentOptions } from './screens';
 import { Boxes, Navigation, Popups } from './components'
 import './App.css';
 import { Provider } from 'react-redux';
@@ -16,7 +16,7 @@ const App = () => {
 
   useAuthRedirect(location.pathname);
 
-  const shouldShowNavBar = !['/menu-detail', '/cart', '/on-going', '/payment', '/nearby-restaurants', '/login'].some((path) => location.pathname.startsWith(path));
+  const shouldShowNavBar = !['/menu-detail', '/cart', '/on-going', '/payment', '/nearby-restaurants', '/login', '/payment-options'].some((path) => location.pathname.startsWith(path));
 
   return (
     <>
@@ -36,6 +36,7 @@ const App = () => {
           <Route path="/nearby-restaurants" element={<NearbyRestaurant />} /> 
           <Route path="/popups" element={<Popups />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/payment-options" element={<PaymentOptions />} /> 
         </Routes>
       </div>
       {shouldShowNavBar && <Navigation />}

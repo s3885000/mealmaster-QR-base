@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Navigation, Header, Items, Buttons, Popups } from './components'; // Import Popups
+import { Navigation, Header, Items, Buttons, Popups } from './components'; 
+import { Login } from './screens'; 
 import './App.css';
 
 const App = () => {
@@ -18,16 +19,11 @@ const App = () => {
 
   return (
     <Router>
-      <Header />
-      <Navigation />
       <div className="main-content flex justify-center items-center min-h-screen">
         <div className="items-container space-y-2.5">
-          <Buttons context='update' onClick={() => showPopup('alert')} />
-          <Buttons context='update' onClick={() => showPopup('add_table')} />
-          <Buttons context='update' onClick={() => showPopup('edit_food')} />
-          <Buttons context='update' onClick={() => showPopup('add_food')} />
         </div>
         <Routes>
+          <Route path="/login" element={<Login />} /> 
           <Route path="/navigation" element={<Navigation />} /> 
         </Routes>
       </div>

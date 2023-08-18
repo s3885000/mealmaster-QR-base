@@ -13,18 +13,6 @@ const Popups = ({ visible, type, onClose }) => {
     setShowPopup(false);
   }
 
-  const PopupHeader = ({ title }) => (
-    <h1 className='px-2 text-xl font-bold bg-white rounded-t-xl w-fit'>{title}</h1>
-  );
-
-  const PopupFooter = ({ buttons }) => (
-    <div className='flex flex-row justify-center'>
-      {buttons.map((btn, index) => (
-        <Buttons key={index} context={btn.context} className='m-5' onClick={btn.onClick} />
-      ))}
-    </div>
-  );
-
   const data_1 = [
     {order_id: 1, timestamp: "20/12/2023 12:48", table: 15, total: "135,000 VND"},
   ]
@@ -34,6 +22,20 @@ const Popups = ({ visible, type, onClose }) => {
     {quantity: 1, name: "Spicy fresh crab", price: "35,000 VND", notes: "No spice"},
     {quantity: 1, name: "Spicy fresh crab", price: "35,000 VND", notes: "No spice"},
   ]
+
+  const PopupHeader = ({ title }) => (
+    <div className={`bg-gray absolute -ml-6 -mt-11 h-10 rounded-t-3xl w-full`}>
+      <h1 className='absolute mt-4 ml-4 px-2 text-xl font-bold bg-white rounded-t-xl w-fit z-20'>{title}</h1>
+    </div>
+  );
+
+  const PopupFooter = ({ buttons }) => (
+    <div className='flex flex-row justify-center'>
+      {buttons.map((btn, index) => (
+        <Buttons key={index} context={btn.context} className='m-5' onClick={btn.onClick} />
+      ))}
+    </div>
+  );
 
   const popupContent = {
     'alert': (
@@ -253,9 +255,6 @@ const Popups = ({ visible, type, onClose }) => {
   return (
     <div className='fixed inset-0 bg-black bg-opacity-50 z-50 h-screen flex items-center justify-center'>
       <div className={`animate-slide-up ${showPopup ? 'show' : ''}`}>
-        <div ref={popupRef} className={`bg-gray px-6 pt-4 rounded-t-3xl w-full text-center`}>
-          {PopupHeader[type]}
-        </div>
         <div ref={popupRef} className={`bg-white px-6 py-4 rounded-b-3xl w-full`}>
           {popupContent[type]}
         </div>

@@ -25,6 +25,16 @@ const Popups = ({ visible, type, onClose }) => {
     </div>
   );
 
+  const data_1 = [
+    {order_id: 1, timestamp: "20/12/2023 12:48", table: 15, total: "135,000 VND"},
+  ]
+
+  const data_2 = [
+    {quantity: 1, name: "Spicy fresh crab", price: "35,000 VND", notes: "No spice"},
+    {quantity: 1, name: "Spicy fresh crab", price: "35,000 VND", notes: "No spice"},
+    {quantity: 1, name: "Spicy fresh crab", price: "35,000 VND", notes: "No spice"},
+  ]
+
   const popupContent = {
     'alert': (
       <>
@@ -131,7 +141,94 @@ const Popups = ({ visible, type, onClose }) => {
           { context: 'update', onClick: handleOnClose }
         ]} />
       </>
-    )
+    ),
+    'order_details': (
+      <>
+        <PopupHeader title="Order Details" />
+        {/* <form className='grid justify-items-center'>
+          <table>
+            <tr>
+              <th>Order ID</th>
+              <th>Timestamp</th>
+              <th>Table</th>
+              <th>Total</th>
+            </tr>
+            <tr>
+              <th>#ABC123</th>
+              <th>20/12/2023 12:48</th>
+              <th>15</th>
+              <th>135,000</th>
+            </tr>
+          </table>
+          <table>
+            <tr>
+              <th>Quantity</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Notes</th>
+            </tr>
+            <tr>
+              <th>1</th>
+              <th>Spicy fresh crab</th>
+              <th>35,000 VND</th>
+              <th>No spice</th>
+            </tr>
+            <tr>
+              <th>2</th>
+              <th>Onigiri</th>
+              <th>70,000 VND</th>
+              <th>No spice</th>
+            </tr>
+            <tr>
+              <th>3</th>
+              <th>Coconut water</th>
+              <th>30,000 VND</th>
+              <th></th>
+            </tr>
+          </table>
+        </form> */}
+        
+        <form className='grid justify-items-center'>
+        <table>
+            <tr>
+              <th>Order ID</th>
+              <th>Timestamp</th>
+              <th>Table</th>
+              <th>Total</th>
+            </tr>
+            {data_1.map((val, key) => {
+              return (
+                <tr key={key}>
+                  <td>{val.order_id}</td>
+                  <td>{val.timestamp}</td>
+                  <td>{val.table}</td>
+                  <td>{val.total}</td>
+                </tr>
+              )
+            })}
+          </table>
+          <table>
+            <tr>
+              <th>Quantity</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Notes</th>
+            </tr>
+            {data_2.map((val, key) => {
+              return (
+                <tr key={key}>
+                  <td>{val.quantity}</td>
+                  <td>{val.name}</td>
+                  <td>{val.price}</td>
+                  <td>{val.notes}</td>
+                </tr>
+              )
+            })}
+          </table>
+        </form>
+        
+      </>
+    )    
   };
 
   useEffect(() => {

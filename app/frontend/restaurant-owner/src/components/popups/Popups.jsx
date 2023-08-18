@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Buttons } from '../../components';
+import { Upload } from '../../asset/icons/misc/index.js';
 
 const Popups = ({ visible, type, onClose }) => {
   const [showPopup, setShowPopup] = useState(false);
@@ -84,13 +85,13 @@ const Popups = ({ visible, type, onClose }) => {
             <input className="border border-gray rounded-md placeholder-slate-400 w-full" placeholder="Enter price" type="text" name="price" />
           </label>
 
-          {/* <label class="block">
+          <label class="block">
             <input  type="file" name="table_name" accept='image/*' hidden/>
             <div className='outline outline-2 outline-black outline-dashed rounded-md w-fit grid justify-items-center p-4'>
               <Upload className='w-14 h-14'/>
               <p className='text-center'>Preferred size is 400px * 300px<br/>Drag 'n' drop some files here, or click to select file</p>
             </div>
-          </label> */}
+          </label>
         </form>
         <PopupFooter buttons={[
           { context: 'cancel', onClick: handleOnClose },
@@ -117,13 +118,13 @@ const Popups = ({ visible, type, onClose }) => {
             <input className="border border-gray rounded-md placeholder-slate-400 w-full" placeholder="Enter price" type="text" name="price" />
           </label>
 
-          {/* <label class="block">
+          <label class="block">
             <input  type="file" name="table_name" accept='image/*' hidden/>
             <div className='outline outline-2 outline-black outline-dashed rounded-md w-fit grid justify-items-center p-4'>
               <Upload className='w-14 h-14'/>
               <p className='text-center'>Preferred size is 400px * 300px<br/>Drag 'n' drop some files here, or click to select file</p>
             </div>
-          </label> */}
+          </label>
         </form>
         <PopupFooter buttons={[
           { context: 'cancel', onClick: handleOnClose },

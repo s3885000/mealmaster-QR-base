@@ -22,6 +22,7 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     decline: 'Decline',
     save:'Save',
     ready:'Ready',
+    completed:'Completed',
     add_icon:  <AddIcon />,
     download:  <DownloadIcon />,
     delete:  <DeleteIcon />,
@@ -53,6 +54,7 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     download: 'bg-primary text-white rounded-md flex flex-col items-center justify-center',
     delete: 'bg-error text-white rounded-md flex flex-col items-center justify-center',
     on_going_icon: 'border-2 border-primary text-primary rounded-md flex items-center justify-center',
+    completed: 'bg-primary text-white rounded-md',
   };
 
   // Button size
@@ -75,6 +77,7 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     download: 'w-[50px] h-[50px] rounded-[12px]',
     delete: 'w-[50px] h-[50px] rounded-[12px]',
     on_going_icon: 'w-[40px] h-[40px] rounded-[12px]',
+    completed: 'w-[150px] h-[45px] rounded-md',
   };
 
   let buttonContent = buttonContentContexts[context] || 'Default Content';

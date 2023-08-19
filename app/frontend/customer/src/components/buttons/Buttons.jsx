@@ -11,6 +11,7 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     guest: 'Access as a Guest',
     apply: 'Apply',
     close: 'Close',
+    payment_options: 'Payment Options',
     logout: 'Logout',
     add_more: 'Add more Items',
     scan_qr: 'Scan QR',
@@ -49,7 +50,7 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     cart: 'bg-primary2 text-primary',
     back: 'bg-secondary text-primary',
     default: 'bg-primary text-white',
-    edit:'text-primary'
+    edit:'text-primary',
   };
 
   // Button size

@@ -54,7 +54,7 @@ const Popups = ({ visible, type, onClose }) => {
         <form>
           <label className="block">
             <span className="block text-2xl font-bold">Name</span>
-            <input className="border border-gray rounded-md placeholder-slate-400 w-full" placeholder="Enter table name" type="text" name="table_name" />
+            <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter table name" type="text" name="table_name" />
           </label>
         </form>
         <PopupFooter buttons={[
@@ -69,7 +69,7 @@ const Popups = ({ visible, type, onClose }) => {
         <form>
           <label className="block">
             <span className="block text-2xl font-bold">Name</span>
-            <input className="border border-gray rounded-md placeholder-slate-400 w-full" placeholder="Enter table name" type="text" name="table_name" />
+            <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter table name" type="text" name="table_name" />
           </label>
         </form>
         <PopupFooter buttons={[
@@ -84,20 +84,20 @@ const Popups = ({ visible, type, onClose }) => {
         <form className='grid justify-items-center'>
           <label className="block">
             <span className="block text-2xl font-bold">Name</span>
-            <input className="border border-gray rounded-md placeholder-slate-400 w-full" placeholder="Enter food name" type="text" name="food_name" />
+            <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter food name" type="text" name="food_name" />
           </label>
 
           <label className='block'>
             <span className='block text-2xl font-bold'>Description</span>
-            <input className="border border-gray rounded-md placeholder-slate-400 w-full" placeholder="Enter description" type="text" name="description" />
+            <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter description" type="text" name="description" />
           </label>
 
           <label className='block'>
             <span className='block text-2xl font-bold'>Price (VND)</span>
-            <input className="border border-gray rounded-md placeholder-slate-400 w-full" placeholder="Enter price" type="text" name="price" />
+            <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter price" type="text" name="price" />
           </label>
 
-          <label class="block">
+          <label class="block pt-4">
             <input  type="file" name="table_name" accept='image/*' hidden/>
             <div className='outline outline-2 outline-black outline-dashed rounded-md w-fit grid justify-items-center p-4'>
               <Upload className='w-14 h-14'/>
@@ -117,20 +117,20 @@ const Popups = ({ visible, type, onClose }) => {
         <form className='grid justify-items-center'>
           <label className="block">
             <span className="block text-2xl font-bold">Name</span>
-            <input className="border border-gray rounded-md placeholder-slate-400 w-full" placeholder="Enter food name" type="text" name="food_name" />
+            <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter food name" type="text" name="food_name" />
           </label>
 
           <label className='block'>
             <span className='block text-2xl font-bold'>Description</span>
-            <input className="border border-gray rounded-md placeholder-slate-400 w-full" placeholder="Enter description" type="text" name="description" />
+            <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter description" type="text" name="description" />
           </label>
 
           <label className='block'>
             <span className='block text-2xl font-bold'>Price (VND)</span>
-            <input className="border border-gray rounded-md placeholder-slate-400 w-full" placeholder="Enter price" type="text" name="price" />
+            <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter price" type="text" name="price" />
           </label>
 
-          <label class="block">
+          <label class="block pt-4">
             <input  type="file" name="table_name" accept='image/*' hidden/>
             <div className='outline outline-2 outline-black outline-dashed rounded-md w-fit grid justify-items-center p-4'>
               <Upload className='w-14 h-14'/>

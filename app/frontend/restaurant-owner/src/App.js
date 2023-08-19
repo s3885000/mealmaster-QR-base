@@ -26,6 +26,7 @@ const App = () => {
           <Buttons context='update' onClick={() => showPopup('add_table')} />
           <Buttons context='update' onClick={() => showPopup('edit_food')} />
           <Buttons context='update' onClick={() => showPopup('add_food')} />
+          <Buttons context='update' onClick={() => showPopup('order_details')} />
         </div>
         <Routes>
           <Route path="/navigation" element={<Navigation />} /> 

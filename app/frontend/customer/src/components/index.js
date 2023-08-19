@@ -5,6 +5,7 @@ export { default as Categories } from './categories/Categories';
 export { default as Header } from './header/Header';
 export { default as Restaurant } from './Restaurant/Restaurant';
 export { default as Items } from './items/Items';
+export { default as Loading } from './loading/Loading';
 export { default as Navigation } from './navigation/Navigation';
 export { default as Popups } from './popups/Popups';
 export { default as Progress } from './progress/Progress';

@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import { OnGoing, Cart, Home, Login, LoginPassword, MenuDetail, MenuOverview, Payment, Profile, ScanQR, SignUp, NearbyRestaurant, PaymentOptions } from './screens';
-import { Boxes, Navigation, Popups } from './components'
+import { Boxes, Navigation, Popups, Loading } from './components';
 import './App.css';
 import { Provider } from 'react-redux';
-import store from './redux/store'
+import store from './redux/store';
 import { useAuthRedirect } from './hooks/useAuthRedirect';
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
@@ -13,10 +13,23 @@ const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY);
 
 const App = () => {
   const location = useLocation();
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useAuthRedirect(location.pathname);
 
   const shouldShowNavBar = !['/menu-detail', '/cart', '/on-going', '/payment', '/nearby-restaurants', '/login', '/payment-options'].some((path) => location.pathname.startsWith(path));
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>

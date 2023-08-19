@@ -47,6 +47,13 @@ const Popups = ({visible, type, onClose, onApply, currentNotes, onUpdateNotes}) 
         <Buttons context='on_going' className='mb-5' onClick={() => handleNavigation('/on-going')}></Buttons>
       </>
     ),
+    'add_card_successful': (
+      <>
+        <h2 className='text-2xl font-bold mb-4'>Card Added!</h2>
+        <p className='text-lg mb-3'>Select your newly added card in Payment Options</p>
+        <Buttons context='payment_options' className='mb-5' onClick={() => handleNavigation('/payment-options')}></Buttons>
+      </>
+    ),
     'notes': (
       <>
         <h2 className='text-2xl font-bold mb-4'>Edit notes</h2>

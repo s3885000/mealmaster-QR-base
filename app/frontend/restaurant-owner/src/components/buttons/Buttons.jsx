@@ -5,6 +5,10 @@ import { AddIcon, DeleteIcon, DownloadIcon, DragDropIcon, EditIcon, FilterIcon, 
 
 const Buttons = ({ type, className, style, onClick, context, count, setCount = () => {} }) => {
   const [isClicked, setIsClicked] = useState(false);
+  // Button type
+  const buttonTypeContexts = {
+    add: 'submit',
+  }
 
   // Button content
   const buttonContentContexts = {
@@ -80,9 +84,11 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
   let buttonContent = buttonContentContexts[context] || 'Default Content';
   let buttonStyles = className ? ` ${className}` : '';
   let buttonSize = '';
+  let buttonType = '';
 
   buttonStyles += ` ${buttonStylesContexts[context] || buttonStylesContexts.default}`;
   buttonSize = buttonSizeContexts[context] || buttonSizeContexts.default;
+  buttonType = buttonTypeContexts[context] || buttonTypeContexts.default;
 
   const handleClick = () => {
     setIsClicked(!isClicked);
@@ -98,7 +104,7 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
 
   return (
     <div className='center-content'>
-      <button type={type ? type : "button"} className={`${buttonStyles} ${buttonSize}`} onClick={handleClick} style={style}>
+      <button type={`${buttonType}`} className={`${buttonStyles} ${buttonSize}`} onClick={handleClick} style={style}>
         {buttonContent}
       </button>
     </div>

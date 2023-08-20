@@ -6,6 +6,32 @@ const Popups = ({ visible, type, onClose }) => {
   const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef(null);
 
+  // For validation
+  const [errors, setErrors] = useState({})
+  const [addTableData, setAddTableData] = useState({
+    addTableName: ''
+  })
+  const handleAddTableChange = (e) => {
+    const {name, value} = e.target;
+    setAddTableData({
+      ...addTableData, [name] : value
+    })
+  }
+
+  const handleAddTableSubmit = (e) =>{
+    e.preventDefault()
+    const validationErrors = {}
+    if(!addTableData.addTableName.trim()) {
+      validationErrors.addTableName = "Table name is required"
+    }
+
+    setErrors(validationErrors)
+
+    if(Object.keys(validationErrors).length === 0) {
+      alert("Form submitted successfully")
+    }
+  }
+
   const handleOnClose = () => {
     if (onClose) {
       onClose();
@@ -51,11 +77,39 @@ const Popups = ({ visible, type, onClose }) => {
     'add_table': (
       <>
         <PopupHeader title="Add Table" />
+        <form onSubmit={handleAddTableSubmit}>
+            <label className="block text-2xl font-bold">Name</label>
+            <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter table name" type="text" name="addTableName"
+            onChange={handleAddTableChange}
+            />
+            {errors.addTableName &&<span>{errors.addTableName}</span>}
+            <PopupFooter buttons={[
+              { context: 'cancel', onClick: handleOnClose },
+              { context: 'add'}
+            ]} />
+        </form>
+        
+      </>
+    ),
+    'edit_table': (
+      <>
+        <PopupHeader title="Edit Table" />
         <form>
-          <label className="block">
-            <span className="block text-2xl font-bold">Name</span>
-            <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter table name" type="text" name="table_name" />
-          </label>
+            <label className="block text-2xl font-bold">Name</label>
+            <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter table name" type="text" name="editTableName" />
+        </form>
+        <PopupFooter buttons={[
+          { context: 'cancel', onClick: handleOnClose },
+          { context: 'update', onClick: handleOnClose }
+        ]} />
+      </>
+    ),
+    'add_category': (
+      <>
+        <PopupHeader title="Add Category" />
+        <form>
+            <label className="block text-2xl font-bold">Name</label>
+            <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter table name" type="text" name="addCategoryName" />
         </form>
         <PopupFooter buttons={[
           { context: 'cancel', onClick: handleOnClose },
@@ -63,14 +117,12 @@ const Popups = ({ visible, type, onClose }) => {
         ]} />
       </>
     ),
-    'edit_table': (
+    'edit_category': (
       <>
-        <PopupHeader title="Edit Table" />
+        <PopupHeader title="Edit Category" />
         <form>
-          <label className="block">
-            <span className="block text-2xl font-bold">Name</span>
-            <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter table name" type="text" name="table_name" />
-          </label>
+            <label className="block text-2xl font-bold">Name</label>
+            <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter table name" type="text" name="editCategoryName" />
         </form>
         <PopupFooter buttons={[
           { context: 'cancel', onClick: handleOnClose },
@@ -81,21 +133,15 @@ const Popups = ({ visible, type, onClose }) => {
     'add_food': (
       <>
         <PopupHeader title="Add Food" />
-        <form className='grid justify-items-center'>
-          <label className="block">
-            <span className="block text-2xl font-bold">Name</span>
+        <form>
+            <label className="block text-2xl font-bold">Name</label>
             <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter food name" type="text" name="food_name" />
-          </label>
 
-          <label className='block'>
-            <span className='block text-2xl font-bold'>Description</span>
+            <label className='block text-2xl font-bold'>Description</label>
             <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter description" type="text" name="description" />
-          </label>
 
-          <label className='block'>
-            <span className='block text-2xl font-bold'>Price (VND)</span>
+            <label className='block text-2xl font-bold'>Price (VND)</label>
             <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter price" type="text" name="price" />
-          </label>
 
           <label class="block pt-4">
             <input  type="file" name="table_name" accept='image/*' hidden/>
@@ -114,21 +160,15 @@ const Popups = ({ visible, type, onClose }) => {
     'edit_food': (
       <>
         <PopupHeader title="Edit Food" />
-        <form className='grid justify-items-center'>
-          <label className="block">
-            <span className="block text-2xl font-bold">Name</span>
+        <form>
+            <label className="block text-2xl font-bold">Name</label>
             <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter food name" type="text" name="food_name" />
-          </label>
 
-          <label className='block'>
-            <span className='block text-2xl font-bold'>Description</span>
+            <label className='block text-2xl font-bold'>Description</label>
             <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter description" type="text" name="description" />
-          </label>
 
-          <label className='block'>
-            <span className='block text-2xl font-bold'>Price (VND)</span>
+            <label className='block text-2xl font-bold'>Price (VND)</label>
             <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter price" type="text" name="price" />
-          </label>
 
           <label class="block pt-4">
             <input  type="file" name="table_name" accept='image/*' hidden/>

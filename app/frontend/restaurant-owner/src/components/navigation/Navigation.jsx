@@ -4,7 +4,7 @@ import { HomeNav, TableNav, MenuNav, OnGoingNav, HistoryNav, HomeNavActive, Tabl
 import { MealMasterLogo } from '../../asset/images/mealmaster_logo/index.js';
 
 const navItems = [
-  { name: 'Home', Icon: HomeNav, ActiveIcon: HomeNavActive, path: '/home' },
+  { name: 'Home', Icon: HomeNav, ActiveIcon: HomeNavActive, path: '/dashboard' },
   { name: 'Table', Icon: TableNav, ActiveIcon: TableNavActive, path: '/tables' },
   { name: 'Menu', Icon: MenuNav, ActiveIcon: MenuNavActive, path: '/menu' },
   { name: 'On-going', Icon: OnGoingNav, ActiveIcon: OnGoingNavActive, path: '/on-going' },

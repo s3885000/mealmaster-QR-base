@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { AddIcon, DeleteIcon, DownloadIcon, DragDropIcon, EditIcon, FilterIcon, HideIcon, OnGoingIcon, SearchIcon, ViewIcon } from '../../asset/icons/button/index.js';
+import {AddIcon, DeleteIcon, DownloadIcon, DragDropIcon, EditIcon, FilterIcon, HideIcon, OnGoingIcon, SearchIcon, ViewIcon} from '../../asset/icons/button/index.js';
 import { FoodTwo } from '../../asset/images/restaurant_info/haidilao/food/index.js';
 import { Buttons } from '../../components'; 
 
@@ -70,7 +70,7 @@ const orderStatus = (status) => {
   }
 };
 
-const Items = ({ type, state: initialState, index, onMove }) => {
+const Items = ({ type, state: initialState, index, onMove, isSelected = false, onCheckboxChange }) => {
   const [state, setState] = useState(initialState);
   const [iconState, setIconState] = useState('view');
   
@@ -84,18 +84,18 @@ const Items = ({ type, state: initialState, index, onMove }) => {
 
   return (
     <DraggableItem id={index} onMove={onMove}>
-      {renderSwitch(type, state, index, toggleState, iconState, toggleIconState)}
+      {renderSwitch(type, state, index, toggleState, iconState, toggleIconState, isSelected, onCheckboxChange)}
     </DraggableItem>
   );
 };
 
-const renderSwitch = (type, state, index, toggleState = null, iconState, toggleIconState) => {
+const renderSwitch = (type, state, index, toggleState = null, iconState, toggleIconState, isSelected, onCheckboxChange) => {
   switch (type) {
     case 'tables':
       return (
         <ItemContainer>
           <div className="flex-grow flex items-center space-x-3 md:space-x-5 lg:space-x-8">
-            <input type="checkbox" className="mr-2" />
+            <input type="checkbox" className="mr-4" checked={isSelected} onChange={() => onCheckboxChange(index)}/>
             <span className="text-sm md:text-base lg:text-lg font-bold text-black">Table 1</span>
             <span className="text-xs md:text-sm lg:text-base font-bold text-gray">Near window</span>
           </div>

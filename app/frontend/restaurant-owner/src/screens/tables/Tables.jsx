@@ -7,12 +7,7 @@ const Tables = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const PER_PAGE = 6;  
 
-    // Mock data. Replace with your actual data.
-    const allTables = new Array(20).fill(0).map((_, idx) => <Items key={idx} type="tables" />); 
-    const offset = currentPage * PER_PAGE;
-    const currentTables = allTables.slice(offset, offset + PER_PAGE);
-
-    const pageCount = Math.ceil(allTables.length / PER_PAGE);
+    const pageCount = Math.ceil(20 / PER_PAGE);
 
     const handlePageClick = ({ selected }) => {
         setCurrentPage(selected);
@@ -20,12 +15,36 @@ const Tables = () => {
 
     // State to manage the checkbox selection
     const [selectAll, setSelectAll] = useState(false);
+    const [checkedTables, setCheckedTables] = useState(new Array(20).fill(false));
 
-    // Handler for the "Select all tables" button
     const handleSelectAll = () => {
-        setSelectAll(!selectAll);
-        // Further logic to control checkboxes in Items components
+        const newSelectAll = !selectAll;
+        setSelectAll(newSelectAll);
+        
+        // Update all checkboxes in the checkedTables array
+        const newCheckedTables = new Array(20).fill(newSelectAll);
+        setCheckedTables(newCheckedTables);
     };
+
+    const handleCheckboxChange = (index) => {
+        const newCheckedTables = [...checkedTables];
+        newCheckedTables[index] = !newCheckedTables[index];
+        setCheckedTables(newCheckedTables);
+    };
+
+    // Mock data. We're using a function instead of direct JSX to pass the isSelected prop.
+    const renderTable = (idx) => (
+        <Items 
+            key={idx} 
+            type="tables" 
+            isSelected={checkedTables[idx]} 
+            index={idx} 
+            onCheckboxChange={handleCheckboxChange}
+        />
+    );
+    const allTables = new Array(20).fill(0).map((_, idx) => renderTable(idx));
+    const offset = currentPage * PER_PAGE;
+    const currentTables = allTables.slice(offset, offset + PER_PAGE);
 
     return (
         <div className="tables-screen h-screen flex flex-col">
@@ -49,7 +68,6 @@ const Tables = () => {
                         {table}
                     </div>
                 ))}
-                    
             </div>
             <div className="flex justify-center items-center py-4 w-full">
                 <ReactPaginate
@@ -57,7 +75,7 @@ const Tables = () => {
                     nextLabel={"Next →"}
                     pageCount={pageCount}
                     onPageChange={handlePageClick}
-                    containerClassName={"pagination"}
+                    containerClassName={"pagination"} 
                     pageLinkClassName={"pagination__link"}
                     previousLinkClassName={"pagination__link"}
                     nextLinkClassName={"pagination__link"}

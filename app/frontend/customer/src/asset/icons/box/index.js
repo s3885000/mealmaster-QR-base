@@ -5,4 +5,6 @@ export { ReactComponent as InProgressIcon } from './inprogress.svg';
 export { ReactComponent as EditIcon } from './edit.svg';
 export { ReactComponent as StarIcon } from './star.svg';
 export { ReactComponent as MoreIcon } from './more.svg';
-
+export { ReactComponent as ShieldIcon } from './shield.svg';
+export { ReactComponent as LockOffIcon } from './lock-off.svg';
+export { ReactComponent as StripeLogoIcon } from './logos_stripe.svg';

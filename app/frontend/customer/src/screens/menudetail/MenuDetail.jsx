@@ -91,7 +91,7 @@ const MenuDetail = () => {
   return (
     <div className='relative flex flex-col items-start justify-start h-screen px-0 pt-0 space-y-8 overflow-y-auto'>
       <div className='relative w-full'>
-        <Buttons context='back' className='absolute top-7 left-6 z-50 drop-shadow-2xl' onClick={handleBackClick}/>
+        <Buttons context='back' className='absolute top-20 left-6 z-50 drop-shadow-2xl' onClick={handleBackClick}/>
         <div className="w-full h-80 relative z-10">
           <Carousel 
             showStatus={false} 
@@ -131,7 +131,7 @@ const MenuDetail = () => {
             placeholder='Enter your notes here'
           />
         </div>
-        <div className='flex justify-between items-center w-full mb-3.5'>
+        <div className='flex justify-between items-center w-full mb-2'>
           <h2 className='text-3xl font-medium'>{formatPrice(menuItem?.price)} đ</h2>
 
           <div className="flex items-center">

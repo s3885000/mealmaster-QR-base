@@ -50,5 +50,5 @@ export class UsersController {
     return { message: "User profile updated", user: user.toResponseObject() };
     
   }
-
 }
+

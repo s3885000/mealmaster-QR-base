@@ -26,13 +26,17 @@ export default api;
 
 // Function to decode the token and get user details
 export const decodeToken = () => {
-    const token = localStorage.getItem('accessToken');
-    if (!token) return null;
+  const token = localStorage.getItem('accessToken');
+  if (!token) return null;
 
-    try {
-        return jwtDecode(token);
-    } catch (e) {
-        console.error("Failed to decode token:", e);
-        return null;
-    }
+  try {
+      const decoded = jwtDecode(token);
+      return {
+          ...decoded,
+          userId: decoded.sub // Map 'sub' to 'userId' for consistency
+      };
+  } catch (e) {
+      console.error("Failed to decode token:", e);
+      return null;
+  }
 }

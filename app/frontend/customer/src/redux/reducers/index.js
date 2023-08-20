@@ -6,6 +6,7 @@ import { menuItemDetailsReducer } from './menuItemDetailsReducer';
 import { authReducer } from './authentication/authReducer';
 import  cartReducer  from './cartReducer';
 import userReducer from './userReducer';
+import paymentReducer from './paymentReducer';
 
 
 export default combineReducers({
@@ -16,4 +17,5 @@ export default combineReducers({
   cart: cartReducer,
   type: typeReducer,
   user: userReducer,
+  payment: paymentReducer,
 });

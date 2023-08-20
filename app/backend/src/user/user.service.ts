@@ -1,17 +1,20 @@
 import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { User, UserRole } from './entity/user.entity';
 import { CreateUserDto } from './dto/request/createUser.dto';
 import * as bcrypt from 'bcrypt';
 import { CreateRestaurantOwnerDto } from './dto/request/createRestaurantOwner.dto';
 import { UpdateUserDto } from './dto/request/updateUser.dto';
+import { StripeService } from 'src/stripe/stripe.service';
+import Stripe from 'stripe';
+
 
 @Injectable()
 export class UserService {
+
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
   async registerUser(createUserDto: CreateUserDto | CreateRestaurantOwnerDto, userRole: UserRole): Promise<User> {
@@ -134,5 +137,6 @@ export class UserService {
 
     return updatedUser;
   }
-
+  
+  
 }

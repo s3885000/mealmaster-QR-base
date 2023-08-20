@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, NotFoundException, ParseIntPipe } from '@nestjs/common';
 import { Payment } from './entity/payment.entity';
 import { PaymentService } from './payment.service';
 import { CreatePaymenRequestDto } from './dto/request/CreatePaymentRequestDto.dto';
@@ -36,6 +36,27 @@ export class PaymentController {
     @Put(':id')
     async update(@Param('id') id : number, @Body() updatePaymentDto: UpdatePaymentRequestDto): Promise<PaymentResponseDto> {
         return this.paymentService.update(id, updatePaymentDto);
+    }
+
+      // Stripe
+    @Post(':userId/card')
+    async addCard(@Param('userId', ParseIntPipe) userId: number, @Body('token') token: string): Promise<string> {
+        return await this.paymentService.addCardForUser(userId, token);
+    }
+      
+
+    @Get(':userId/cards')
+    //@UseGuards(AuthGuard, RolesGuard)
+    //@Roles(UserRole.CUSTOMER)
+    async listCards(@Param('userId', ParseIntPipe) userId: number): Promise<any[]> {
+        return await this.paymentService.listCardsForUser(userId);
+    }
+
+    @Post(':userId/charge')
+    //@UseGuards(AuthGuard, RolesGuard)
+    //@Roles(UserRole.CUSTOMER)
+    async chargeUser(@Param('userId', ParseIntPipe) userId: number, @Body('amountInDongs') amountInDongs: number): Promise<any> {
+        return await this.paymentService.chargeUser(userId, amountInDongs);
     }
 
 }

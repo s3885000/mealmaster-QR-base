@@ -28,6 +28,9 @@ export class User {
     email: string;
 
     @Column({ nullable: true })
+    stripeCustomerId: string;
+
+    @Column({ nullable: true })
     password: string;
 
     @Column({ type: 'enum', enum: UserRole, default: UserRole.CUSTOMER})

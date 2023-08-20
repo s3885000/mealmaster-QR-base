@@ -13,16 +13,21 @@ import { OrderModule } from './order/order.module';
 import { TableModule } from './table/table.module';
 import { MenuItemsModule } from './menu_items/menu_items.module';
 import { CartItemModule } from './cart_item/cart_item.module';
+import { StripeModule } from './stripe/stripe.module';
+import { PaymentModule } from './payment/payment.module';
 
 
 @Module({
   imports: [
+    ConfigModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: configFactory,
       inject: [ConfigService],
       
     }),
+    PaymentModule,
+    StripeModule,
     UsersModule,
     AuthModule,
     CartModule,
@@ -40,8 +45,7 @@ import { CartItemModule } from './cart_item/cart_item.module';
       }),
       inject: [ConfigService],
     }),
-    ConfigModule,
-    
+    StripeModule,
   ],
   controllers: [],
   providers: [],

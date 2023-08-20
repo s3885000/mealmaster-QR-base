@@ -8,11 +8,13 @@ import { User } from 'src/user/entity/user.entity';
 import { TokenService } from '../jwt/token/token.service';
 import { AuthService } from './auth.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { StripeModule } from 'src/stripe/stripe.module';
 
 
 @Global()
 @Module({
   imports: [
+    StripeModule,
     ConfigModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],

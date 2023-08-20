@@ -4,7 +4,7 @@ import { Buttons } from '../../components';
 
 const Popups = ({visible, type, onClose, onApply, currentNotes, onUpdateNotes}) => {
   const navigate = useNavigate();
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(true);
   const popupRef = useRef(null);
   const [localNotes, setLocalNotes] = useState(currentNotes);
 
@@ -30,6 +30,14 @@ const Popups = ({visible, type, onClose, onApply, currentNotes, onUpdateNotes}) 
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [popupRef]);
+
+  const defaultContent = (
+    <>
+      <h2 className='text-2xl font-bold mb-4'>Default Popup Content</h2>
+      <p className='text-lg mb-3'>This is the default content for the popup.</p>
+    </>
+  );
+  
 
   const popupContent = {
     'order_completed': (
@@ -93,9 +101,9 @@ const Popups = ({visible, type, onClose, onApply, currentNotes, onUpdateNotes}) 
   if (!showPopup) return null;
 
   return (
-    <div className='fixed inset-0 bg-black bg-opacity-50 z-50 h-screen'>
+    <div className='fixed top-0 bottom-0 left-0 right-0 bg-black bg-opacity-50 z-50'>
       <div ref={popupRef} className={`absolute bottom-0 bg-white px-6 py-4 rounded-t-3xl w-full text-center animate-slide-up ${showPopup ? 'show' : ''}`}>
-        {popupContent[type]}
+        {popupContent[type] || defaultContent}
       </div>
     </div>
   );

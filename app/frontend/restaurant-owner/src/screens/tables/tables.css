@@ -1,0 +1,22 @@
+.pagination {
+    display: flex;
+    justify-content: space-between;  /* Distribute space equally between page links */
+    align-items: center;
+    width: 100%;  /* Stretch horizontally */
+    max-width: 800px; /* Set a maximum width if necessary */
+    padding: 0 20px; /* Add some padding on the sides */
+}
+
+.pagination__link {
+    cursor: pointer;
+    padding: 10px;
+}
+
+.pagination__link--active {
+    font-weight: bold;
+}
+
+.pagination__link--disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}

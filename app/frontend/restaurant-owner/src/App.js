@@ -1,26 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Navigation, Header, Items } from './components'
+import { Navigation, Header, Items, Buttons, Popups } from './components'; 
+import { Dashboard, Login, OnGoing, PasswordRecovery, SignUp, Tables, Menu, History, Profile } from './screens'; 
 import './App.css';
 
 const App = () => {
+  const [activePopup, setActivePopup] = useState(null); // State to keep track of the active popup
+
+  // Show the specified popup
+  const showPopup = (popupType) => {
+    setActivePopup(popupType);
+  };
+
+  // Close the currently active popup
+  const closePopup = () => {
+    setActivePopup(null);
+  };
+
   return (
     <Router>
-      <Header />
-      <Navigation />
-      <div className="main-content">
-        <Items type="tables" />
-        <Items type="categories" state="active" />
-        <Items type="categories" state="inactive" />
-        <Items type="food_item" state="active" />
-        <Items type="food_item" state="inactive" />
-        <Items type="orders" state="in_progress" />
-        <Items type="orders" state="active" />
-        <Items type="orders" state="inactive" />
+      <div className="main-content flex justify-center items-center min-h-screen">
+        <div className="items-container space-y-2.5">
+        </div>
         <Routes>
-          <Route path="/navigation" element={<Navigation />} /> 
+          <Route path="/login" element={<Login />} /> 
+          <Route path="/signup" element={<SignUp />} /> 
+          <Route path="/password-recovery" element={<PasswordRecovery />} /> 
+          <Route path="/dashboard" element={<Dashboard />} /> 
+          <Route path="/history" element={<History />} /> 
+          <Route path="/menu" element={<Menu />} /> 
+          <Route path="/on-going" element={<OnGoing />} />
+          <Route path="/tables" element={<Tables />} />  
+          <Route path="/profile" element={<Profile />} /> 
         </Routes>
       </div>
+      {activePopup && <Popups type={activePopup} onClose={closePopup} visible={true} />}
     </Router>
   );
 };

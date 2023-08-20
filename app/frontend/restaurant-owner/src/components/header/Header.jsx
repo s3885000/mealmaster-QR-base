@@ -5,11 +5,11 @@ import { ProfilePic } from '../../asset/images/user_profile/index.js';
 
 const Header = () => {
   return (
-    <div className='flex justify-between pt-5 items-center px-1 sm:px-6 sm:py-4'>
+    <div className='flex justify-between pt-5 items-center px-8 sm:px-6 sm:py-4'>
       <div className="flex-grow pl-1 sm:pl-0 pr-2 sm:pr-4"> 
         <Search />
       </div>
-      <div className='flex items-center space-x-2 pr-2 sm:pr-0'> 
+      <div className='flex items-center space-x-2 sm:pr-0'> 
         <Buttons context="on_going_icon" />
         <div className='w-10 h-10 sm:w-10 sm:h-10 bg-primary rounded-xl'>
           <ProfilePic className='w-full h-full rounded-xl' />

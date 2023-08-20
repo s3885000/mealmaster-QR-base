@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './buttons.css';
-import { AddIcon, DeleteIcon, DownloadIcon, EditIcon, FilterIcon, OnGoingIcon, QRCodeIcon, SearchIcon, ViewIcon } from '../../asset/icons/button/index.js';
+import { AddIcon, DeleteIcon, DownloadIcon, DragDropIcon, EditIcon, FilterIcon, HideIcon, OnGoingIcon, SearchIcon, ViewIcon } from '../../asset/icons/button/index.js';
 
 
 const Buttons = ({ type, className, style, onClick, context, count, setCount = () => {} }) => {
@@ -28,9 +28,9 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     edit:  <EditIcon />,
     filter:  <FilterIcon />,
     on_going_icon:  <OnGoingIcon />,
-    qr_code_icon:  <QRCodeIcon />,
     search:  <SearchIcon />,
     view:  <ViewIcon />,
+    hide:  <HideIcon />,
   };
 
   // Button styles

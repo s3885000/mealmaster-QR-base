@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { AddIcon, DeleteIcon, DownloadIcon, DragDropIcon, EditIcon, FilterIcon, HideIcon, OnGoingIcon, SearchIcon, ViewIcon } from '../../asset/icons/button/index.js';
+import {DownloadIcon, DragDropIcon, EditIcon, HideIcon, ViewIcon } from '../../asset/icons/button/index.js';
 import { FoodTwo } from '../../asset/images/restaurant_info/haidilao/food/index.js';
 import { Buttons } from '../../components';
 
@@ -68,7 +68,7 @@ const orderStatus = (status) => {
   }
 };
 
-const Items = ({ type, state, index, onMove, isSelected = false, onCheckboxChange, onCategoryClick }) => {
+const Items = memo(({ type, state, index, onMove, isSelected = false, onCheckboxChange, onCategoryClick }) => {
   const [iconState, setIconState] = useState('view');
 
   const toggleIconState = () => {
@@ -80,7 +80,7 @@ const Items = ({ type, state, index, onMove, isSelected = false, onCheckboxChang
       {renderSwitch(type, state, index, iconState, toggleIconState, isSelected, onCheckboxChange, onCategoryClick)}
     </DraggableItem>
   );
-};
+});
 
 const renderSwitch = (type, state, index, iconState, toggleIconState, isSelected, onCheckboxChange, onCategoryClick) => {
     switch (type) {

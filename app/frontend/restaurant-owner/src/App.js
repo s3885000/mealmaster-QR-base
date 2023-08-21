@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Navigation, Header, Items, Buttons, Popups } from './components'; 
+import { Popups } from './components'; 
 import { Dashboard, Login, OnGoing, PasswordRecovery, SignUp, Tables, Menu, History, Profile } from './screens'; 
 import './App.css';
 
@@ -12,7 +12,6 @@ const App = () => {
     setActivePopup(popupType);
   };
 
-  // Close the currently active popup
   const closePopup = () => {
     setActivePopup(null);
   };

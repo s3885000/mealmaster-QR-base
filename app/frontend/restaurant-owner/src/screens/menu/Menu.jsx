@@ -10,7 +10,6 @@ const Menu = () => {
     const [selectFoodItems, setSelectFoodItems] = useState(false);
     const [checkedFoodItems, setCheckedFoodItems] = useState(new Array(8).fill(false));
 
-    // Step 1: Convert allCategories and allFoodItems into state variables
     const [categories, setCategories] = useState(new Array(5).fill(0).map((_, idx) => idx));
     const [foodItems, setFoodItems] = useState(new Array(8).fill(0).map((_, idx) => idx + 4));
 
@@ -39,7 +38,6 @@ const Menu = () => {
         setCheckedFoodItems(newCheckedFoodItems);
     };
 
-    // Step 2: Write a function to reorder arrays
     const moveItem = (arr, fromIndex, toIndex) => {
         const result = [...arr];
         const [removed] = result.splice(fromIndex, 1);
@@ -81,7 +79,6 @@ const Menu = () => {
         />
     );
     
-    // Step 4: Render Items components based on the current order
     const renderedCategories = categories.map(idx => renderCategory(idx));
     const renderedFoodItems = foodItems.map(idx => renderFoodItem(idx));
 

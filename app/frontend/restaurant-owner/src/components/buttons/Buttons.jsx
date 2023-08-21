@@ -67,7 +67,7 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
     save: 'w-[150px] h-[45px] rounded-md',
     add: 'w-[150px] h-[45px] rounded-md',
     update: 'w-[150px] h-[45px] rounded-md',
-    details: 'w-[150px] h-[45px] rounded-md',
+    details: 'w-[100px] h-[40px] rounded-md',
     accept: 'w-[150px] h-[45px] rounded-md',
     on_going: 'w-[150px] h-[45px] rounded-md',
     ready: 'w-[150px] h-[45px] rounded-md',

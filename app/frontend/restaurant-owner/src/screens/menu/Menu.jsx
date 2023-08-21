@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import { Buttons, Navigation, Header, Items } from '../../components'; 
+import './menu.css';
 
 const Menu = () => {
-    // State to manage the checkbox selection for categories and food items
     const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
     const [selectCategories, setSelectCategories] = useState(false);
     const [checkedCategories, setCheckedCategories] = useState(new Array(5).fill(false));
 
     const [selectFoodItems, setSelectFoodItems] = useState(false);
-    const [checkedFoodItems, setCheckedFoodItems] = useState(new Array(30).fill(false)); // 5 categories * 6 food items
+    const [checkedFoodItems, setCheckedFoodItems] = useState(new Array(8).fill(false));
+
+    // Step 1: Convert allCategories and allFoodItems into state variables
+    const [categories, setCategories] = useState(new Array(5).fill(0).map((_, idx) => idx));
+    const [foodItems, setFoodItems] = useState(new Array(8).fill(0).map((_, idx) => idx + 4));
 
     const handleSelectAllCategories = () => {
         const newSelectCategories = !selectCategories;
         setSelectCategories(newSelectCategories);
-        // Update all checkboxes in the checkedCategories array
         const newCheckedCategories = new Array(5).fill(newSelectCategories);
         setCheckedCategories(newCheckedCategories);
     };
@@ -21,7 +24,7 @@ const Menu = () => {
     const handleSelectAllFoodItems = () => {
         const newSelectFoodItems = !selectFoodItems;
         setSelectFoodItems(newSelectFoodItems);
-        setCheckedFoodItems(new Array(30).fill(newSelectFoodItems));
+        setCheckedFoodItems(new Array(8).fill(newSelectFoodItems));
     };
 
     const handleCategoryCheckboxChange = (index) => {
@@ -36,6 +39,24 @@ const Menu = () => {
         setCheckedFoodItems(newCheckedFoodItems);
     };
 
+    // Step 2: Write a function to reorder arrays
+    const moveItem = (arr, fromIndex, toIndex) => {
+        const result = [...arr];
+        const [removed] = result.splice(fromIndex, 1);
+        result.splice(toIndex, 0, removed);
+        return result;
+    };
+
+    const onMove = (dragIndex, hoverIndex) => {
+        if (dragIndex < 4 && hoverIndex < 4) {
+            const newOrder = moveItem(categories, dragIndex, hoverIndex);
+            setCategories(newOrder);
+        } else if (dragIndex >= 4 && hoverIndex >= 4) {
+            const newOrder = moveItem(foodItems, dragIndex - 4, hoverIndex - 4);
+            setFoodItems(newOrder);
+        }
+    };
+
     const renderCategory = (idx) => (
         <Items 
             key={idx} 
@@ -45,30 +66,33 @@ const Menu = () => {
             index={idx} 
             onCheckboxChange={handleCategoryCheckboxChange}
             onCategoryClick={() => setActiveCategoryIndex(idx)}
+            onMove={onMove}
         />
     );
 
     const renderFoodItem = (idx) => (
         <Items 
             key={idx} 
-            type="food_item" 
-            isSelected={checkedFoodItems[idx]} 
+            type="food_item"
+            isSelected={checkedFoodItems[idx - 4]} 
             index={idx} 
             onCheckboxChange={handleFoodItemCheckboxChange}
+            onMove={onMove}
         />
     );
-
-    const allCategories = new Array(5).fill(0).map((_, idx) => renderCategory(idx));
-    const allFoodItems = new Array(30).fill(0).map((_, idx) => renderFoodItem(idx));
+    
+    // Step 4: Render Items components based on the current order
+    const renderedCategories = categories.map(idx => renderCategory(idx));
+    const renderedFoodItems = foodItems.map(idx => renderFoodItem(idx));
 
     return (
-        <div className="menu-screen h-screen flex flex-col">
-            <Header title="Menu" className="flex flex-col items-center" />
+        <div className="menu-screen h-screen flex flex-col no-scrollbar">
+            <Header title="Menu" className="flex flex-col items-start" />
             <Navigation className="flex-none" />
-            <div className="flex-grow flex flex-col items-start mt-5 px-8 overflow-y-auto">
+            <div className="flex-grow flex flex-col items-start mt-5 px-8">
                 <div className="flex justify-between items-center w-full mb-4">
                     <div>
-                        <h1 className="text-4xl font-bold mb-2">Categories</h1>
+                        <h1 className="text-3xl font-bold mb-2">Categories</h1>
                         <button className="text-xl underline font-semibold" onClick={handleSelectAllCategories}>
                             Select all categories
                         </button>
@@ -78,7 +102,7 @@ const Menu = () => {
                         <Buttons context="add_icon" />
                     </div>
                 </div>
-                {allCategories.map((category, idx) => (
+                {renderedCategories.map((category, idx) => (
                     <div key={idx} className='mb-5'>
                         {category}
                     </div>
@@ -86,7 +110,7 @@ const Menu = () => {
                 
                 <div className="flex justify-between items-center w-full mb-4 mt-10">
                     <div>
-                        <h1 className="text-4xl font-bold mb-2">Food items</h1>
+                        <h1 className="text-3xl font-bold mb-2">Food items</h1>
                         <button className="text-xl underline font-semibold" onClick={handleSelectAllFoodItems}>
                             Select all food items
                         </button>
@@ -96,7 +120,7 @@ const Menu = () => {
                         <Buttons context="add_icon" />
                     </div>
                 </div>
-                {allFoodItems.map((foodItem, idx) => (
+                {renderedFoodItems.map((foodItem, idx) => (
                     <div key={idx} className='mb-5'>
                         {foodItem}
                     </div>

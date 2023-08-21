@@ -53,7 +53,7 @@ const Tables = () => {
             <div className="flex-grow flex flex-col items-start mt-5 px-8 overflow-y-auto">
                 <div className="flex justify-between items-center w-full mb-4">
                     <div>
-                        <h1 className="text-4xl font-bold mb-2">Tables</h1>
+                        <h1 className="text-3xl font-bold mb-2">Tables</h1>
                         <button className="text-xl underline font-semibold" onClick={handleSelectAll}>
                             Select all tables
                         </button>

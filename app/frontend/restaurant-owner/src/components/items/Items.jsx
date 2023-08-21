@@ -68,13 +68,8 @@ const orderStatus = (status) => {
   }
 };
 
-const Items = ({ type, state: initialState, index, onMove, isSelected = false, onCheckboxChange, onCategoryClick }) => {
-  const [state, setState] = useState(initialState);
+const Items = ({ type, state, index, onMove, isSelected = false, onCheckboxChange, onCategoryClick }) => {
   const [iconState, setIconState] = useState('view');
-  
-  const toggleState = () => {
-    setState(prevState => (prevState === 'active' ? 'inactive' : 'active'));
-  };
 
   const toggleIconState = () => {
     setIconState(prevState => (prevState === 'view' ? 'hide' : 'view'));
@@ -82,12 +77,12 @@ const Items = ({ type, state: initialState, index, onMove, isSelected = false, o
 
   return (
     <DraggableItem id={index} onMove={onMove}>
-      {renderSwitch(type, state, index, toggleState, iconState, toggleIconState, isSelected, onCheckboxChange, onCategoryClick)}
+      {renderSwitch(type, state, index, iconState, toggleIconState, isSelected, onCheckboxChange, onCategoryClick)}
     </DraggableItem>
   );
 };
 
-const renderSwitch = (type, state, index, toggleState, iconState, toggleIconState, isSelected, onCheckboxChange, onCategoryClick) => {
+const renderSwitch = (type, state, index, iconState, toggleIconState, isSelected, onCheckboxChange, onCategoryClick) => {
     switch (type) {
         case 'tables':
             return (
@@ -120,7 +115,7 @@ const renderSwitch = (type, state, index, toggleState, iconState, toggleIconStat
             return (
               <ItemContainer onClick={onCategoryClick}>
                 <div className={`flex-grow flex items-center space-x-3 md:space-x-5 lg:space-x-8`}>
-                  <input type="checkbox" className="mr-2" onClick={(e) => {e.stopPropagation();}} /> 
+                  <input type="checkbox" className="mr-2" onClick={(e) => {e.stopPropagation();}} checked={isSelected} onChange={() => onCheckboxChange(index)} /> 
                   <h2 className={`text-sm md:text-base lg:text-lg font-bold ${categoryColor}`}>Best Seller</h2>
                 </div>
                 <div className="flex items-center space-x-3 md:space-x-5 lg:space-x-10">
@@ -140,7 +135,7 @@ const renderSwitch = (type, state, index, toggleState, iconState, toggleIconStat
             return (
                 <ItemContainer>
                     <div className={`flex-grow flex items-center space-x-3 md:space-x-5 lg:space-x-8`}>
-                        <input type="checkbox" className="mr-2" onClick={(e) => { e.stopPropagation(); }} />
+                        <input type="checkbox" checked={isSelected} onChange={() => onCheckboxChange(index)}  className="mr-2" onClick={(e) => { e.stopPropagation(); }} />
                         <FoodTwo alt="Food Item" className="rounded-md mr-2 w-12 h-12" />
                         <div>
                             <h2 className={`text-sm md:text-base lg:text-lg font-bold ${foodColor}`}>Food Name</h2>
@@ -186,9 +181,9 @@ const renderSwitch = (type, state, index, toggleState, iconState, toggleIconStat
 };
 
 const WrappedItems = (props) => (
-    <DndProvider backend={HTML5Backend}>
-        <Items {...props} />
-    </DndProvider>
+  <DndProvider backend={HTML5Backend}>
+      <Items {...props} />
+  </DndProvider>
 );
 
 export default WrappedItems;

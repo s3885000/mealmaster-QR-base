@@ -1,3 +1,4 @@
+import 'semantic-ui-css/semantic.min.css'
 export { default as Buttons } from './buttons/Buttons';
 export { default as Header } from './header/Header';
 export { default as Items } from './items/Items';

@@ -1,12 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Buttons } from '../../components';
-import { Upload } from '../../asset/icons/misc/index.js';
 
 const Popups = ({ visible, type, onClose }) => {
   const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef(null);
 
-  // For validation
   const [errors, setErrors] = useState({})
   const [addTableData, setAddTableData] = useState({
     addTableName: ''
@@ -145,9 +143,8 @@ const Popups = ({ visible, type, onClose }) => {
 
           <label class="block pt-4">
             <input  type="file" name="table_name" accept='image/*' hidden/>
-            <div className='outline outline-2 outline-black outline-dashed rounded-md w-fit grid justify-items-center p-4'>
-              <Upload className='w-14 h-14'/>
-              <p className='text-center'>Preferred size is 400px * 300px<br/>Drag 'n' drop some files here, or click to select file</p>
+            <div className='outline-dashed outline-2 outline-black rounded-md w-fit grid justify-items-center p-4'>
+              <p className='text-center'>Recommended Image Sizes: 400px x 300px<br/>Click to select a file from your device (png or jpeg)</p>
             </div>
           </label>
         </form>
@@ -172,9 +169,8 @@ const Popups = ({ visible, type, onClose }) => {
 
           <label class="block pt-4">
             <input  type="file" name="table_name" accept='image/*' hidden/>
-            <div className='outline outline-2 outline-black outline-dashed rounded-md w-fit grid justify-items-center p-4'>
-              <Upload className='w-14 h-14'/>
-              <p className='text-center'>Preferred size is 400px * 300px<br/>Drag 'n' drop some files here, or click to select file</p>
+            <div className='outline-dashed outline-2 outline-black rounded-md w-fit grid justify-items-center p-4'>
+              <p className='text-center'>Recommended Image Sizes: 400px x 300px<br/>Click to select a file from your device (png or jpeg)</p>
             </div>
           </label>
         </form>
@@ -184,7 +180,7 @@ const Popups = ({ visible, type, onClose }) => {
         ]} />
       </>
     ),
-    'order_details': (
+    'history': (
       <>
         <PopupHeader title="Order Details" />
         <div className="divide-y divide-dashed">
@@ -234,7 +230,109 @@ const Popups = ({ visible, type, onClose }) => {
           </table>
           </div>
       </>
-    )    
+    ),
+    'order_details_ready': (
+      <>
+        <PopupHeader title="Order Details" />
+        <div className="divide-y divide-dashed">
+          <table className='text-left border-separate border-spacing-x-4 border-spacing-y-2'>
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Timestamp</th>
+                <th>Table</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data_1.map((val, key) => (
+                <tr key={key}>
+                  <td>{val.order_id}</td>
+                  <td>{val.timestamp}</td>
+                  <td>{val.table}</td>
+                  <td>{val.total}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <table className="text-left border-separate border-spacing-x-4 border-spacing-y-2">
+            <thead>
+              <tr>
+                <th>Quantity</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data_2.map((val, key) => (
+                <tr key={key}>
+                  <td>{val.quantity}</td>
+                  <td>{val.name}</td>
+                  <td>{val.price}</td>
+                  <td>{val.notes}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <PopupFooter buttons={[
+          { context: 'ready', onClick: handleOnClose }
+        ]} />
+      </>
+    ),
+    'order_details_inprogress': (
+      <>
+        <PopupHeader title="Order Details" />
+        <div className="divide-y divide-dashed">
+          <table className='text-left border-separate border-spacing-x-4 border-spacing-y-2'>
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Timestamp</th>
+                <th>Table</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data_1.map((val, key) => (
+                <tr key={key}>
+                  <td>{val.order_id}</td>
+                  <td>{val.timestamp}</td>
+                  <td>{val.table}</td>
+                  <td>{val.total}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <table className="text-left border-separate border-spacing-x-4 border-spacing-y-2">
+            <thead>
+              <tr>
+                <th>Quantity</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data_2.map((val, key) => (
+                <tr key={key}>
+                  <td>{val.quantity}</td>
+                  <td>{val.name}</td>
+                  <td>{val.price}</td>
+                  <td>{val.notes}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <PopupFooter buttons={[
+          { context: 'decline', onClick: handleOnClose },
+          { context: 'accept', onClick: handleOnClose }
+        ]} />
+      </>
+    ),
+      
   };
 
   useEffect(() => {

@@ -24,9 +24,14 @@ const App = () => {
         <div className="items-container space-y-2.5">
           <Buttons context='update' onClick={() => showPopup('alert')} />
           <Buttons context='update' onClick={() => showPopup('add_table')} />
-          <Buttons context='update' onClick={() => showPopup('edit_food')} />
+          <Buttons context='update' onClick={() => showPopup('edit_table')} />
+          <Buttons context='update' onClick={() => showPopup('add_category')} />
+          <Buttons context='update' onClick={() => showPopup('edit_category')} />
           <Buttons context='update' onClick={() => showPopup('add_food')} />
-          <Buttons context='update' onClick={() => showPopup('order_details')} />
+          <Buttons context='update' onClick={() => showPopup('edit_food')} />
+          <Buttons context='update' onClick={() => showPopup('history')} />
+          <Buttons context='update' onClick={() => showPopup('order_details_inprogress')} />
+          <Buttons context='update' onClick={() => showPopup('order_details_ready')} />
         </div>
         <Routes>
           <Route path="/navigation" element={<Navigation />} /> 
@@ -38,3 +43,5 @@ const App = () => {
 };
 
 export default App;
+
+

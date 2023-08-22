@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Buttons } from '../../components';
 import { Upload } from '../../asset/icons/misc/index.js';
-import { Form, Button } from 'semantic-ui-react';
+// import { Form, Button } from 'semantic-ui-react';
 import { useForm } from "react-hook-form";
 
 const Popups = ({ visible, type, onClose }) => {

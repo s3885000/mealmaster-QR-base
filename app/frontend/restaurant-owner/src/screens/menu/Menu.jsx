@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Buttons, Navigation, Header, Items } from '../../components'; 
+import { Buttons, Navigation, Header, Items, Popups } from '../../components'; 
+import { useNavigate } from 'react-router-dom';
 import './menu.css';
 
 const Menu = () => {
@@ -12,6 +13,9 @@ const Menu = () => {
 
     const [categories, setCategories] = useState(new Array(5).fill(0).map((_, idx) => idx));
     const [foodItems, setFoodItems] = useState(new Array(8).fill(0).map((_, idx) => idx + 4));
+
+    const [isAddCategoryPopupVisible, setIsAddCategoryPopupVisible] = useState(false);
+    const [isAddFoodItemPopupVisible, setIsAddFoodItemPopupVisible] = useState(false);
 
     const handleSelectAllCategories = () => {
         const newSelectCategories = !selectCategories;
@@ -84,6 +88,8 @@ const Menu = () => {
 
     return (
         <div className="menu-screen h-screen flex flex-col no-scrollbar">
+            {isAddCategoryPopupVisible && 
+                <Popups visible={isAddCategoryPopupVisible} type="add_category" onClose={() => setIsAddCategoryPopupVisible(false)} />}
             <Header title="Menu" className="flex flex-col items-start" />
             <Navigation className="flex-none" />
             <div className="flex-grow flex flex-col items-start mt-5 px-8">
@@ -96,7 +102,7 @@ const Menu = () => {
                     </div>
                     <div className="flex space-x-4">
                         <Buttons context="delete" />
-                        <Buttons context="add_icon" />
+                        <Buttons context="add_icon" onClick={() => setIsAddCategoryPopupVisible(true)}/>
                     </div>
                 </div>
                 {renderedCategories.map((category, idx) => (
@@ -107,6 +113,8 @@ const Menu = () => {
                 
                 <div className="flex justify-between items-center w-full mb-4 mt-10">
                     <div>
+                    {isAddFoodItemPopupVisible && 
+                        <Popups visible={isAddFoodItemPopupVisible} type="add_food" onClose={() => setIsAddFoodItemPopupVisible(false)} />}
                         <h1 className="text-3xl font-bold mb-2">Food items</h1>
                         <button className="text-xl underline font-semibold" onClick={handleSelectAllFoodItems}>
                             Select all food items
@@ -114,7 +122,7 @@ const Menu = () => {
                     </div>
                     <div className="flex space-x-4">
                         <Buttons context="delete" />
-                        <Buttons context="add_icon" />
+                        <Buttons context="add_icon" onClick={() => setIsAddFoodItemPopupVisible(true)}/>
                     </div>
                 </div>
                 {renderedFoodItems.map((foodItem, idx) => (

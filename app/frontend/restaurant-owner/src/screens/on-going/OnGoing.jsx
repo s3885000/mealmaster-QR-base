@@ -2,18 +2,17 @@ import React, { useState } from 'react';
 import { Navigation, Header, Items } from '../../components'; 
 import ReactPaginate from 'react-paginate';
 
-
 const OnGoing = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const PER_PAGE = 6;  
 
-    const pageCount = Math.ceil(20 / PER_PAGE);
+    const pageCount = Math.ceil(6 / PER_PAGE);  
 
     const handlePageClick = ({ selected }) => {
         setCurrentPage(selected);
     };
 
-    const [checkedTables, setCheckedTables] = useState(new Array(20).fill(false));
+    const [checkedTables, setCheckedTables] = useState(new Array(6).fill(false));  
 
     const handleCheckboxChange = (index) => {
         const newCheckedTables = [...checkedTables];
@@ -21,18 +20,23 @@ const OnGoing = () => {
         setCheckedTables(newCheckedTables);
     };
 
-    const renderTable = (idx) => (
+    const renderOrder = (idx, status) => (
         <Items 
             key={idx} 
             type="orders" 
+            state={status}
             isSelected={checkedTables[idx]} 
             index={idx} 
             onCheckboxChange={handleCheckboxChange}
         />
     );
-    const allTables = new Array(20).fill(0).map((_, idx) => renderTable(idx));
+    
+    const activeOrders = new Array(3).fill(0).map((_, idx) => renderOrder(idx, 'active'));
+    const inProgressOrders = new Array(3).fill(0).map((_, idx) => renderOrder(idx, 'in_progress'));
+    const allOrders = [...activeOrders, ...inProgressOrders];
+    
     const offset = currentPage * PER_PAGE;
-    const currentTables = allTables.slice(offset, offset + PER_PAGE);
+    const currentOrders = allOrders.slice(offset, offset + PER_PAGE);
 
     return (
         <div className="tables-screen h-screen flex flex-col">
@@ -44,9 +48,9 @@ const OnGoing = () => {
                         <h1 className="text-3xl font-bold mb-2">On-Going orders</h1>
                     </div>
                 </div>
-                {currentTables.map((table, idx) => (
+                {currentOrders.map((order, idx) => (
                     <div key={idx} className='mb-5'>
-                        {table}
+                        {order}
                     </div>
                 ))}
             </div>

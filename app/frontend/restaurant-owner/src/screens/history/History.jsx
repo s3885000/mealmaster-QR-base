@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Navigation, Header, Items } from '../../components'; 
+import { useNavigate } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
-
 
 const History = () => {
     const [currentPage, setCurrentPage] = useState(0);
@@ -21,16 +21,27 @@ const History = () => {
         setCheckedTables(newCheckedTables);
     };
 
-    const renderTable = (idx) => (
+    const renderTable = (idx, state) => (
         <Items 
             key={idx} 
             type="orders" 
+            state={state}
             isSelected={checkedTables[idx]} 
             index={idx} 
             onCheckboxChange={handleCheckboxChange}
         />
     );
-    const allTables = new Array(20).fill(0).map((_, idx) => renderTable(idx));
+
+    const allTables = [
+        renderTable(0, 'active'),
+        renderTable(1, 'active'),
+        renderTable(2, 'inactive'),
+        renderTable(3, 'inactive'),
+        renderTable(4, 'in_progress'),
+        renderTable(5, 'in_progress'),
+        ...new Array(14).fill(0).map((_, idx) => renderTable(6 + idx))
+    ];
+
     const offset = currentPage * PER_PAGE;
     const currentTables = allTables.slice(offset, offset + PER_PAGE);
 

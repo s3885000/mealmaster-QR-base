@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Buttons, Navigation, Header, Items } from '../../components'; 
+import { Buttons, Navigation, Header, Items, Popups } from '../../components'; 
 import ReactPaginate from 'react-paginate';
 import './tables.css';
 
 const Tables = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const PER_PAGE = 6;  
+    const [isAddTablePopupVisible, setIsAddTablePopupVisible] = useState(false);
 
     const pageCount = Math.ceil(20 / PER_PAGE);
 
@@ -48,6 +49,8 @@ const Tables = () => {
 
     return (
         <div className="tables-screen h-screen flex flex-col">
+            {isAddTablePopupVisible && 
+                <Popups visible={isAddTablePopupVisible} type="add_table" onClose={() => setIsAddTablePopupVisible(false)} />}
             <Header title="Tables" className="flex flex-col items-center" />
             <Navigation className="flex-none" />
             <div className="flex-grow flex flex-col items-start mt-5 px-8 overflow-y-auto">
@@ -59,8 +62,8 @@ const Tables = () => {
                         </button>
                     </div>
                     <div className="flex space-x-4">
-                        <Buttons context="delete" />
-                        <Buttons context="add_icon" />
+                        <Buttons context="delete"/>
+                        <Buttons context="add_icon" onClick={() => setIsAddTablePopupVisible(true)} />
                     </div>
                 </div>
                 {currentTables.map((table, idx) => (

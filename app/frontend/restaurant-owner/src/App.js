@@ -5,9 +5,8 @@ import { Dashboard, Login, OnGoing, PasswordRecovery, SignUp, Tables, Menu, Hist
 import './App.css';
 
 const App = () => {
-  const [activePopup, setActivePopup] = useState(null); // State to keep track of the active popup
+  const [activePopup, setActivePopup] = useState(null); 
 
-  // Show the specified popup
   const showPopup = (popupType) => {
     setActivePopup(popupType);
   };

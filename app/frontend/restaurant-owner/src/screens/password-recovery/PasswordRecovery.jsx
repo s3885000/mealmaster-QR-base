@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Buttons } from '../../components';  
 import { MealMasterLogo } from '../../asset/images/mealmaster_logo/index.js';
+import { useNavigate } from 'react-router-dom';
 
 const PasswordRecovery = () => {
     const [email, setEmail] = useState('');

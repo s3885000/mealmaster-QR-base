@@ -3,7 +3,7 @@ import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import {DownloadIcon, DragDropIcon, EditIcon, HideIcon, ViewIcon } from '../../asset/icons/button/index.js';
 import { FoodTwo } from '../../asset/images/restaurant_info/haidilao/food/index.js';
-import { Buttons } from '../../components';
+import { Buttons, Popups } from '../../components';
 
 const ItemContainer = ({ children, onClick }) => (
   <div 
@@ -70,19 +70,29 @@ const orderStatus = (status) => {
 
 const Items = memo(({ type, state, index, onMove, isSelected = false, onCheckboxChange, onCategoryClick }) => {
   const [iconState, setIconState] = useState('view');
-
+  const [isEditTablePopupVisible, setIsEditTablePopupVisible] = useState(false);
+  const [isEditCategoryPopupVisible, setIsEditCategoryPopupVisible] = useState(false);
+  const [isEditFoodItemPopupVisible, setIsEditFoodItemPopupVisible] = useState(false);
+  const [isDetailPopupVisible, setIsDetailPopupVisible] = useState(false);
+  
   const toggleIconState = () => {
     setIconState(prevState => (prevState === 'view' ? 'hide' : 'view'));
   };
 
   return (
+    <>
+    {isEditTablePopupVisible && <Popups visible={isEditTablePopupVisible} type="edit_table" onClose={() => setIsEditTablePopupVisible(false)} />}
+    {isEditCategoryPopupVisible && <Popups visible={isEditCategoryPopupVisible} type="edit_category" onClose={() => setIsEditCategoryPopupVisible(false)} />}
+    {isEditFoodItemPopupVisible && <Popups visible={isEditFoodItemPopupVisible} type="edit_food" onClose={() => setIsEditFoodItemPopupVisible(false)} />}
+    {isDetailPopupVisible && <Popups visible={isDetailPopupVisible} type="history" onClose={() => setIsDetailPopupVisible(false)} />}
     <DraggableItem id={index} onMove={onMove}>
-      {renderSwitch(type, state, index, iconState, toggleIconState, isSelected, onCheckboxChange, onCategoryClick)}
+      {renderSwitch(type, state, index, iconState, toggleIconState, isSelected, onCheckboxChange, onCategoryClick, setIsEditTablePopupVisible, setIsEditCategoryPopupVisible, setIsEditFoodItemPopupVisible, setIsDetailPopupVisible)}
     </DraggableItem>
+  </>
   );
 });
 
-const renderSwitch = (type, state, index, iconState, toggleIconState, isSelected, onCheckboxChange, onCategoryClick) => {
+const renderSwitch = (type, state, index, iconState, toggleIconState, isSelected, onCheckboxChange, onCategoryClick, setIsEditTablePopupVisible, setIsEditCategoryPopupVisible, setIsEditFoodItemPopupVisible, setIsDetailPopupVisible) => {
     switch (type) {
         case 'tables':
             return (
@@ -102,6 +112,7 @@ const renderSwitch = (type, state, index, iconState, toggleIconState, isSelected
                         </button>
                         <button onClick={(e) => {
                             e.stopPropagation();
+                            setIsEditTablePopupVisible(true);
                             console.log('Edit button clicked');
                         }}
                             className="bg-transparent border-none cursor-pointer w-5 md:w-6 lg:w-auto h-5 md:h-6 lg:h-auto">
@@ -121,6 +132,7 @@ const renderSwitch = (type, state, index, iconState, toggleIconState, isSelected
                 <div className="flex items-center space-x-3 md:space-x-5 lg:space-x-10">
                   <button onClick={(e) => {
                       e.stopPropagation();
+                      setIsEditCategoryPopupVisible(true);
                       console.log('Edit button clicked');
                   }}
                   className="bg-transparent border-none cursor-pointer w-5 md:w-6 lg:w-auto h-5 md:h-6 lg:h-auto">
@@ -153,6 +165,7 @@ const renderSwitch = (type, state, index, iconState, toggleIconState, isSelected
                         </button>
                         <button onClick={(e) => {
                             e.stopPropagation();
+                            setIsEditFoodItemPopupVisible(true);
                             console.log('Edit button clicked');
                         }}
                             className="bg-transparent border-none cursor-pointer w-5 md:w-6 lg:w-auto h-5 md:h-6 lg:h-auto">
@@ -172,7 +185,7 @@ const renderSwitch = (type, state, index, iconState, toggleIconState, isSelected
                         <span className="text-xs md:text-sm lg:text-base text-black">Table: 15</span>
                         <span className="text-xs md:text-sm lg:text-base text-black">Total: 1,500,000</span>
                     </div>
-                    <Buttons context="details" />
+                    <Buttons context="details" onClick={() => setIsDetailPopupVisible(true)}/>
                 </ItemContainer>
             );
         default:

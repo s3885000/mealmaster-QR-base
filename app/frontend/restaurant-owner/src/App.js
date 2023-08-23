@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navigation, Header, Items, Buttons, Popups } from './components'; // Import Popups
 import './App.css';
+import Profile from './screens/profile/Profile';
 
 const App = () => {
   const [activePopup, setActivePopup] = useState(null); // State to keep track of the active popup
@@ -32,6 +33,7 @@ const App = () => {
         </div>
         <Routes>
           <Route path="/navigation" element={<Navigation />} /> 
+          <Route path="/profile" element={<Profile />} /> 
         </Routes>
       </div>
       {activePopup && <Popups type={activePopup} onClose={closePopup} visible={true} />}

@@ -1,0 +1,15 @@
+.flex-auto {
+    overflow-y: auto;
+}
+
+.flex-auto::-webkit-scrollbar {
+    display: none;
+}
+
+.flex-auto {
+    -ms-overflow-style: none;
+}
+
+body {
+    overflow-y: auto;
+}

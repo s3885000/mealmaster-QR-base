@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Buttons, Navigation, Header, Items, Popups } from '../../components'; 
-import { useNavigate } from 'react-router-dom';
 import './menu.css';
 
 const Menu = () => {

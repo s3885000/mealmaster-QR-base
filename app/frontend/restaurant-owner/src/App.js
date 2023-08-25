@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { connect } from 'react-redux';
 import { Popups } from './components'; 
 import { Dashboard, Login, OnGoing, PasswordRecovery, SignUp, Tables, Menu, History, Profile } from './screens'; 
+import { Provider } from 'react-redux';
+import store from './redux/store';
 import './App.css';
 
 const App = () => {
+  const location = useLocation();
+  const [isLoading, setIsLoading] = useState(true);
   const [activePopup, setActivePopup] = useState(null); 
 
   const showPopup = (popupType) => {
@@ -15,8 +20,16 @@ const App = () => {
     setActivePopup(null);
   };
 
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <Router>
+    <>
       <div className="main-content flex justify-center items-center min-h-screen">
         <div className="items-container space-y-2.5">
         </div>
@@ -33,12 +46,24 @@ const App = () => {
         </Routes>
       </div>
       {activePopup && <Popups type={activePopup} onClose={closePopup} visible={true} />}
+    </>
+  );
+};
+
+
+const LocationProvider = () => {
+  const location = useLocation();
+  return <App location={location} />;
+};
+
+const AppWrapper = () => {
+  return (
+    <Router>
+      <Provider store={store}>
+          <LocationProvider />
+      </Provider>
     </Router>
   );
 };
 
-export default App;
-
-
-
-
+export default AppWrapper;

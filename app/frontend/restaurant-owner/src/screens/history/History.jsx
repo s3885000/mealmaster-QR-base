@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Navigation, Header, Items } from '../../components'; 
-import { useNavigate } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 
 const History = () => {

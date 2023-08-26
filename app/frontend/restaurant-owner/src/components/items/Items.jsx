@@ -15,16 +15,16 @@ const ItemContainer = ({ children, onClick }) => (
 
 const ItemType = 'ITEM';
 
-const DraggableItem = ({ children, id, onMove }) => {
+const DraggableItem = ({ children, id, onMove, type }) => {
   const [, ref] = useDrag({
     type: ItemType,
-    item: { id }
+    item: { id, type }
   });
 
   const [, drop] = useDrop({
     accept: ItemType,
     hover: (draggedItem) => {
-      if (draggedItem.id !== id) {
+      if (draggedItem.id !== id && (draggedItem.type === 'categories' || draggedItem.type === 'food_item')) {
         onMove(draggedItem.id, id);
         draggedItem.id = id;
       }
@@ -101,7 +101,7 @@ const Items = memo(({ type, state, index, onMove, isSelected = false, onCheckbox
     {isEditCategoryPopupVisible && <Popups visible={isEditCategoryPopupVisible} type="edit_category" onClose={() => setIsEditCategoryPopupVisible(false)} />}
     {isEditFoodItemPopupVisible && <Popups visible={isEditFoodItemPopupVisible} type="edit_food" onClose={() => setIsEditFoodItemPopupVisible(false)} />}
     {isDetailPopupVisible && <Popups visible={isDetailPopupVisible} type={popupType} onClose={() => setIsDetailPopupVisible(false)} />}
-    <DraggableItem id={index} onMove={onMove}>
+    <DraggableItem id={index} onMove={onMove} type={type}>
       {renderSwitch(type, state, index, iconState, toggleIconState, isSelected, onCheckboxChange, onCategoryClick, setIsEditTablePopupVisible, setIsEditCategoryPopupVisible, setIsEditFoodItemPopupVisible, showDetailPopup)}
     </DraggableItem>
   </>
@@ -163,7 +163,7 @@ const renderSwitch = (type, state, index, iconState, toggleIconState, isSelected
             return (
                 <ItemContainer>
                     <div className={`flex-grow flex items-center space-x-3 md:space-x-5 lg:space-x-8`}>
-                        <input type="checkbox" checked={isSelected} onChange={() => onCheckboxChange(index)}  className="mr-2" onClick={(e) => { e.stopPropagation(); }} />
+                    <input type="checkbox" className="mr-2" checked={isSelected} onChange={(e) => {e.stopPropagation();onCheckboxChange(index);}} />
                         <FoodTwo alt="Food Item" className="rounded-md mr-2 w-12 h-12" />
                         <div>
                             <h2 className={`text-sm md:text-base lg:text-lg font-bold ${foodColor}`}>Food Name</h2>

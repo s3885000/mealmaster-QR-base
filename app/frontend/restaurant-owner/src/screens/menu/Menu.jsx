@@ -8,10 +8,10 @@ const Menu = () => {
     const [checkedCategories, setCheckedCategories] = useState(new Array(5).fill(false));
 
     const [selectFoodItems, setSelectFoodItems] = useState(false);
-    const [checkedFoodItems, setCheckedFoodItems] = useState(new Array(8).fill(false));
+    const [checkedFoodItems, setCheckedFoodItems] = useState(new Array(4).fill(false));
 
     const [categories, setCategories] = useState(new Array(5).fill(0).map((_, idx) => idx));
-    const [foodItems, setFoodItems] = useState(new Array(8).fill(0).map((_, idx) => idx + 4));
+    const [foodItems, setFoodItems] = useState(new Array(4).fill(0).map((_, idx) => idx + 4));
 
     const [isAddCategoryPopupVisible, setIsAddCategoryPopupVisible] = useState(false);
     const [isAddFoodItemPopupVisible, setIsAddFoodItemPopupVisible] = useState(false);
@@ -26,8 +26,8 @@ const Menu = () => {
     const handleSelectAllFoodItems = () => {
         const newSelectFoodItems = !selectFoodItems;
         setSelectFoodItems(newSelectFoodItems);
-        setCheckedFoodItems(new Array(8).fill(newSelectFoodItems));
-    };
+        setCheckedFoodItems(new Array(foodItems.length).fill(newSelectFoodItems));
+    };    
 
     const handleCategoryCheckboxChange = (index) => {
         const newCheckedCategories = [...checkedCategories];
@@ -36,8 +36,9 @@ const Menu = () => {
     };
 
     const handleFoodItemCheckboxChange = (index) => {
+        const actualIndex = index - 4; 
         const newCheckedFoodItems = [...checkedFoodItems];
-        newCheckedFoodItems[index] = !newCheckedFoodItems[index];
+        newCheckedFoodItems[actualIndex] = !newCheckedFoodItems[actualIndex];
         setCheckedFoodItems(newCheckedFoodItems);
     };
 
@@ -75,7 +76,7 @@ const Menu = () => {
         <Items 
             key={idx} 
             type="food_item"
-            isSelected={checkedFoodItems[idx - 4]} 
+            isSelected={checkedFoodItems[idx - 4]}
             index={idx} 
             onCheckboxChange={handleFoodItemCheckboxChange}
             onMove={onMove}

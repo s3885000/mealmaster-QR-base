@@ -20,10 +20,10 @@ const History = () => {
         setCheckedTables(newCheckedTables);
     };
 
-    const renderTable = (idx, state) => (
+    const renderHistory = (idx, state) => (
         <Items 
             key={idx} 
-            type="orders" 
+            type="history" 
             state={state}
             isSelected={checkedTables[idx]} 
             index={idx} 
@@ -31,22 +31,22 @@ const History = () => {
         />
     );
 
-    const allTables = [
-        renderTable(0, 'active'),
-        renderTable(1, 'active'),
-        renderTable(2, 'inactive'),
-        renderTable(3, 'inactive'),
-        renderTable(4, 'in_progress'),
-        renderTable(5, 'in_progress'),
-        ...new Array(14).fill(0).map((_, idx) => renderTable(6 + idx))
+    const allHistoryItems = [
+        renderHistory(0, 'success'),
+        renderHistory(1, 'success'),
+        renderHistory(2, 'success'),
+        renderHistory(3, 'failed'),
+        renderHistory(4, 'failed'),
+        renderHistory(5, 'failed'),
+        ...new Array(14).fill(0).map((_, idx) => renderHistory(6 + idx, 'success'))
     ];
 
     const offset = currentPage * PER_PAGE;
-    const currentTables = allTables.slice(offset, offset + PER_PAGE);
+    const currentHistoryItems = allHistoryItems.slice(offset, offset + PER_PAGE);
 
     return (
         <div className="tables-screen h-screen flex flex-col">
-            <Header title="Tables" className="flex flex-col items-center" />
+            <Header title="History" className="flex flex-col items-center" />
             <Navigation className="flex-none" />
             <div className="flex-grow flex flex-col items-start mt-5 px-8 overflow-y-auto">
                 <div className="flex justify-between items-center w-full mb-4">
@@ -54,9 +54,9 @@ const History = () => {
                         <h1 className="text-3xl font-bold mb-2">History</h1>
                     </div>
                 </div>
-                {currentTables.map((table, idx) => (
+                {currentHistoryItems.map((item, idx) => (
                     <div key={idx} className='mb-5'>
-                        {table}
+                        {item}
                     </div>
                 ))}
             </div>

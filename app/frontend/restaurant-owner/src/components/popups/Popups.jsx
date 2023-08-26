@@ -2,53 +2,53 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Buttons } from '../../components';
 
 const Popups = ({ visible, type, onClose }) => {
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(visible);
   const popupRef = useRef(null);
 
-  const [errors, setErrors] = useState({})
+  const [errors, setErrors] = useState({});
   const [addTableData, setAddTableData] = useState({
     addTableName: ''
-  })
+  });
+  
   const handleAddTableChange = (e) => {
-    const {name, value} = e.target;
-    setAddTableData({
-      ...addTableData, [name] : value
-    })
+    const { name, value } = e.target;
+    setAddTableData(prev => ({ ...prev, [name]: value }));
   }
 
-  const handleAddTableSubmit = (e) =>{
-    e.preventDefault()
-    const validationErrors = {}
-    if(!addTableData.addTableName.trim()) {
-      validationErrors.addTableName = "Table name is required"
+  const handleAddTableSubmit = (e) => {
+    e.preventDefault();
+    const validationErrors = {};
+    
+    if (!addTableData.addTableName.trim()) {
+      validationErrors.addTableName = "Table name is required";
     }
 
-    setErrors(validationErrors)
+    setErrors(validationErrors);
 
-    if(Object.keys(validationErrors).length === 0) {
-      alert("Form submitted successfully")
+    if (Object.keys(validationErrors).length === 0) {
+      alert("Form submitted successfully");
     }
   }
 
   const handleOnClose = () => {
+    setShowPopup(false);
     if (onClose) {
       onClose();
     }
-    setShowPopup(false);
   }
 
   const data_1 = [
-    {order_id: "#ABC123", timestamp: "20/12/2023 12:48", table: 15, total: "135,000 VND"},
-  ]
+    { order_id: "#ABC123", timestamp: "20/12/2023 12:48", table: 15, total: "135,000 VND" },
+  ];
 
   const data_2 = [
-    {quantity: 1, name: "Spicy fresh crab", price: "35,000 VND", notes: "No spice"},
-    {quantity: 2, name: "Onigiri", price: "70,000 VND", notes: "No spice"},
-    {quantity: 3, name: "Coconut water", price: "30,000 VND", notes: ""},
-  ]
+    { quantity: 1, name: "Spicy fresh crab", price: "35,000 VND", notes: "No spice" },
+    { quantity: 2, name: "Onigiri", price: "70,000 VND", notes: "No spice" },
+    { quantity: 3, name: "Coconut water", price: "30,000 VND", notes: "" },
+  ];
 
   const PopupHeader = ({ title }) => (
-    <div className={`bg-gray absolute -ml-6 -mt-11 h-10 rounded-t-3xl w-full`}>
+    <div className='bg-gray absolute -ml-6 -mt-11 h-10 rounded-t-3xl w-full'>
       <h1 className='absolute mt-4 ml-4 px-2 text-xl font-bold bg-white rounded-t-xl w-fit z-20'>{title}</h1>
     </div>
   );
@@ -332,7 +332,6 @@ const Popups = ({ visible, type, onClose }) => {
         ]} />
       </>
     ),
-      
   };
 
   useEffect(() => {
@@ -350,7 +349,7 @@ const Popups = ({ visible, type, onClose }) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [popupRef]);
+  }, []);
 
   if (!showPopup) return null;
 

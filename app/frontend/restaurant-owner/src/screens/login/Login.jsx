@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import { Buttons } from '../../components';  
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../../redux/actions/authentication/authThunk'; // Import the action creator
 import { MealMasterLogo } from '../../asset/images/mealmaster_logo/index.js';
 
 const Login = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const authError = useSelector(state => state?.authentication?.error);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -13,7 +18,7 @@ const Login = () => {
     const [passwordError, setPasswordError] = useState(null);
 
     const handleLogin = () => {
-        // Implement the login functionality
+        dispatch(loginUser(email, password));
     };
 
     const redirectToSignup = () => {

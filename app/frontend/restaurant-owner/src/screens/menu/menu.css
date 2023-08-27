@@ -1,5 +1,10 @@
 body {
     overflow-y: hidden;
+    
+}
+
+.menu-screen {
+    overflow-x: hidden;
 }
 
 .no-scrollbar {

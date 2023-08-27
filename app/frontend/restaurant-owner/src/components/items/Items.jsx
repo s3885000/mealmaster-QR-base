@@ -7,7 +7,7 @@ import { Buttons, Popups } from '../../components';
 
 const ItemContainer = ({ children, onClick }) => (
   <div 
-    className="w-[380px] md:w-[700px] lg:w-[930px] xl:w-[1080px] 2xl:w-[1080px] h-16 md:h-[70px] lg:h-[70px] flex items-center bg-white rounded-md p-2 md:p-4"
+  className="flex w-full justify-center min-w-[370px] md:min-w-[725px] lg:min-w-[1000px] xl:min-w-[1295px] 2xl:min-w-[1400px] h-16 md:h-[70px] lg:h-[70px] bg-white rounded-md p-2 md:p-4"
     onClick={onClick}>
     {children}
   </div>

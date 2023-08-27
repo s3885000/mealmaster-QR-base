@@ -3,15 +3,15 @@ import { Navigation, Header, Items } from '../../components';
 
 const OnGoing = () => {
     const [currentPage, setCurrentPage] = useState(0);
-    const PER_PAGE = 6;  
+    const PER_PAGE = 12;  
 
-    const pageCount = Math.ceil(6 / PER_PAGE);  
+    const pageCount = Math.ceil(12 / PER_PAGE);  
 
     const handlePageClick = ({ selected }) => {
         setCurrentPage(selected);
     };
 
-    const [checkedTables, setCheckedTables] = useState(new Array(6).fill(false));  
+    const [checkedTables, setCheckedTables] = useState(new Array(12).fill(false));  
 
     const handleCheckboxChange = (index) => {
         const newCheckedTables = [...checkedTables];
@@ -30,8 +30,8 @@ const OnGoing = () => {
         />
     );
     
-    const activeOrders = new Array(3).fill(0).map((_, idx) => renderOrder(idx, 'active'));
-    const inProgressOrders = new Array(3).fill(0).map((_, idx) => renderOrder(idx, 'in_progress'));
+    const activeOrders = new Array(6).fill(0).map((_, idx) => renderOrder(idx, 'active'));
+    const inProgressOrders = new Array(6).fill(0).map((_, idx) => renderOrder(idx, 'in_progress'));
     const allOrders = [...activeOrders, ...inProgressOrders];
     
     const offset = currentPage * PER_PAGE;

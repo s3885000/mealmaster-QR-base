@@ -1,5 +1,5 @@
 import React from 'react';
-import { Buttons, Navigation, Header } from '../../components';
+import { Buttons, Navigation } from '../../components';
 import './profile.css';
 
 const PopupFooter = ({ buttons }) => (
@@ -33,7 +33,7 @@ const InputField = ({ label, placeholder, name }) => (
 
 const Profile = () => {
     return (
-        <div className="tables-screen h-screen flex flex-col">
+        <div className="tables-screen h-screen flex flex-col p-0">
             <Navigation />
 
             <div className='flex-auto p-4 md:p-6'>

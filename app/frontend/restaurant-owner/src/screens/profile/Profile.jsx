@@ -34,7 +34,6 @@ const InputField = ({ label, placeholder, name }) => (
 const Profile = () => {
     return (
         <div className="tables-screen h-screen flex flex-col">
-            <Header title="Tables" className="flex flex-col items-center" />
             <Navigation />
 
             <div className='flex-auto p-4 md:p-6'>

@@ -1,0 +1,9 @@
+.profile-pic-hover:hover {
+    cursor: pointer;
+    transform: scale(1.05); /* Slightly enlarge the profile pic */
+    transition: transform 0.3s ease-in-out;
+}
+
+.header-fixed-height {
+    height: 70px;  
+}

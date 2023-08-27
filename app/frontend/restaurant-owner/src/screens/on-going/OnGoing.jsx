@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Navigation, Header, Items } from '../../components'; 
-import ReactPaginate from 'react-paginate';
 
 const OnGoing = () => {
     const [currentPage, setCurrentPage] = useState(0);
@@ -53,20 +52,6 @@ const OnGoing = () => {
                         {order}
                     </div>
                 ))}
-            </div>
-            <div className="flex justify-center items-center py-4 w-full">
-                <ReactPaginate
-                    previousLabel={"← Previous"}
-                    nextLabel={"Next →"}
-                    pageCount={pageCount}
-                    onPageChange={handlePageClick}
-                    containerClassName={"pagination"} 
-                    pageLinkClassName={"pagination__link"}
-                    previousLinkClassName={"pagination__link"}
-                    nextLinkClassName={"pagination__link"}
-                    disabledClassName={"pagination__link--disabled"}
-                    activeClassName={"pagination__link--active"}
-                />
             </div>
         </div>
     );

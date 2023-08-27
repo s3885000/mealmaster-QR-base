@@ -30,7 +30,7 @@ const App = () => {
 
   return (
     <>
-      <div className="main-content flex justify-center items-center min-h-screen">
+      <div className="main-content min-h-screen">
         <div className="items-container space-y-2.5">
         </div>
         <Routes>

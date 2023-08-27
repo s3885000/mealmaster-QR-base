@@ -76,10 +76,12 @@ const Popups = ({ visible, type, onClose }) => {
       <>
         <PopupHeader title="Add Table" />
         <form onSubmit={handleAddTableSubmit}>
-            <label className="block text-2xl font-bold">Name</label>
+            <label className="block text-xl font-bold">Name</label>
             <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter table name" type="text" name="addTableName"
             onChange={handleAddTableChange}
             />
+            <label className='block text-xl font-bold'>Description</label>
+            <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter description" type="text" name="description" />
             {errors.addTableName &&<span>{errors.addTableName}</span>}
             <PopupFooter buttons={[
               { context: 'cancel', onClick: handleOnClose },
@@ -93,8 +95,10 @@ const Popups = ({ visible, type, onClose }) => {
       <>
         <PopupHeader title="Edit Table" />
         <form>
-            <label className="block text-2xl font-bold">Name</label>
+            <label className="block text-xl font-bold">Name</label>
             <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter table name" type="text" name="editTableName" />
+            <label className='block text-xl font-bold'>Description</label>
+            <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter description" type="text" name="description" />
         </form>
         <PopupFooter buttons={[
           { context: 'cancel', onClick: handleOnClose },
@@ -106,7 +110,7 @@ const Popups = ({ visible, type, onClose }) => {
       <>
         <PopupHeader title="Add Category" />
         <form>
-            <label className="block text-2xl font-bold">Name</label>
+            <label className="block text-xl font-bold">Name</label>
             <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter table name" type="text" name="addCategoryName" />
         </form>
         <PopupFooter buttons={[
@@ -119,7 +123,7 @@ const Popups = ({ visible, type, onClose }) => {
       <>
         <PopupHeader title="Edit Category" />
         <form>
-            <label className="block text-2xl font-bold">Name</label>
+            <label className="block text-xl font-bold">Name</label>
             <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter table name" type="text" name="editCategoryName" />
         </form>
         <PopupFooter buttons={[
@@ -132,13 +136,13 @@ const Popups = ({ visible, type, onClose }) => {
       <>
         <PopupHeader title="Add Food" />
         <form>
-            <label className="block text-2xl font-bold">Name</label>
+            <label className="block text-xl font-bold">Name</label>
             <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter food name" type="text" name="food_name" />
 
-            <label className='block text-2xl font-bold'>Description</label>
+            <label className='block text-xl font-bold'>Description</label>
             <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter description" type="text" name="description" />
 
-            <label className='block text-2xl font-bold'>Price (VND)</label>
+            <label className='block text-xl font-bold'>Price (VND)</label>
             <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter price" type="text" name="price" />
 
           <label class="block pt-4">
@@ -158,13 +162,13 @@ const Popups = ({ visible, type, onClose }) => {
       <>
         <PopupHeader title="Edit Food" />
         <form>
-            <label className="block text-2xl font-bold">Name</label>
+            <label className="block text-xl font-bold">Name</label>
             <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter food name" type="text" name="food_name" />
 
-            <label className='block text-2xl font-bold'>Description</label>
+            <label className='block text-xl font-bold'>Description</label>
             <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter description" type="text" name="description" />
 
-            <label className='block text-2xl font-bold'>Price (VND)</label>
+            <label className='block text-xl font-bold'>Price (VND)</label>
             <input className="border border-gray rounded-md placeholder-slate-400 w-full p-2" placeholder="Enter price" type="text" name="price" />
 
           <label class="block pt-4">

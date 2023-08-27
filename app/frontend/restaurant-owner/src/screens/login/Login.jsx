@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Buttons } from '../../components';  
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../../redux/actions/authentication/authThunk'; // Import the action creator
+import { loginUser } from '../../redux/actions/authentication/authThunk';
 import { MealMasterLogo } from '../../asset/images/mealmaster_logo/index.js';
 
 const Login = () => {
@@ -43,17 +43,17 @@ const Login = () => {
             </section>
             
             {/* Right half */}
-            <section className="flex flex-col items-center justify-start flex-1 bg-white p-10 w-full md:w-1/2">
-                <h1 className="text-2xl font-bold mt-40 mb-4">Welcome Back!</h1>
+            <section className="flex flex-col items-center justify-center flex-1 bg-white p-10 w-full md:w-1/2">
+                <h1 className="text-2xl font-bold mb-4">Welcome Back!</h1>
                 <p className="text-md font-medium mb-4">Log in to manage your restaurant</p>
 
-                <form className="w-full">
-                    <label className="block w-full mb-5" htmlFor="emailInput">
+                <form className="w-4/5">
+                    <label className="block mb-5" htmlFor="emailInput">
                         Email
                         <input 
                             id='emailInput'
                             className='w-full h-10 px-7 text-sm bg-tertiary text-placeholders font-medium rounded-2xl mt-2'
-                            type='email' // Use email type for email input
+                            type='email'
                             placeholder='Email Address'
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -62,7 +62,7 @@ const Login = () => {
                     </label>
                     {emailError && <div className='text-error text-xs mt-1'>{emailError}</div>}
 
-                    <label className="block w-full mb-5" htmlFor="passwordInput">
+                    <label className="block mb-5" htmlFor="passwordInput">
                         Password
                         <div className="relative">
                             <input 
@@ -79,11 +79,16 @@ const Login = () => {
                     </label>
                     {passwordError && <div className='text-error text-xs mt-1'>{passwordError}</div>}
 
-                    <button onClick={redirectToPasswordRecovery} className="text-gray mb-5 w-full text-left self-start">
-                        Forgot Password?
-                    </button>
-                    <Buttons context="login" className="mb-5" onClick={handleLogin}></Buttons>
-                    <Buttons context="create_account_login" className="mb-5" onClick={redirectToSignup}></Buttons>
+                    <div className="flex justify-start w-full">
+                        <button onClick={redirectToPasswordRecovery} className="text-gray mb-5">
+                            Forgot Password?
+                        </button>
+                    </div>
+
+                    <div className="flex flex-col items-center w-full">
+                        <Buttons context="login" className="mb-5" onClick={handleLogin}></Buttons>
+                        <Buttons context="create_account_login" className="mb-5" onClick={redirectToSignup}></Buttons>
+                    </div>
                 </form>
             </section>
         </main>

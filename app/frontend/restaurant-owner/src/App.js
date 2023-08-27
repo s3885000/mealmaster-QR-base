@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { connect } from 'react-redux';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { Popups } from './components'; 
 import { Dashboard, Login, OnGoing, PasswordRecovery, SignUp, Tables, Menu, History, Profile } from './screens'; 
 import { Provider } from 'react-redux';
@@ -34,10 +33,11 @@ const App = () => {
         <div className="items-container space-y-2.5">
         </div>
         <Routes>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/login" element={<Login />} /> 
           <Route path="/signup" element={<SignUp />} /> 
           <Route path="/password-recovery" element={<PasswordRecovery />} /> 
-          <Route path="/dashboard" element={<Dashboard />} /> 
           <Route path="/history" element={<History />} /> 
           <Route path="/menu" element={<Menu />} /> 
           <Route path="/on-going" element={<OnGoing />} />

@@ -36,12 +36,13 @@ const Signup = () => {
             </section>
             
             {/* Right half */}
-            <section className="flex flex-col items-center justify-start flex-1 bg-white p-10 w-full md:w-1/2">
-                <h1 className="text-2xl font-bold mt-40 mb-4">Create an Account</h1>
+            <section className="flex flex-col items-center justify-center flex-1 bg-white p-10 w-full md:w-1/2">
+                <h1 className="text-2xl font-bold mb-4">Create an Account</h1>
                 <p className="text-md font-medium mb-4">Create an account to manage your restaurant</p>
 
-                <form className="w-full">
-                    <label className="block w-full mb-5" htmlFor="nameInput">
+                <form className="w-4/5">
+                    {/* Name Input */}
+                    <label className="block mb-5" htmlFor="nameInput">
                         Name
                         <input 
                             id='nameInput'
@@ -55,12 +56,13 @@ const Signup = () => {
                     </label>
                     {nameError && <div className='text-error text-xs mt-1'>{nameError}</div>}
 
-                    <label className="block w-full mb-5" htmlFor="emailInput">
+                    {/* Email Input */}
+                    <label className="block mb-5" htmlFor="emailInput">
                         Email
                         <input 
                             id='emailInput'
                             className='w-full h-10 px-7 text-sm bg-tertiary text-placeholders font-medium rounded-2xl mt-2'
-                            type='email' // Change type to email for better validation
+                            type='email'
                             placeholder='Email Address'
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -69,7 +71,8 @@ const Signup = () => {
                     </label>
                     {emailError && <div className='text-error text-xs mt-1'>{emailError}</div>}
 
-                    <label className="block w-full mb-5" htmlFor="passwordInput">
+                    {/* Password Input */}
+                    <label className="block mb-5" htmlFor="passwordInput">
                         Password
                         <div className="relative">
                             <input 
@@ -86,8 +89,10 @@ const Signup = () => {
                     </label>
                     {passwordError && <div className='text-error text-xs mt-1'>{passwordError}</div>}
 
-                    <Buttons context="create_account_signup" className="mb-5" onClick={handleCreateAccountClick}></Buttons>
-                    <Buttons context="already" className="mb-5" onClick={handleLoginClick}></Buttons>
+                    <div className="flex flex-col items-center w-full">
+                        <Buttons context="create_account_signup" className="mb-5" onClick={handleCreateAccountClick}></Buttons>
+                        <Buttons context="already" className="mb-5" onClick={handleLoginClick}></Buttons>
+                    </div>
                 </form>
             </section>
         </main>

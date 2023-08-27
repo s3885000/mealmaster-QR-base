@@ -27,7 +27,7 @@ const PasswordRecovery = () => {
                 <h1 className="text-2xl font-bold mt-40 mb-4">Password Recovery</h1>
                 <p className="text-md font-medium mb-4">Enter your email to recover your password</p>
 
-                <form className="w-full">
+                <form className="w-4/5">
                     <label className="block w-full mb-5" htmlFor="emailInput">
                         Email
                         <input 
@@ -43,7 +43,9 @@ const PasswordRecovery = () => {
                     {emailError && <div className='text-error text-xs mt-1'>{emailError}</div>}
                     {message && <div className='text-success text-xs mt-1'>{message}</div>}
 
-                    <Buttons context="email" className="mb-5" onClick={handleSendEmailClick}></Buttons>
+                    <div className="flex flex-col items-center w-full">
+                        <Buttons context="email" className="mb-5" onClick={handleSendEmailClick}></Buttons>
+                    </div>
                 </form>
             </section>
         </main>

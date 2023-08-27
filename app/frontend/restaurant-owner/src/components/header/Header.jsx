@@ -13,7 +13,7 @@ const Header = () => {
         <Search />
       </div>
       <div className='flex items-center space-x-2 sm:pr-0'> 
-        <Buttons context="on_going_icon" />
+        <Buttons context="on_going_icon" onClick={() => navigate("/on-going")} />
         <div 
           className='w-10 h-10 sm:w-10 sm:h-10 bg-primary rounded-xl profile-pic-hover'
           onClick={() => navigate("/profile")}

@@ -12,7 +12,7 @@ const PopupFooter = ({ buttons }) => (
 
 const ImageUploader = ({ label, name }) => (
     <label className="block mb-10">
-        <span className='block text-xl md:text-2xl lg:text-3xl font-bold'>{label}</span>
+        <span className='block text-2xl font-bold'>{label}</span>
         <input type="file" name={name} accept='image/*' hidden />
         <div className='border-dashed border-2 border-black rounded-md p-4'>
             <p className='text-center'>
@@ -26,19 +26,19 @@ const ImageUploader = ({ label, name }) => (
 
 const InputField = ({ label, placeholder, name }) => (
     <>
-        <label className="block text-xl md:text-2xl lg:text-3xl font-bold mb-2">{label}</label>
+        <label className="block text-2xl font-bold mb-2">{label}</label>
         <input className="border border-gray-400 rounded-md placeholder-gray-400 w-full p-2 mb-5" placeholder={placeholder} type="text" name={name} />
     </>
 );
 
 const Profile = () => {
     return (
-        <div className="tables-screen h-screen flex flex-col p-0">
+        <div className="tables-screen h-screen flex flex-col pl-3 pr-3">
             <Navigation />
 
             <div className='flex-auto p-4 md:p-6'>
-                <h1 className='text-2xl md:text-3xl lg:text-4xl font-bold mb-4'>Profile</h1>
-                <div className='bg-white px-4 md:px-6 lg:px-8 py-4 rounded-3xl w-full mx-auto mb-4'>
+                <h1 className='text-3xl font-bold mb-4'>Profile</h1>
+                <div className='bg-white px-4 md:px-6 lg:px-8 py-4 rounded-2xl w-full mx-auto mb-4'>
                     <form>
                         <ImageUploader label="Profile Picture" name="profile_picture" />
                         <InputField label="First Name" placeholder="John" name="firstName" />
@@ -51,8 +51,8 @@ const Profile = () => {
                     </form>
                 </div>
 
-                <h1 className='text-2xl md:text-3xl lg:text-4xl font-bold mb-4'>Restaurant</h1>
-                <div className='bg-white px-4 md:px-6 lg:px-8 py-4 rounded-3xl w-full mx-auto'>
+                <h1 className='text-3xl font-bold mb-4'>Restaurant</h1>
+                <div className='bg-white px-4 md:px-6 lg:px-8 py-4 rounded-2xl w-full mx-auto'>
                     <form>
                         <ImageUploader label="Restaurant Logo" name="restaurant_logo" />
                         <ImageUploader label="Banner Image" name="banner_image" />
@@ -70,5 +70,4 @@ const Profile = () => {
         </div>
     )
 }
-
 export default Profile;

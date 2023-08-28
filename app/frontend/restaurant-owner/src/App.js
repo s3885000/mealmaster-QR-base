@@ -29,7 +29,7 @@ const App = () => {
 
   return (
     <>
-      <div className="main-content min-h-screen">
+      <div className="main-content min-h-screen overflow-y-auto pb-16">
         <div className="items-container space-y-2.5">
         </div>
         <Routes>

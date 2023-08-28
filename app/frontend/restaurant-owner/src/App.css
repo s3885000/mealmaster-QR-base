@@ -23,12 +23,16 @@ body {
 }
 
 .main-content {
-  padding-left: 0; /* For mobile */
+  padding-left: 0; 
 }
 
-/* At your lg breakpoint */
-@media (min-width: 1024px) { /* This is the typical lg breakpoint for Tailwind, adjust if yours is different */
+@media (min-width: 1024px) { 
   .main-content {
-      padding-left: 5rem; /* This should be the width of your left navigation */
+      padding-left: 5rem; 
   }
+}
+
+.main-content::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
 }

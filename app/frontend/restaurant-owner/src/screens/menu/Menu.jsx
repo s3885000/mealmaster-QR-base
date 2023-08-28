@@ -8,10 +8,10 @@ const Menu = () => {
     const [checkedCategories, setCheckedCategories] = useState(new Array(5).fill(false));
 
     const [selectFoodItems, setSelectFoodItems] = useState(false);
-    const [checkedFoodItems, setCheckedFoodItems] = useState(new Array(4).fill(false));
+    const [checkedFoodItems, setCheckedFoodItems] = useState(new Array(8).fill(false));
 
     const [categories, setCategories] = useState(new Array(5).fill(0).map((_, idx) => idx));
-    const [foodItems, setFoodItems] = useState(new Array(4).fill(0).map((_, idx) => idx + 4));
+    const [foodItems, setFoodItems] = useState(new Array(8).fill(0).map((_, idx) => idx + 4));
 
     const [isAddCategoryPopupVisible, setIsAddCategoryPopupVisible] = useState(false);
     const [isAddFoodItemPopupVisible, setIsAddFoodItemPopupVisible] = useState(false);

@@ -1,5 +1,6 @@
 .flex-auto {
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .flex-auto::-webkit-scrollbar {

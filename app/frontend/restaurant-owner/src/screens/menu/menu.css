@@ -1,18 +1,18 @@
-body {
-    overflow-y: hidden;
-    
-}
-
 .menu-screen {
     overflow-x: hidden;
+    overflow-y: auto; /* allow vertical scrolling */
+    height: 100vh; /* you might adjust this depending on your needs */
 }
 
 .no-scrollbar {
-    overflow-y: scroll;
     scrollbar-width: none; 
     -ms-overflow-style: none; 
 }
 
 .no-scrollbar::-webkit-scrollbar {
     display: none; 
+}
+
+.menu-screen div {
+    transition: all 0.1s ease;
 }

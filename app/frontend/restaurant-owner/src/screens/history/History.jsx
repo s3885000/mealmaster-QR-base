@@ -48,7 +48,7 @@ const History = () => {
         <div className="tables-screen h-screen flex flex-col">
             <Header title="History" className="flex flex-col items-center" />
             <Navigation className="flex-none" />
-            <div className="flex-grow flex flex-col items-start mt-5 px-8 overflow-y-auto">
+            <div className="flex-grow flex flex-col items-start mt-5 px-8 overflow-x-hidden overflow-y-auto">
                 <div className="flex justify-between items-center w-full mb-4">
                     <div>
                         <h1 className="text-3xl font-bold mb-2">History</h1>

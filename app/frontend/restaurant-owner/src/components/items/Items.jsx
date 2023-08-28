@@ -7,7 +7,7 @@ import { Buttons, Popups } from '../../components';
 
 const ItemContainer = ({ children, onClick }) => (
   <div 
-  className="flex w-full justify-center min-w-[370px] md:min-w-[725px] lg:min-w-[1000px] xl:min-w-[1295px] 2xl:min-w-[1400px] h-16 md:h-[70px] lg:h-[70px] bg-white rounded-md p-2 md:p-4"
+  className="flex w-5/6 justify-center min-w-[375px] md:min-w-[725px] lg:min-w-[910px] xl:min-w-[1295px] 2xl:min-w-[1400px] h-16 md:h-[70px] lg:h-[70px] bg-white rounded-md p-4"
     onClick={onClick}>
     {children}
   </div>
@@ -17,18 +17,18 @@ const ItemType = 'ITEM';
 
 const DraggableItem = ({ children, id, onMove, type }) => {
   const [, ref] = useDrag({
-    type: ItemType,
-    item: { id, type }
+      type: ItemType,
+      item: { id, type }
   });
 
   const [, drop] = useDrop({
-    accept: ItemType,
-    hover: (draggedItem) => {
-      if (draggedItem.id !== id && (draggedItem.type === 'categories' || draggedItem.type === 'food_item')) {
-        onMove(draggedItem.id, id);
-        draggedItem.id = id;
+      accept: ItemType,
+      hover: (draggedItem) => {
+          if (draggedItem.id !== id) {
+              onMove(draggedItem.type, draggedItem.id, id);
+              draggedItem.id = id;
+          }
       }
-    }
   });
 
   return <div ref={(node) => ref(drop(node))}>{children}</div>;
@@ -101,9 +101,13 @@ const Items = memo(({ type, state, index, onMove, isSelected = false, onCheckbox
     {isEditCategoryPopupVisible && <Popups visible={isEditCategoryPopupVisible} type="edit_category" onClose={() => setIsEditCategoryPopupVisible(false)} />}
     {isEditFoodItemPopupVisible && <Popups visible={isEditFoodItemPopupVisible} type="edit_food" onClose={() => setIsEditFoodItemPopupVisible(false)} />}
     {isDetailPopupVisible && <Popups visible={isDetailPopupVisible} type={popupType} onClose={() => setIsDetailPopupVisible(false)} />}
-    <DraggableItem id={index} onMove={onMove} type={type}>
-      {renderSwitch(type, state, index, iconState, toggleIconState, isSelected, onCheckboxChange, onCategoryClick, setIsEditTablePopupVisible, setIsEditCategoryPopupVisible, setIsEditFoodItemPopupVisible, showDetailPopup)}
-    </DraggableItem>
+    { (type === 'categories' || type === 'food_item') ? (
+        <DraggableItem id={index} onMove={onMove} type={type}>
+            {renderSwitch(type, state, index, iconState, toggleIconState, isSelected, onCheckboxChange, onCategoryClick, setIsEditTablePopupVisible, setIsEditCategoryPopupVisible, setIsEditFoodItemPopupVisible, showDetailPopup)}
+        </DraggableItem>
+    ) : (
+        renderSwitch(type, state, index, iconState, toggleIconState, isSelected, onCheckboxChange, onCategoryClick, setIsEditTablePopupVisible, setIsEditCategoryPopupVisible, setIsEditFoodItemPopupVisible, showDetailPopup)
+    )}
   </>
   );
 });
@@ -206,6 +210,7 @@ const renderSwitch = (type, state, index, iconState, toggleIconState, isSelected
                       <span className={`text-sm md:text-base lg:text-lg font-bold ${orderColor}`}>Order ID: #ABC123</span>
                       <span className="text-xs md:text-sm lg:text-base text-black">Timestamp: 20/12/2023 12:48</span>
                       <span className="text-xs md:text-sm lg:text-base text-black">Table: 15</span>
+                      <span className="text-xs md:text-sm lg:text-base bold text-black">Item(s): 3</span> 
                       <span className="text-xs md:text-sm lg:text-base text-black">Total: 1,500,000</span>
                   </div>
                   <Buttons context="details" onClick={() => showDetailPopup(popupToShow)}/>  
@@ -219,6 +224,8 @@ const renderSwitch = (type, state, index, iconState, toggleIconState, isSelected
                 <div className={`flex-grow flex items-center space-x-3 md:space-x-5 lg:space-x-8`}>
                     <span className={`text-sm md:text-base lg:text-lg font-bold ${historyColor}`}>Order ID: #ABC123</span>
                     <span className="text-xs md:text-sm lg:text-base text-black">Timestamp: 20/12/2023 12:48</span>
+                    <span className="text-xs md:text-sm lg:text-base text-black">Table: 15</span>
+                    <span className="text-xs md:text-sm lg:text-base text-black">Total: 1,500,000</span>
                 </div>
                 <Buttons context="details" onClick={() => showDetailPopup('history')}/>  
             </ItemContainer>

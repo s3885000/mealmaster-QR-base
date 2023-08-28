@@ -27,7 +27,7 @@ const OnGoing = () => {
     const allOrders = [...activeOrders, ...inProgressOrders];
 
     return (
-        <div className="tables-screen h-screen flex flex-col" style={{ overflowX: 'hidden', overflowY: 'hidden' }}>
+        <div className="tables-screen h-screen flex overflow-x-hidden flex-col" style={{ overflowX: 'hidden', overflowY: 'hidden' }}>
             <Header title="Tables" className="flex flex-col items-center" />
             <Navigation className="flex-none" />
             <div className="flex-auto flex flex-col items-start mt-5 px-8">

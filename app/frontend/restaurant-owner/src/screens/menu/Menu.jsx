@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { Buttons, Navigation, Header, Items, Popups } from '../../components'; 
+import { DndProvider } from 'react-dnd';
+import { MultiBackend, HTML5DragTransition, TouchTransition } from 'react-dnd-multi-backend';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { TouchBackend } from 'react-dnd-touch-backend';
 import './menu.css';
 
 const Menu = () => {
@@ -42,6 +46,16 @@ const Menu = () => {
         setCheckedFoodItems(newCheckedFoodItems);
     };
 
+    const onMove = (dragType, dragIndex, hoverIndex) => {
+        if (dragType === 'categories') {
+            const newOrder = moveItem(categories, dragIndex, hoverIndex);
+            setCategories(newOrder);
+        } else if (dragType === 'food_item') {
+            const newOrder = moveItem(foodItems, dragIndex, hoverIndex);
+            setFoodItems(newOrder);
+        }
+    };
+    
     const moveItem = (arr, fromIndex, toIndex) => {
         const result = [...arr];
         const [removed] = result.splice(fromIndex, 1);
@@ -49,15 +63,13 @@ const Menu = () => {
         return result;
     };
 
-    const onMove = (dragIndex, hoverIndex) => {
-        if (dragIndex < 4 && hoverIndex < 4) {
-            const newOrder = moveItem(categories, dragIndex, hoverIndex);
-            setCategories(newOrder);
-        } else if (dragIndex >= 4 && hoverIndex >= 4) {
-            const newOrder = moveItem(foodItems, dragIndex - 4, hoverIndex - 4);
-            setFoodItems(newOrder);
-        }
-    };
+    const DraggableCategoryList = memo(({ categories }) => {
+        return categories.map(idx => renderCategory(idx));
+    });
+
+    const DraggableFoodItemList = memo(({ foodItems }) => {
+        return foodItems.map(idx => renderFoodItem(idx));
+    });
 
     const renderCategory = (idx) => (
         <Items 
@@ -87,6 +99,19 @@ const Menu = () => {
     const renderedFoodItems = foodItems.map(idx => renderFoodItem(idx));
 
     return (
+        <DndProvider backend={MultiBackend} options={{
+            backends: [
+              {
+                backend: HTML5Backend,
+                transition: HTML5DragTransition
+              },
+              {
+                backend: TouchBackend,
+                options: { enableMouseEvents: true },
+                transition: TouchTransition
+              }
+            ]
+        }}>       
         <div className="menu-screen h-screen flex flex-col no-scrollbar">
             {isAddCategoryPopupVisible && 
                 <Popups visible={isAddCategoryPopupVisible} type="add_category" onClose={() => setIsAddCategoryPopupVisible(false)} />}
@@ -132,6 +157,7 @@ const Menu = () => {
                 ))}
             </div>
         </div>
+        </DndProvider>
     );
 };
 

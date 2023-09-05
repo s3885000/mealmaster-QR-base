@@ -1,4 +1,4 @@
-import React, { useState, memo } from 'react';
+import React, { useState } from 'react';
 import { Buttons, Navigation, Header, Items, Popups } from '../../components'; 
 import { DndProvider } from 'react-dnd';
 import { MultiBackend, HTML5DragTransition, TouchTransition } from 'react-dnd-multi-backend';
@@ -62,14 +62,6 @@ const Menu = () => {
         result.splice(toIndex, 0, removed);
         return result;
     };
-
-    const DraggableCategoryList = memo(({ categories }) => {
-        return categories.map(idx => renderCategory(idx));
-    });
-
-    const DraggableFoodItemList = memo(({ foodItems }) => {
-        return foodItems.map(idx => renderFoodItem(idx));
-    });
 
     const renderCategory = (idx) => (
         <Items 

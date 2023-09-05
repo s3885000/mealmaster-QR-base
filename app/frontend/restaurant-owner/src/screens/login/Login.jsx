@@ -14,11 +14,20 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(true); 
-    const [emailError, setEmailError] = useState(null);
-    const [passwordError, setPasswordError] = useState(null);
 
     const handleLogin = () => {
-        dispatch(loginUser(email, password));
+        dispatch(loginUser(email, password))
+            .then((action) => {
+                if (action && action.type) {
+                    if (action.type === 'LOGIN_SUCCESS') {
+                        navigate('/dashboard');
+                    } else if (action.type === 'LOGIN_FAILURE') {
+                        console.error("Login failed:", action.payload);
+                    }
+                } else {
+                    console.error("Unexpected action returned:", action);
+                }
+            });
     };
 
     const redirectToSignup = () => {
@@ -46,7 +55,7 @@ const Login = () => {
             <section className="flex flex-col items-center justify-center flex-1 bg-white p-10 w-full md:w-1/2">
                 <h1 className="text-2xl font-bold mb-4">Welcome Back!</h1>
                 <p className="text-md font-medium mb-4">Log in to manage your restaurant</p>
-
+                {authError && <div className='text-error text-xs mt-1'>{authError}</div>}
                 <form className="w-4/5">
                     <label className="block mb-5" htmlFor="emailInput">
                         Email
@@ -60,7 +69,7 @@ const Login = () => {
                             aria-label="Email Address for Login"
                         />
                     </label>
-                    {emailError && <div className='text-error text-xs mt-1'>{emailError}</div>}
+                    {authError && <div className='text-error text-xs mt-1'>{authError}</div>}
 
                     <label className="block mb-5" htmlFor="passwordInput">
                         Password
@@ -77,7 +86,7 @@ const Login = () => {
                             <Buttons context={showPassword ? "hide" : "view"} onClick={togglePasswordVisibility} className="absolute right-7 top-1/2 transform -translate-y-1/2" />
                         </div>
                     </label>
-                    {passwordError && <div className='text-error text-xs mt-1'>{passwordError}</div>}
+                    {authError && <div className='text-error text-xs mt-1'>{authError}</div>}
 
                     <div className="flex justify-start w-full">
                         <button onClick={redirectToPasswordRecovery} className="text-gray mb-5">
@@ -86,8 +95,8 @@ const Login = () => {
                     </div>
 
                     <div className="flex flex-col items-center w-full">
-                        <Buttons context="login" className="mb-5" onClick={handleLogin}></Buttons>
-                        <Buttons context="create_account_login" className="mb-5" onClick={redirectToSignup}></Buttons>
+                        <Buttons context="login" type="button" className="mb-5" onClick={handleLogin}></Buttons>
+                        <Buttons context="create_account_login" type="button" className="mb-5" onClick={redirectToSignup}></Buttons>
                     </div>
                 </form>
             </section>

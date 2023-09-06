@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Buttons } from '../../components';  
 import { useNavigate } from 'react-router-dom';
+import { signupUser } from '../../redux/actions/authentication/authThunk';
 import { MealMasterLogo } from '../../asset/images/mealmaster_logo/index.js';
 
 const Signup = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    
+    // Fetching the general auth error using useSelector
+    const authError = useSelector(state => state?.authentication?.error);
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -15,7 +21,21 @@ const Signup = () => {
     const [passwordError, setPasswordError] = useState(null);
 
     const handleCreateAccountClick = () => {
-        // Implement the signup functionality
+        dispatch(signupUser({name, email, password}))
+            .then((action) => {
+                if (action && action.type) {
+                    if (action.type === 'SIGNUP_SUCCESS') {
+                        navigate('/dashboard');
+                    } else if (action.type === 'SIGNUP_FAILURE') {
+                        console.error("Signup failed:", action.payload);
+                        setNameError(action.payload.nameError);
+                        setEmailError(action.payload.emailError);
+                        setPasswordError(action.payload.passwordError);
+                    }
+                } else {
+                    console.error("Unexpected action returned:", action);
+                }
+            });
     };
 
     const handleLoginClick = () => {
@@ -39,6 +59,9 @@ const Signup = () => {
             <section className="flex flex-col items-center justify-center flex-1 bg-white p-10 w-full md:w-1/2">
                 <h1 className="text-2xl font-bold mb-4">Create an Account</h1>
                 <p className="text-md font-medium mb-4">Create an account to manage your restaurant</p>
+
+                {/* Display the general auth error */}
+                {authError && <div className='text-error text-xs mt-1 mb-4'>{authError}</div>}
 
                 <form className="w-4/5">
                     {/* Name Input */}

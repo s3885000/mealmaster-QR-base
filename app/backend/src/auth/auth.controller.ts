@@ -13,7 +13,6 @@ import { AnonymousGuard } from './guards/anonymous.guard';
 import { phoneNumberValidateDto } from 'src/user/dto/request/phoneNumberValidationDto.dto';
 import { UserService } from 'src/user/user.service';
 
-
 @Controller('auth')
 export class AuthController {
     constructor(
@@ -104,7 +103,4 @@ export class AuthController {
         response.send(result);
         return result;
     }
-    
-    
-
 }

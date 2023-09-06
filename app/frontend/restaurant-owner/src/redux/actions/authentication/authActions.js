@@ -40,3 +40,23 @@ export const loginFailure = (error) => ({
 export const logout = () => ({
     type: AUTH_LOGOUT,
 });
+
+// NEW - Constants for Signup
+export const AUTH_SIGNUP_REQUEST = 'AUTH_SIGNUP_REQUEST';
+export const AUTH_SIGNUP_SUCCESS = 'AUTH_SIGNUP_SUCCESS';
+export const AUTH_SIGNUP_FAILURE = 'AUTH_SIGNUP_FAILURE';
+
+// NEW - Actions for Signup
+export const signupRequest = () => ({
+    type: AUTH_SIGNUP_REQUEST,
+});
+
+export const signupSuccess = (user) => ({
+    type: AUTH_SIGNUP_SUCCESS,
+    payload: user,
+});
+
+export const signupFailure = (error) => ({
+    type: AUTH_SIGNUP_FAILURE,
+    payload: error,
+});

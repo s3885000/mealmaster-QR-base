@@ -32,12 +32,19 @@ const OngoingOrderBox = ({ orderId, estimateTime, total, onOrderReceived }) => {
 };
 
 const HistoryOrderBox = ({ orderId, date, total }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const toggleExpanded = () => {
+    setIsExpanded(!isExpanded);
+  };
+
   return (
     <OrderBox
       orderId={orderId}
       date={date}
       total={total}
       type="history"
+      isExpanded={isExpanded}
+      toggleExpanded={toggleExpanded}
     />
   );
 };
@@ -75,7 +82,7 @@ const OrderBox = ({ orderId, estimateTime, total, date, type, isExpanded, toggle
         {type !== 'history' && (
           <div className="flex justify-center w-full">
             <div className="progress-bar-container w-full">
-              <Progress currentStep='2' /> {/* Will need to replace the '2' with {currentStep} when implementing API */}
+              <Progress currentStep='2' />
             </div>
           </div>
         )}

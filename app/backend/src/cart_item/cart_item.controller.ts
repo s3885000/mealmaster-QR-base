@@ -33,11 +33,13 @@ export class CartItemController {
     return this.cartItemService.findItemsForActiveCartByUserId(userId);
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   // Create cart item
   @Post('create')
-  createCartItem(@Body() createCartItemDto: CreateCartItemRequestDto, @Body('userId') userId: number): Promise<CreateCartItemResponseDto> {
-    return this.cartItemService.create(createCartItemDto, userId);
+  createCartItem(@Body() createCartItemDto: CreateCartItemRequestDto, @Body('userId') userId: number, @Body('restaurantId') restaurantId: number, @Body('tableNo') tableNo: number): Promise<CreateCartItemResponseDto> {
+    console.log("Received create cart item request with body:", createCartItemDto, "User ID:", userId, "Restaurant ID:", restaurantId, "Table No:", tableNo);
+    return this.cartItemService.create(createCartItemDto, userId, restaurantId, tableNo);
+
   }
 
   // Update cart item

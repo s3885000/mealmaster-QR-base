@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { HaidilaoLogo } from '../../asset/images/restaurant_info/haidilao/logo/index.js';
-import { FoodTwo } from '../../asset/images/restaurant_info/haidilao/food/index.js';
 import { Buttons, Popups } from '../../components'; 
 import { StarIcon, TimeIcon } from '../../asset/icons/box/index.js';
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,13 +13,16 @@ const formatPrice = (price) => {
 }
 
 const ItemContainer = ({ children }) => (
-  <div className="w-300 h-87 flex items-center pl-4 pr-4 pt-4 pb-4 shadow-xl">
+  <div className="w-300 h-87 flex items-center pl-4 pr-4 pt-4 pb-4 shadow-lg rounded-xl">
     {children}
   </div>
 );
 
-const Items = ({ type, restaurantId, categoryId, cartItemId, ...itemProps }) => {
+const Items = ({ type, restaurantId, categoryId, cartItemId, orderItem, orderItems, ...itemProps }) => {
   const { tableNo } = useParams();
+
+  // console.log("tableNo:", tableNo);
+  // console.log("restaurantId:", restaurantId);
 
   const [counter, setCounter] = useState(0);
   const [popupVisible, setPopupVisible] = useState(false);
@@ -47,10 +49,10 @@ const Items = ({ type, restaurantId, categoryId, cartItemId, ...itemProps }) => 
         if (existingCartItem) {
           // Increase its quantity by 1 for the food_item_cart
           if (type === 'food_item_cart') {
-            dispatch(addToCart(userId, {...item, quantity: existingCartItem.quantity + 1, note: notes }));
+            dispatch(addToCart(userId, {...item, quantity: existingCartItem.quantity + 1, note: notes }, restaurantId, tableNo));
           }
         } else {
-          dispatch(addToCart(userId, {...item, quantity: 1, note: notes }));
+          dispatch(addToCart(userId, {...item, quantity: 1, note: notes }, restaurantId, tableNo));
         }
     } else {
         console.error("Unable to get user Id from token");
@@ -144,7 +146,7 @@ const Items = ({ type, restaurantId, categoryId, cartItemId, ...itemProps }) => 
             <div className="flex-grow ml-2 overflow-hidden">
               <p className="text-base font-medium leading-4 text-left truncate">{itemProps.name}</p>
               <div className="flex items-center space-x-1.5 text-sm text-placeholders mb-1">
-                <span className='truncate w-1/3'>{currentNotes || "Notes"}</span>
+                <span className='truncate w-2/3'>{currentNotes || "Add notes"}</span>
                 <Buttons context='edit' onClick={togglePopup} />
               </div>
               <div className="flex items-center mt-2">
@@ -176,20 +178,29 @@ const Items = ({ type, restaurantId, categoryId, cartItemId, ...itemProps }) => 
       );
 
     case 'food_item_on_going':
-      return (
-        <ItemContainer>
-          <FoodTwo className="w-16 h-16 rounded-3xl" />
-          <div className="flex flex-col flex-grow ml-2">
-            <p className="text-lg font-medium">Spicy fresh crab</p>
-            <p className="flex items-center space-x-1.5 text-sm text-placeholders mb-1">
-              No Spice
-            </p>
+    case 'food_item_history':
+      return Array.isArray(orderItems) ? orderItems.map((orderItem, index) => (
+        <ItemContainer key={index}>
+          <img src={orderItem.menuItem.images && orderItem.menuItem.images[0] ? orderItem.menuItem.images[0].image_url : null} 
+                alt={orderItem.menuItem.name} 
+                className="w-16 h-16 rounded-xl" />
+          <div className="flex-grow ml-2 overflow-hidden">
+            <p className="text-base font-medium leading-4 text-left truncate">{orderItem.menuItem.name}</p>
+            <div className="flex items-center space-x-1.5 text-sm text-placeholders mb-1">
+              {orderItem.note || "No notes"}
+            </div>
+            <div className="flex justify-between items-center mt-2">
+              <p className="text-base font-medium leading-5 text-left">{formatPrice(orderItem.price)}đ</p>
+            </div>
           </div>
-          <div className="flex items-center">
-            <p className="text-lg ml-2">35,000đ</p>
+          <div className="flex-shrink-0 flex-grow-0 flex flex-col items-end">
+            <p className="text-md">{orderItem.quantity}x</p>
+            <p className="text-md text-right -mb-5">Total {formatPrice(orderItem.price * orderItem.quantity)}đ</p>
           </div>
         </ItemContainer>
-      );
+      )) : null;
+    
+
     case 'home_nearby_restaurant':
       return (
         <div className="w-44 h-48 rounded-xl border border-transparent flex flex-col items-center shadow-lg">

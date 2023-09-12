@@ -42,7 +42,7 @@ export class CartItemService {
     return this.cartItemRepository.find({ where: { cart: { id: cart.id }}, relations: ["menuItem", "cart"] });
   }
  
-  async create(createCartItemDto: CreateCartItemRequestDto, userId: number): Promise<CreateCartItemResponseDto> {
+  async create(createCartItemDto: CreateCartItemRequestDto, userId: number, restaurantId: number, tableNo: number): Promise<CreateCartItemResponseDto> {
     const { quantity, note } = createCartItemDto;
 
     const menuItemExists = await this.menuItemService.findOne(createCartItemDto.menuItemId);
@@ -50,7 +50,7 @@ export class CartItemService {
       throw new NotFoundException('Menu item not found!');
     }
 
-    const cart = await this.cartService.getOrCreateCartByUserId(userId);
+    const cart = await this.cartService.getOrCreateCartByUserId(userId, restaurantId, tableNo);
     if(!cart) {
       throw new NotFoundException('Cart not found!');
     }

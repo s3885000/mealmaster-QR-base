@@ -4,11 +4,13 @@ import { Buttons } from '../../components';
 
 const Popups = ({visible, type, onClose, onApply, currentNotes, onUpdateNotes}) => {
   const navigate = useNavigate();
-  const [showPopup, setShowPopup] = useState(true);
+  const [showPopup, setShowPopup] = useState(visible);
   const popupRef = useRef(null);
   const [localNotes, setLocalNotes] = useState(currentNotes);
 
-
+  useEffect(() => {
+    setShowPopup(visible);
+  }, [visible]);
 
   const handleNavigation = (path) => {
     navigate(path);

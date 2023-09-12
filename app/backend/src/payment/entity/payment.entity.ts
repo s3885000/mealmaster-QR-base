@@ -8,14 +8,13 @@ export class Payment {
     id: number;
 
     @OneToOne(() => Order, order => order.payment)
-    @JoinColumn()
     order: Order;
 
     @ManyToOne(() => User, user => user.payment)
     user: User;
 
     @Column()
-    payment_ref_id: string;
+    payment_id: string;
 
     @CreateDateColumn({ type: 'timestamp' })
     created_at: Date;
@@ -31,7 +30,5 @@ export class Payment {
 
     @Column()
     payment_amount: number;
-
-    
 
 }

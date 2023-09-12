@@ -15,7 +15,10 @@ import { MenuItemsModule } from './menu_items/menu_items.module';
 import { CartItemModule } from './cart_item/cart_item.module';
 import { StripeModule } from './stripe/stripe.module';
 import { PaymentModule } from './payment/payment.module';
-
+import { OrderItemModule } from './order_item/order_item.module';
+import { OrderStatusModule } from './order_status/order_status.module';
+import { OrdersGateway } from './webSocket/orders.gateway';
+import { OrdersModule } from './webSocket/orders.module';
 
 @Module({
   imports: [
@@ -37,6 +40,8 @@ import { PaymentModule } from './payment/payment.module';
     QrCodeModule,
     MenuItemsModule,
     CartItemModule,
+    OrderItemModule,
+    OrderStatusModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -46,6 +51,7 @@ import { PaymentModule } from './payment/payment.module';
       inject: [ConfigService],
     }),
     StripeModule,
+    OrdersModule,
   ],
   controllers: [],
   providers: [],

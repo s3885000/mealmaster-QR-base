@@ -1,5 +1,7 @@
+import { IsEnum } from "class-validator";
+import { Status } from "../entity/orderStatus.entity";
 
 export class UpdateOrderStatusDto {
-    order_id: number;
-    status: string;
+    @IsEnum(Status)
+    status: Status;
 }

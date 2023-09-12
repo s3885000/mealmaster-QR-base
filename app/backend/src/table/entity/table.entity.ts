@@ -2,13 +2,14 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGene
 import { Order } from "src/order/entity/order.entity";
 import { Restaurant } from "src/restaurant/entity/restaurant.entity";
 import { QrCode } from "src/qr_code/entity/qrCode.entity";
+import { Cart } from "src/cart/entity/cart.entity";
 
 @Entity()
 export class Tables {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => Restaurant, restaurant => restaurant.tables, )
+    @ManyToOne(() => Restaurant, restaurant => restaurant.tables)
     restaurant: Restaurant;
 
     @OneToOne(() => QrCode, qrCode => qrCode.table, { onDelete: 'CASCADE' })
@@ -23,6 +24,5 @@ export class Tables {
 
     @OneToMany(() => Order, order => order.table)
     order: Order[];
-
 
 }

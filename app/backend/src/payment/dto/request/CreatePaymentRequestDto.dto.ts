@@ -1,5 +1,4 @@
 import { IsNumber, IsString } from "class-validator";
-import { Order } from "src/order/entity/order.entity";
 
 
 export class CreatePaymenRequestDto {
@@ -10,7 +9,7 @@ export class CreatePaymenRequestDto {
     user_id: number;
 
     @IsString()
-    payment_ref_id: string;
+    payment_id: string;
 
     @IsString()
     payment_method: string;

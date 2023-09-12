@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Buttons } from '../../components';
+import { Buttons, Popups } from '../../components';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCard } from '../../redux/actions/paymentActions';
@@ -33,6 +33,26 @@ const Payment = () => {
   const dispatch = useDispatch();
 
   const { loading, error } = useSelector(state => state.payment);
+  const { card } = useSelector(state => state.payment);
+  const [isFormComplete, setIsFormComplete] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+
+  console.log('Show Popup:', showPopup);
+
+  useEffect(() => {
+    console.log("showPopup changed to:", showPopup);
+  }, [showPopup]);
+  
+  useEffect(() => {
+    if (card) {
+        setShowPopup(true);
+    }
+  }, [card]);
+
+  // Event handler to update isFormComplete
+  const handleCardChange = (event) => {
+    setIsFormComplete(event.complete);
+  };
 
   const handleSubmit = async (e) => {
     if (e) e.preventDefault();
@@ -51,13 +71,16 @@ const Payment = () => {
 
     if (error) {
       console.log('[error]', error);
+      // Maybe set a different state to show an error message
     } else {
       console.log('[PaymentMethod]', paymentMethod);
       if (!error && paymentMethod) {
         // Dispatch the action to add the card
         dispatch(addCard(paymentMethod.id));
+    
+        // Show the popup upon successful card addition
+        setShowPopup(true);
       }
-
     }
   }
 
@@ -67,8 +90,8 @@ const Payment = () => {
 
   return (
     <div className='flex flex-col items-center justify-between h-screen px-5 pt-20'>
-      {loading && <div>Loading...</div>}
-      {error && <div>Error: {error}</div>}
+      {/* {loading && <div>Loading...</div>}
+      {error && <div>Error: {error}</div>} */}
       <div className='flex items-center justify-between w-full mb-5'>
         <Buttons context='back' className='mr-6' onClick={handleBackClick}/>
         <h1 className='text-black text-2xl'>Add Card</h1>
@@ -84,6 +107,7 @@ const Payment = () => {
               <CardElement 
                   options={CARD_ELEMENT_OPTIONS} 
                   className='flex-grow text-sm text-black font-medium w-full' 
+                  onChange={handleCardChange}
               />
             </div>
             <div className="flex items-center mt-5">
@@ -102,8 +126,10 @@ const Payment = () => {
             <span className="text-xs italic">Powered by</span>
             <StripeLogoIcon className="ml-2" />
           </div>
-          <Buttons context="add_card" onClick={(e) => handleSubmit(e)}></Buttons>
+          <Buttons context="add_card" onClick={(e) => handleSubmit(e)} disabled={!isFormComplete}></Buttons>
         </div>
+        {/* {showPopup && <Popups type='add_card_successful' onClose={() => setShowPopup(false)} />} */}
+        <Popups type='add_card_successful' onClose={() => setShowPopup(false)} visible={showPopup} />
       </form>
     </div>
   );

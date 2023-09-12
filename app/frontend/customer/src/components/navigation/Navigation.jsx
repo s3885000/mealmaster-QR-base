@@ -38,7 +38,6 @@ const Navigation = () => {
             {location.pathname === item.path ? <item.ActiveIcon className='h-10 sm:h-14 w-10 sm:w-14'/> : <item.Icon className='h-6 sm:h-8 w-6 sm:w-8'/>}
             {item.name === 'Cart' && totalItems > 0 && (
               <span className="cart-badge shadow-badge">
-                {totalItems > 99 ? "99+" : totalItems}
               </span>
             )}
           </button>

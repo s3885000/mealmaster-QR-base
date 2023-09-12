@@ -21,4 +21,12 @@ export class CreateCartRequestDto {
     @IsNumber()
     total_item: number;
 
+    @IsNotEmpty()
+    @IsNumber()
+    restaurantId: number;
+
+    @IsNotEmpty()
+    @IsNumber()
+    tableNo: number;  
+
 }

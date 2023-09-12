@@ -11,6 +11,7 @@ const useStyles = makeStyles({
   },
   stepper: {
     backgroundColor: '#F7F7F8',
+    height: '80px',
   },
   active: {
     color: '#22BB9B',
@@ -34,6 +35,7 @@ const useStyles = makeStyles({
 const steps = ['Confirmed', 'In Progress', 'Ready'];
 
 const Progress = ({ currentStep }) => {
+  console.log("Progress component rendered with currentStep:", currentStep);
   const classes = useStyles();
 
   const StepIconComponent = (props) => {

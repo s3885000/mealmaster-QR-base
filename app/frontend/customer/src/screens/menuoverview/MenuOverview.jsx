@@ -4,7 +4,7 @@ import { Categories, Restaurant, Items } from '../../components';
 import './menuoverview.css';
 import { useDispatch } from 'react-redux';
 import { updateType } from '../../redux/actions/typeActions';
-import { fetchRestaurantData } from '../../redux/actions/restaurantActions';
+import { fetchRestaurantData, setRestaurantId, setTableNo } from '../../redux/actions/restaurantActions';
 import { fetchBestSellers } from '../../redux/actions/menuItemsActions';
 
 const MenuOverview = () => {
@@ -23,6 +23,10 @@ const MenuOverview = () => {
     dispatch(updateType('table_number'));
     dispatch(fetchRestaurantData(restaurantId, tableNo));
     dispatch(fetchBestSellers(restaurantId, tableNo));
+
+    //Dispatch the setRestaurantId and setTableNo actions
+    dispatch(setRestaurantId(restaurantId));
+    dispatch(setTableNo(tableNo));
   }, [dispatch, restaurantId, tableNo]);
 
   const handleDetailClick = () => {

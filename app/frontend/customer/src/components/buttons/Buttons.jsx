@@ -3,17 +3,28 @@ import './buttons.css';
 import { PlusIcon, MinusIcon, CartIcon, BackIcon, EditIcon, SearchIcon } from '../../asset/icons/button/index.js';
 
 
-const Buttons = ({ type, className, style, onClick, context, count, setCount = () => {}, isServeToTable }) => {
+const Buttons = ({ type, className, style, onClick, context, count, setCount = () => {}, isServeToTable, cardDetails, disabled }) => {
   const [isClicked, setIsClicked] = useState(false);
+
+  // Card details state change in cart
+  if (context === 'cardDetails') {
+    return (
+      <div className='center-content'>
+        <button type={type ? type : "button"} className="bg-primary2 text-primary px-2" onClick={onClick} style={style} disabled={disabled}>
+          {cardDetails}
+        </button>
+      </div>
+    );
+  }
 
   // Button content
   const buttonContentContexts = {
     guest: 'Access as a Guest',
     apply: 'Apply',
     close: 'Close',
-    payment_options: 'Payment Options',
     logout: 'Logout',
     add_more: 'Add more Items',
+    payment_options: 'Payment Options',
     scan_qr: 'Scan QR',
     continue: 'Continue',
     add_card: 'Add Card',
@@ -69,7 +80,8 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
 
   let buttonContent = buttonContentContexts[context] || 'Default Content';
   let buttonStyles = className ? ` ${className}` : '';
-  let buttonSize = '';
+  buttonStyles += disabled ? ' bg-gray-400 opacity-50 cursor-not-allowed' : ` ${buttonStylesContexts[context] || buttonStylesContexts.default}`;
+  let buttonSize = buttonSizeContexts[context] || buttonSizeContexts.default;
 
   buttonStyles += ` ${buttonStylesContexts[context] || buttonStylesContexts.default}`;
   buttonSize = buttonSizeContexts[context] || buttonSizeContexts.default;
@@ -88,7 +100,7 @@ const Buttons = ({ type, className, style, onClick, context, count, setCount = (
 
   return (
     <div className='center-content'>
-      <button type={type ? type : "button"} className={`${buttonStyles} ${buttonSize}`} onClick={handleClick} style={style}>
+      <button type={type ? type : "button"} className={`${buttonStyles} ${buttonSize}`} onClick={handleClick} style={style} disabled={disabled}>
         {buttonContent}
       </button>
     </div>

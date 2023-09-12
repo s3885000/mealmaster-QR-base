@@ -14,7 +14,6 @@ export class CreateOrderResponseDto {
     user: User;
     total_price: number;
     pickup_type: PickupType;
-    note: string;
     created_at: Date;
     updated_at: Date;
     order_items: CreateOrderItemResponseDto[];

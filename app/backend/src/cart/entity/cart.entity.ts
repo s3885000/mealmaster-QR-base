@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, OneToOne } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, OneToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { User } from "src/user/entity/user.entity";
 import { CartItem } from "src/cart_item/entity/cart_item.entity";
-import { PaymentReference } from "src/payment_reference/entity/paymentReference.entity";
+import { Restaurant } from "src/restaurant/entity/restaurant.entity";
+import { Tables } from "src/table/entity/table.entity";
 
 export enum PickupType {
     SELF_PICKUP = "SELF_PICKUP",
@@ -45,6 +46,16 @@ export class Cart {
     @OneToMany(() => CartItem, cartItem => cartItem.cart)
     cartItem: CartItem[];
 
-    @OneToOne(() => PaymentReference, paymentReference => paymentReference.cart)
-    paymentReference: PaymentReference;
+    @CreateDateColumn({ type: 'timestamp' })
+    create_at: Date;
+
+    @UpdateDateColumn({ type: 'timestamp' })
+    update_at: Date;
+
+    @ManyToOne(() => Restaurant, restaurant => restaurant.order)
+    restaurant: Restaurant;
+
+    @ManyToOne(() => Tables, table => table.order)
+    table: Tables;
+
 }

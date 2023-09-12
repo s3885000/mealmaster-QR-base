@@ -7,11 +7,10 @@ import { User } from "src/user/entity/user.entity";
 import { OrderStatus } from "src/order_status/entity/orderStatus.entity";
 
 export enum PickupType {
-    PICKUP_AT_COUNTER = "PICKUP_AT_COUNTER",
+    SELF_PICKUP = "SELF_PICKUP",
     SERVE_TO_TABLE = "SERVE_TO_TABLE",
 }
 
-const SERVICE_FEE = 5000; // Service fee
 
 @Entity()
 export class Order {
@@ -21,17 +20,18 @@ export class Order {
     @Column({ unique: true })
     unique_id: string;
 
-    @ManyToOne(() => User, user => user.order)
+    @ManyToOne(() => User, user => user.order, { cascade: true, onDelete: 'CASCADE' })
     user: User;
-
-    @ManyToOne(() => Restaurant, restaurant => restaurant.order)
+    
+    @ManyToOne(() => Restaurant, restaurant => restaurant.order, { cascade: true, onDelete: 'CASCADE' })
     restaurant: Restaurant;
-
-    @ManyToOne(() => Tables, table => table.order)
+    
+    @ManyToOne(() => Tables, table => table.order, { cascade: true, onDelete: 'CASCADE' })
     table: Tables;
 
-    @OneToOne(() => Payment, payment => payment.order, { cascade: true, nullable: true }) 
-    payment: Payment;
+    @OneToOne(() => Payment, payment => payment.order, { cascade: true, onDelete: 'CASCADE' })
+    @JoinColumn()
+    payment: Payment;    
 
     @OneToMany(() => OrderItem, orderItem => orderItem.order)
     orderItems: OrderItem[];
@@ -42,25 +42,14 @@ export class Order {
     @Column()
     total_price: number;
 
-    @Column({ type: 'enum', enum: PickupType, default: PickupType.PICKUP_AT_COUNTER })
+    @Column({ type: 'enum', enum: PickupType, default: PickupType.SELF_PICKUP })
     pickup_type: PickupType;
 
-    set totalPrice(value: number) {
-        if (this.pickup_type === PickupType.SERVE_TO_TABLE) {
-            this.totalPrice = value + SERVICE_FEE;
-        } else {
-            this.total_price = value;
-        }
-    }
-
+    
     @CreateDateColumn({ type: 'timestamp' })
     create_at: Date;
 
     @UpdateDateColumn({ type: 'timestamp' })
     update_at: Date;
-
-    @Column({ type: "text", nullable: true })
-    note: string;
-
 }
 

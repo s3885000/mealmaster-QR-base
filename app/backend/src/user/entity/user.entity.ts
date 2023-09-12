@@ -3,7 +3,6 @@ import { UserProfileResponseDto } from "../dto/response/userProfileResponse.dto"
 import { Order } from "src/order/entity/order.entity";
 import { Payment } from "src/payment/entity/payment.entity";
 import { Cart } from "src/cart/entity/cart.entity";
-import { PaymentReference } from "src/payment_reference/entity/paymentReference.entity";
 import { Restaurant } from "src/restaurant/entity/restaurant.entity";
 
 export enum UserRole {
@@ -51,6 +50,9 @@ export class User {
     @Column({ nullable: true })
     profile_picture: string;
 
+    @Column({ nullable: true })
+    defaultCardId: string;
+
     @CreateDateColumn()
     create_at: Date;
 
@@ -70,9 +72,6 @@ export class User {
 
     @OneToMany(() => Cart, cart => cart.user)
     cart: Cart[];
-
-    @OneToMany(() => PaymentReference, paymentRef => paymentRef.user)
-    paymentRef: PaymentReference[];
 
     @OneToOne(() => Restaurant, restaurant => restaurant.owner)
     restaurant: Restaurant;

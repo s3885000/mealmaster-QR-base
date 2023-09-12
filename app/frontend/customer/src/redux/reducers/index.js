@@ -7,6 +7,8 @@ import { authReducer } from './authentication/authReducer';
 import  cartReducer  from './cartReducer';
 import userReducer from './userReducer';
 import paymentReducer from './paymentReducer';
+import onGoingReducer from './onGoingReducer';
+import orderReducer from './orderReducer';
 
 
 export default combineReducers({
@@ -18,4 +20,6 @@ export default combineReducers({
   type: typeReducer,
   user: userReducer,
   payment: paymentReducer,
+  onGoing: onGoingReducer,
+  order: orderReducer,
 });

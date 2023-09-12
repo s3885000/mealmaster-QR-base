@@ -12,27 +12,25 @@ export class StripeService {
 
     // Stripe 3rd party API
     // 1st create customer
-    async createStripeCustomer(email?: string, phoneNumber?: string): Promise<string> {
-        //console.log('createStripeCustomer called with email:', email, 'and phoneNumber:', phoneNumber);
-
-        if (!email && !phoneNumber) {
-            throw new Error('Either email or phone number must be provided.');
+    async createStripeCustomer(email?: string, phoneNumber?: string, guest_id?: string): Promise<string> {
+        if (!email && !phoneNumber && !guest_id) {
+            throw new Error('Either email, phone number, or guest_id must be provided.');
         }
-
+    
         const customerData: Stripe.CustomerCreateParams = {};
-
+    
         if (email) {
             customerData.email = email;
-        }
-
-        if (phoneNumber) {
+        } else if (phoneNumber) {
             customerData.description = `Customer with phone number: ${phoneNumber}`;
+        } else if (guest_id) {
+            customerData.description = `Guest user with ID: ${guest_id}`;
         }
-
+    
         const customer = await this.stripe.customers.create(customerData);
-        //console.log('Stripe customer created with data:', customer);
         return customer.id;
     }
+    
 
     // 2nd add card to stripe customer
     async addCardToStripeCustomer(stripeCustomerId: string, token: string): Promise<string> {
@@ -43,10 +41,7 @@ export class StripeService {
         return paymentMethod.id;
     }
 
-    // 3rd retrieve card
-    async retrieveCard(cardRef: string): Promise<Stripe.PaymentMethod> {
-        return await this.stripe.paymentMethods.retrieve(cardRef);
-    }
+
 
     //4th create payment intent
     async createPaymentIntent(stripeCustomerId: string, amountInDongs: number, currency: string = 'vnd', paymentMethodId?: string): Promise<Stripe.PaymentIntent> {
@@ -71,5 +66,29 @@ export class StripeService {
             customer: stripeCustomerId,
             type: 'card',
         });
+    }
+
+    // Set default card 
+    async setDefaultPaymentMethodForCustomer(stripeCustomerId: string, paymentMethodId: string): Promise<void> {
+        await this.stripe.customers.update(stripeCustomerId, {
+            invoice_settings: {
+                default_payment_method: paymentMethodId
+            }
+        });
+    }
+
+    // 3rd retrieve card
+    async retrieveDefaultPaymentMethodForCustomer(stripeCustomerId: string): Promise<Stripe.PaymentMethod | null> {
+        const customer = await this.stripe.customers.retrieve(stripeCustomerId);
+    
+        // Type guard to ensure the customer object is of type Customer and not DeletedCustomer
+        if ('invoice_settings' in customer) {
+            const defaultPaymentMethodId = customer.invoice_settings.default_payment_method;
+    
+            if (defaultPaymentMethodId) {
+                return await this.stripe.paymentMethods.retrieve(defaultPaymentMethodId as string);
+            }
+        }
+        return null;
     }
 }

@@ -4,7 +4,7 @@ export class PaymentResponseDto {
     id: number;
     order_id: number;
     user_id: number;
-    payment_ref_id: string;
+    payment_id: string;
     payment_method: string;
     payment_status: string;
     payment_amount: number;

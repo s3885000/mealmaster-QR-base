@@ -8,12 +8,6 @@ export class OrderItem {
     id: number;
 
     @Column()
-    order_id: number;
-
-    @Column()
-    menu_item_id: number;
-
-    @Column()
     quantity: number;
 
     @Column()

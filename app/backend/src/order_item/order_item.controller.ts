@@ -26,9 +26,9 @@ export class OrderItemController {
     }
 
     //Create order item
-    @Post('create')
-    createOrderItem(@Body() createOrderItemDto: CreateOrderItemRequestDto): Promise<CreateOrderItemResponseDto> {
-      return this.orderItemService.create(createOrderItemDto);
+    @Post('/:orderId/order-items')
+    createOrderItem(@Body() createOrderItemDto: CreateOrderItemRequestDto, @Param('orderId') orderId: number): Promise<CreateOrderItemResponseDto> {
+      return this.orderItemService.create(createOrderItemDto, orderId);
     }
 
     //Update order item

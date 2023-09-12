@@ -6,6 +6,8 @@ const initialState = {
     type: 'table_number',
     banner: null,
     logo: null,
+    restaurantId: null,
+    tableNo: null,
 }
 
 export const restaurantReducer = (state = initialState, action) => {

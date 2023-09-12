@@ -4,6 +4,7 @@ import { PaymentService } from './payment.service';
 import { CreatePaymenRequestDto } from './dto/request/CreatePaymentRequestDto.dto';
 import { PaymentResponseDto } from './dto/response/PaymentResponseDto.dto';
 import { UpdatePaymentRequestDto } from './dto/request/UpdatePaymentRequestDto.dto';
+import Stripe from 'stripe';
 
 @Controller('payment')
 export class PaymentController {
@@ -16,7 +17,7 @@ export class PaymentController {
     }
 
     //Get payment by id
-    @Get('id')
+    @Get(':id')
     async findOne(@Param('id') id: number): Promise<Payment> {
         const payment = await this.paymentService.findOne(id);
         if(!payment) {
@@ -56,7 +57,17 @@ export class PaymentController {
     //@UseGuards(AuthGuard, RolesGuard)
     //@Roles(UserRole.CUSTOMER)
     async chargeUser(@Param('userId', ParseIntPipe) userId: number, @Body('amountInDongs') amountInDongs: number): Promise<any> {
-        return await this.paymentService.chargeUser(userId, amountInDongs);
+        return await this.paymentService.chargeAndRecordUser(userId, amountInDongs);
     }
 
+    @Put(':userId/default-card/:cardId')
+    async setDefaultCard(@Param('userId', ParseIntPipe) userId: number, @Param('cardId') cardId: string): Promise<void> {
+        console.log(`Received request to set default card. User ID: ${userId}, Card ID: ${cardId}`);
+        await this.paymentService.setDefaultCardForUser(userId, cardId);
+    }
+
+    @Get(':userId/default-card')
+    async getDefaultCard(@Param('userId', ParseIntPipe) userId: number): Promise<Stripe.PaymentMethod | null> {
+        return await this.paymentService.getDefaultCardForUser(userId);
+    }
 }

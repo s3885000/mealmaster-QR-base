@@ -39,7 +39,7 @@ export class MenuItem {
     @OneToMany(() => CartItem, cartItem => cartItem.menuItem)
     cartItem: CartItem[];
 
-    @OneToMany(() => Image, image => image.menuItem, { eager: true})
+    @OneToMany(() => Image, image => image.menuItem, { eager: true })
     images: Image[];
 
 }

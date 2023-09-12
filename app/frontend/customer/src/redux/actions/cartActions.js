@@ -8,12 +8,15 @@ export const CREATE_CART = 'CREATE_CART';
 export const UPDATE_CART_ITEM_NOTE = 'UPDATE_CART_ITEM_NOTE';
 export const FETCH_CART_ITEMS = 'FETCH_CART_ITEMS';
 export const UPDATE_PICKUP_TYPE = 'UPDATE_PICKUP_TYPE';
+export const COMPLETE_CART_SUCCESS = 'COMPLETE_CART_SUCCESS';
+export const TRANSFER_CART_TO_ORDER_SUCCESS = 'TRANSFER_CART_TO_ORDER_SUCCESS';
+export const TRANSFER_CART_TO_ORDER_ERROR = 'TRANSFER_CART_TO_ORDER_ERROR';
 
-// Asynchronous actions using Thunk
 
-export const createCart = (userId) => async dispatch => {
+export const createCart = (userId, restaurantId, tableNo) => async dispatch => {
     try {
-        const response = await api.post(`/cart`, { userId });
+        console.log("Creating cart with:", { userId, restaurantId, tableNo });
+        const response = await api.post(`/cart`, { userId, restaurantId, tableNo });
         dispatch({
             type: CREATE_CART,
             payload: response.data
@@ -23,11 +26,20 @@ export const createCart = (userId) => async dispatch => {
     }
 };
 
-export const addToCart = (userId, item) => async (dispatch, getState) => {
+export const addToCart = (userId, item, restaurantId, tableNo) => async (dispatch, getState) => {
+    console.log("Item at the start of addToCart action:", item);
     try {
         if (!item || !item.id) {
             console.error("Invalid item passed to addToCart:", item);
             return;
+        }
+
+        // Check if a cart exists for the user
+        const currentCart = getState().cart.cart;
+        console.log("Current cart:", currentCart);
+        if (!currentCart) {
+            // No cart exists, so create a new one and then proceed to add the item
+            await dispatch(createCart(userId, restaurantId, tableNo));
         }
 
         // Fetch the current state of cart items
@@ -51,6 +63,8 @@ export const addToCart = (userId, item) => async (dispatch, getState) => {
                 menuItemId: item.id,
                 quantity: 1,
                 note: "",
+                restaurantId,
+                tableNo
             };
             response = await api.post(`/cart_item/create`, payload);
             //console.log("Dispatching ADD_TO_CART with payload:", payload);
@@ -163,7 +177,23 @@ export const updatePickupType = (cartId, pickupType) => async dispatch => {
     }
 };
 
-// Synchronous actions
+export const completeCart = (cartId) => async dispatch => {
+    console.log("completeCart action is called with cartId:", cartId);
+    try {
+        const response = await api.put(`/cart/${cartId}/complete`);
+        if (response && response.status === 200) {
+            dispatch({
+                type: COMPLETE_CART_SUCCESS,
+            });
+        } else {
+            console.error("Failed to complete the cart with response:", response);
+        }
+    } catch (error) {
+        console.error("Error completing the cart:", error);
+    }
+};
+
+
 export const clearCart = () => ({
     type: CLEAR_CART,
 });

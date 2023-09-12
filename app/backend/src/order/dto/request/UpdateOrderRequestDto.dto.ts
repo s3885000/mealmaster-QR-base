@@ -25,8 +25,4 @@ export class UpdateOrderRequestDto {
 
     @IsEnum(PickupType)
     pickup_type?: PickupType;
-
-    @IsOptional()
-    @IsString()
-    note?: string;
 }

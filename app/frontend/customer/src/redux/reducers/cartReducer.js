@@ -1,4 +1,4 @@
-import { ADD_TO_CART, CLEAR_CART, REMOVE_FROM_CART, SET_CART, CREATE_CART, UPDATE_CART_ITEM_NOTE, FETCH_CART_ITEMS, UPDATE_PICKUP_TYPE } from "../actions/cartActions";
+import { ADD_TO_CART, CLEAR_CART, REMOVE_FROM_CART, SET_CART, CREATE_CART, UPDATE_CART_ITEM_NOTE, FETCH_CART_ITEMS, UPDATE_PICKUP_TYPE, COMPLETE_CART_SUCCESS } from "../actions/cartActions";
 
 const initialState = {
     cart: null,
@@ -100,6 +100,14 @@ const cartReducer = (state = initialState, action) => {
             return {
                 ...initialState,
             };
+
+        case COMPLETE_CART_SUCCESS:
+            return {
+                ...state,
+                cart: null,
+                items: []
+            };
+        
         
         default:
             return state;

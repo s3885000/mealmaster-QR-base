@@ -25,8 +25,4 @@ export class CreateOrderRequestDto {
     
     @IsEnum(PickupType)
     pickup_type: PickupType;
-    
-    @IsNotEmpty()
-    @IsString()
-    note: string;
 }

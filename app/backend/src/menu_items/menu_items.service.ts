@@ -13,6 +13,7 @@ import { TableService } from "src/table/table.service";
 
 @Injectable()
 export class MenuItemsService {
+    menuItemsService: any;
     constructor(
         @InjectRepository(MenuItem)
         private menuItemRepository: Repository<MenuItem>,
@@ -51,7 +52,14 @@ export class MenuItemsService {
             relations: ['images']
         });
     }
-    
+
+    async getMenuItemPrice(menuItemId: number): Promise<number> {
+        const menuItem = await this.menuItemsService.findOne(menuItemId);
+        if (!menuItem) {
+            throw new NotFoundException('Menu item not found!');
+        }
+        return menuItem.price;
+    }
 
     async create(createMenuItemDto: CreateMenuItemRequestDto): Promise<CreateMenuItemResponseDto> {
         const {category_id, name, description, price, is_best_seller, status} = createMenuItemDto;

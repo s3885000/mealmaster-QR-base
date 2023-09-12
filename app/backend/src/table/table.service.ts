@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
+import { ConflictException, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Tables } from "./entity/table.entity";
@@ -10,6 +10,7 @@ import { Restaurant } from "src/restaurant/entity/restaurant.entity";
 
 @Injectable()
 export class TableService{
+    private readonly logger = new Logger(TableService.name);
     constructor(
         @InjectRepository(Tables)
         private tablesRepository: Repository<Tables>,
@@ -33,6 +34,7 @@ export class TableService{
         }
     
         const table = await this.tablesRepository.findOne({ where: { restaurant: { id: restaurantId }, table_no: tableNo }});
+        this.logger.debug(`Found table for restaurant ID: ${restaurantId} and table Number: ${tableNo}. Details: ${JSON.stringify(table)}`);
         if (!table) {
             throw new NotFoundException(`Table with number ${tableNo} not found in the given restaurant!`);
         }

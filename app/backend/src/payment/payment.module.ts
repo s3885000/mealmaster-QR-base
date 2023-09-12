@@ -5,11 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Payment } from './entity/payment.entity';
 import { Order } from 'src/order/entity/order.entity';
 import { User } from 'src/user/entity/user.entity';
-import { PaymentReference } from 'src/payment_reference/entity/paymentReference.entity';
 import { StripeModule } from 'src/stripe/stripe.module';
+import { CartModule } from 'src/cart/cart.module';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Payment, Order, User, PaymentReference]), StripeModule],
+    imports: [TypeOrmModule.forFeature([Payment, Order, User]), StripeModule, CartModule],
     controllers: [PaymentController],
     providers: [PaymentService],
     exports: [PaymentService],

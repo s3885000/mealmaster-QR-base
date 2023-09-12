@@ -2,42 +2,66 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Buttons, Items, Popups } from '../../components';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart, clearCart, fetchCartItem, removeFromCart, updateCartItemNote, updatePickupType } from '../../redux/actions/cartActions';
+import { addToCart, clearCart, fetchCartItem, removeFromCart, updateCartItemNote, updatePickupType, completeCart } from '../../redux/actions/cartActions';
 import { decodeToken } from '../../services/api';
+import { chargeUser, fetchDefaultCard } from '../../redux/actions/paymentActions';
+import { fetchOnGoingOrders } from '../../redux/actions/onGoingActions';
+
 
 const SERVE_TO_TABLE_FEE = 5000;
 
 const PickupType = {
-  SELF_PICKUP : 'SELF_PICKUP',
-  SERVE_TO_TABLE : 'SERVE_TO_TABLE',
+  SELF_PICKUP: 'SELF_PICKUP',
+  SERVE_TO_TABLE: 'SERVE_TO_TABLE',
 };
 
 const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const cartItems = useSelector(state => state.cart.items);
-  const menuItems = useSelector(state => state.menuItems.menuItems);
-  const cartId = useSelector(state => state.cart.cart && state.cart.cart.id);
-  const pickupType = useSelector(state => state.cart.cart && state.cart.cart.pickup_type);
+  const cartId = useSelector(state => state.cart.cart?.id);
+  const pickupType = useSelector(state => state.cart.cart?.pickup_type);
+  const defaultCard = useSelector(state => state.payment.defaultCard);
 
+  const paymentLoading = useSelector(state => state.payment.loading);
+  const paymentError = useSelector(state => state.payment.error);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
 
-  console.log("Cart Items:", cartItems);
-  // console.log("Menu Items:", menuItems);
+  const [checkoutCompleted, setCheckoutCompleted] = useState(null);
 
   useEffect(() => {
-    // console.log("Fetching cart items...");
     const decodedToken = decodeToken();
-    if (decodedToken && decodedToken.sub) {
-      const userId = parseInt(decodedToken.sub);
-      dispatch(fetchCartItem(userId));
+    const userId = decodedToken?.sub;
+
+    if (userId) {
+      dispatch(fetchCartItem(parseInt(userId)));
+      dispatch(fetchDefaultCard());
     }
   }, [dispatch]);
 
+  useEffect(() => {
+    if (!paymentLoading && !paymentError && checkoutCompleted) {
+        setPaymentSuccess(true);
+        if (cartId) {
+            console.log("Attempting to complete cart with cartId:", cartId);
+            dispatch(completeCart(cartId)); // Mark the cart as completed
+            dispatch(clearCart()); // Clear the cart
+
+            const decodedToken = decodeToken();
+            const userId = decodedToken?.sub;
+            if (userId) {
+              dispatch(fetchOnGoingOrders(parseInt(userId)));
+            }
+        } else {
+            console.error("No cart ID found when trying to complete the cart.");
+        }
+    }
+  }, [paymentLoading, paymentError, checkoutCompleted, cartId, dispatch]);
+
   const handleAddToCart = (item) => {
-    // console.log("Add to cart:", item);
     const existingCartItem = cartItems.find(cartItem => cartItem.menuItem.id === item.id);
     if (existingCartItem) {
-        // Increase its quantity by 1
         dispatch(addToCart({ ...item, quantity: existingCartItem.quantity + 1 }));
     } else {
         dispatch(addToCart({ ...item, quantity: 1 }));
@@ -45,63 +69,56 @@ const Cart = () => {
   };
 
   const handleRemoveFromCart = (cartItem) => {
-    // console.log("Remove from cart:", cartId)
     if (cartItem.quantity > 1) {
-        // Decrease the quantity and update the cart
-        const updatedItem = {
-            ...cartItem,
-            quantity: cartItem.quantity - 1
-        };
-        handleAddToCart(updatedItem); // Use the same function to update the quantity
+        const updatedItem = { ...cartItem, quantity: cartItem.quantity - 1 };
+        handleAddToCart(updatedItem);
     } else {
-        // If the quantity is 1, remove the item completely
         dispatch(removeFromCart(cartItem.id));
     }
   };
 
-  const handleServeToTableClick = async () => {
-    console.log("Serve to Table button clicked");
-    console.log("Current cartId:", cartId);
+  const handleServeToTableClick = () => {
     if (cartId) {
-      console.log("Dispatching updatePickupType action");
       const newPickupType = (pickupType === PickupType.SERVE_TO_TABLE) ? PickupType.SELF_PICKUP : PickupType.SERVE_TO_TABLE;
       dispatch(updatePickupType(cartId, newPickupType));
-      console.log("updatePickupType action dispatched");
     }
   };
 
-  
-
-  const [popupVisible, setPopupVisible] = useState(false);
 
   const handlePaymentClick = () => {
-    navigate('/payment');
+    if (!defaultCard) {
+        navigate('/payment');
+        return;
+    }
+    navigate('/payment-options');
   };
+
+  const handleCheckout = () => {
+    if (!defaultCard) {
+        alert("Please select a default card for payment from the Payment Options.");
+        navigate('/payment-options');
+        return;
+    }
+
+    const amountInDongs = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0) + (pickupType === PickupType.SERVE_TO_TABLE ? SERVE_TO_TABLE_FEE : 0);
+    dispatch(chargeUser(amountInDongs));
+    setCheckoutCompleted(true);
+};
 
   const handleBackClick = () => {
     navigate('/menu-overview');
   };
 
-  const togglePopup = () => {
-    setPopupVisible(!popupVisible);
-    if(popupVisible) {
-      dispatch(clearCart());
-    }
-  }
-
   const isServeToTable = pickupType === PickupType.SERVE_TO_TABLE;
 
   const getTotalPrice = () => {
-    let total = cartItems.reduce((acc, item) => {
-        // Since the item's price already accounts for its quantity, just add it directly
-        return acc + (item.price * item.quantity);
-    }, 0);
-
-    if (isServeToTable) {
-        total += SERVE_TO_TABLE_FEE;
-    }
+    const total = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0) + (isServeToTable ? SERVE_TO_TABLE_FEE : 0);
     return total.toLocaleString('en-US') + ' đ';
-  }
+  };
+
+  const paymentOptionButtonText = defaultCard && defaultCard.card 
+    ? `${defaultCard.card.brand} •••• •••• •••• ${defaultCard.card.last4}`
+    : "Payment Options";
 
   return (
     <div className='flex flex-col h-screen px-5 pt-20'>
@@ -119,8 +136,6 @@ const Cart = () => {
         cartItems.map((cartItem) => {
           // Find the corresponding menu item based on the menuItemId
           const menuItem = cartItem.menuItem;
-          //console.log("Cart Item:", cartItem);
-          //console.log("Matched Menu Item:", menuItem);
           if (!menuItem) return null;
 
           return (
@@ -164,10 +179,11 @@ const Cart = () => {
           </div>
         </div>
 
-        <Buttons context='payment' onClick={handlePaymentClick} />
+        <Buttons context='cardDetails' cardDetails={paymentOptionButtonText} onClick={handlePaymentClick} />
+
 
         {isServeToTable && (
-          <p className="text-red-500 text-xs ml-3 mt-1">* An extra fee of {SERVE_TO_TABLE_FEE.toLocaleString('en-US')}đ will be added for 'Serve to Table'.</p>
+          <p className="text-secondary flex justify-center text-sm mt-2">Serve to Table will cost an additional {SERVE_TO_TABLE_FEE.toLocaleString('en-US')} đ.</p>
         )}
 
         <div className='flex justify-between w-full items-center mb-2 mt-2'>
@@ -175,10 +191,10 @@ const Cart = () => {
           <h2 className='text-3xl font-medium'>{getTotalPrice()}</h2>
         </div>
 
-        <Buttons context='checkout' onClick={togglePopup} />
+        <Buttons context='checkout' onClick={handleCheckout} />
       </div>
       
-      <Popups type="thank_you" visible={popupVisible} />
+      <Popups type="thank_you" visible={paymentSuccess} />
     </div>
   );
 

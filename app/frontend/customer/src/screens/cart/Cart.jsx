@@ -51,7 +51,7 @@ const Cart = () => {
             const decodedToken = decodeToken();
             const userId = decodedToken?.sub;
             if (userId) {
-              dispatch(fetchOnGoingOrders(parseInt(userId)));
+              dispatch(fetchOnGoingOrders(userId));
             }
         } else {
             console.error("No cart ID found when trying to complete the cart.");

@@ -1,16 +1,9 @@
-import { loginUserAPI, checkEmailAPI, signupUserAPI } from './api';
+import api from './api';
 
-// Verify if an email is registered
-export const checkEmail = (email) => {
-    return checkEmailAPI(email);
+export const loginResOwnerUser = (credentials) => {
+    return api.post('/auth/restaurant-owner/login', credentials);
 };
 
-// Login using email and password
-export const loginUser = (credentials) => {
-    return loginUserAPI(credentials.email, credentials.password);
-};
-
-// Use the signup API to register a user
-export const signupUser = (credentials) => {
-    return signupUserAPI(credentials.name, credentials.email, credentials.password);
+export const registerResOwnerUser = (data) => {
+    return api.post('/user/register', data);
 };

@@ -2,7 +2,7 @@ import { SubscribeMessage, WebSocketGateway, OnGatewayConnection, WebSocketServe
 import { Server } from 'socket.io';
 
 @WebSocketGateway({ cors: {
-  origin: "http://localhost:3001",
+  origin: ["http://localhost:3001", "http://localhost:3002"],
   methods: ["GET", "POST"],
   allowedHeaders: ["my-custom-header"],
   credentials: true
@@ -13,7 +13,7 @@ export class OrdersGateway implements OnGatewayConnection {
   private server: Server;
 
   handleConnection(client: any, ...args: any[]) {
-    console.log('Client connected:', client.id);
+    // console.log('Client connected:', client.id);
   }
 
   @SubscribeMessage('joinRoom')
@@ -25,7 +25,7 @@ export class OrdersGateway implements OnGatewayConnection {
   }
 
   updateOrderStatus(userId: string, orderId: string, status: string) {
-      console.log(`Emitting orderStatusUpdate to room ${userId} for order ${orderId} with status ${status}`);
+      // console.log(`Emitting orderStatusUpdate to room ${userId} for order ${orderId} with status ${status}`);
       this.server.to(userId).emit('orderStatusUpdate', { orderId, status });
   }
 

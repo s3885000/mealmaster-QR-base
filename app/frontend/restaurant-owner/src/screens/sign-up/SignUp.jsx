@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Buttons } from '../../components';  
 import { useNavigate } from 'react-router-dom';
-import { signupUser } from '../../redux/actions/authentication/authThunk';
+import { signUpUser } from '../../redux/actions/authentication/authThunk';
 import { MealMasterLogo } from '../../asset/images/mealmaster_logo/index.js';
 
 const Signup = () => {
@@ -21,7 +21,7 @@ const Signup = () => {
     const [passwordError, setPasswordError] = useState(null);
 
     const handleCreateAccountClick = () => {
-        dispatch(signupUser({name, email, password}))
+        dispatch(signUpUser({name, email, password}))
             .then((action) => {
                 if (action && action.type) {
                     if (action.type === 'SIGNUP_SUCCESS') {

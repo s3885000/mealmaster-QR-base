@@ -16,7 +16,7 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(true); 
 
     const handleLogin = () => {
-        dispatch(loginUser(email, password))
+        dispatch(loginUser({ email, password }))
             .then((action) => {
                 if (action && action.type) {
                     if (action.type === 'LOGIN_SUCCESS') {

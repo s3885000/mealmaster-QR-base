@@ -1,12 +1,31 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Buttons } from '../../components';
+import { decodeToken } from '../../services/api';
+import { fetchOnGoingOrders } from '../../redux/actions/onGoingActions';
+import { useDispatch } from 'react-redux';
 
 const Popups = ({visible, type, onClose, onApply, currentNotes, onUpdateNotes}) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [showPopup, setShowPopup] = useState(visible);
   const popupRef = useRef(null);
   const [localNotes, setLocalNotes] = useState(currentNotes);
+
+
+  const handleNavigateToOngoing = () => {
+    const decodedToken = decodeToken();
+    const userId = decodedToken?.sub;
+    if (userId) {
+      dispatch(fetchOnGoingOrders(userId))
+      .then(() => {
+        handleNavigation('/on-going');
+      })
+      .catch(error => {
+        console.error("Error fetching ongoing orders:", error);
+      }) 
+    }
+  }
 
   useEffect(() => {
     setShowPopup(visible);
@@ -54,7 +73,7 @@ const Popups = ({visible, type, onClose, onApply, currentNotes, onUpdateNotes}) 
       <>
         <h2 className='text-2xl font-bold mb-4'>Thank you for your order</h2>
         <p className='text-lg mb-3'>Track your order in the “On Going” screen</p>
-        <Buttons context='on_going' className='mb-5' onClick={() => handleNavigation('/on-going')}></Buttons>
+        <Buttons context='on_going' className='mb-5' onClick={handleNavigateToOngoing}></Buttons>
       </>
     ),
     'add_card_successful': (

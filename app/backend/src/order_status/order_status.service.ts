@@ -4,7 +4,6 @@ import { OrderStatus, Status } from './entity/orderStatus.entity';
 import { Repository } from 'typeorm';
 import { OrderService } from 'src/order/order.service';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { Server } from 'socket.io';
 import { OrdersGateway } from 'src/webSocket/orders.gateway';
 
 @Injectable()
@@ -41,8 +40,6 @@ export class OrderStatusService {
         await this.deleteOldStatuses();
 
     }
-
-
 
     async progressOrderStatus(orderId: number): Promise<OrderStatus> {
         const order = await this.orderService.findOne(orderId);

@@ -1,0 +1,36 @@
+.on-going-page {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+.scroll-container {
+/* Add styles for the scroll container */
+max-height: 100%; /* Adjust the max-height as needed */
+overflow-y: auto;
+}
+
+.custom-scrollbar {
+height: 100vh; /* Adjust the height as needed */
+overflow-y: auto;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+.custom-scrollbar {
+scrollbar-width: none;
+-ms-overflow-style: none;
+}
+
+.ongoing-page::-webkit-scrollbar {
+    display: none;
+}
+  
+.ongoing-page {
+scrollbar-width: none;
+-ms-overflow-style: none;
+}
+  

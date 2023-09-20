@@ -8,7 +8,6 @@ import { UserService } from "src/user/user.service";
 import { CartItem } from "src/cart_item/entity/cart_item.entity";
 import { Order } from "src/order/entity/order.entity";
 import { OrderItem } from "src/order_item/entity/orderItem.entity";
-import shortUUID from 'short-uuid';
 import { MenuItem } from "src/menu_items/entity/menu_item.entity";
 import { TableService } from "src/table/table.service";
 import { Restaurant } from "src/restaurant/entity/restaurant.entity";
@@ -220,6 +219,7 @@ export class CartService {
     
         // Clear the cart after the transformation
         await this.cartRepository.delete(cartId);
+        this.logger.debug(`Cart with ID: ${cartId} deleted after transformation to order`);
         this.logger.debug(`Total price calculated for order from cart ID: ${cartId}: ${totalPrice}`);
         this.logger.debug(`Cart with ID: ${cartId} successfully transformed to order ID: ${savedOrder.id}`);
         return savedOrder;
@@ -240,13 +240,15 @@ export class CartService {
     }
 
 
-    async completeCart (cartId: number): Promise<void> {
+    async completeCart(cartId: number): Promise<void> {
         const cart = await this.cartRepository.findOne({ where: { id: cartId }});
         if (!cart) {
+            this.logger.error(`Failed to find cart with ID: ${cartId} for completion`);
             throw new NotFoundException('Cart not found!');
         }
         cart.status = CartStatus.COMPLETED;
-        await this.cartRepository.save(cart)
+        await this.cartRepository.save(cart);
+        this.logger.debug(`Cart with ID: ${cartId} marked as COMPLETED`);
     }
     
 

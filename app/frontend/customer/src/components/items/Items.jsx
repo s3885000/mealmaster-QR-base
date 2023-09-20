@@ -80,6 +80,11 @@ const Items = ({ type, restaurantId, categoryId, cartItemId, orderItem, orderIte
   };
 
   useEffect(() => {
+    setCurrentNotes(notes);
+    console.log("Updated currentNotes state:", currentNotes);
+  }, [notes]);
+
+  useEffect(() => {
     if(restaurantId && categoryId !== undefined && tableNo !== undefined) {
         dispatch(fetchMenuItems(restaurantId, categoryId, tableNo));
     }
@@ -139,6 +144,7 @@ const Items = ({ type, restaurantId, categoryId, cartItemId, orderItem, orderIte
       }) : null;
 
     case 'food_item_cart':
+      console.log('Received notes:', itemProps.note);
       return (
         <>
           <ItemContainer>
@@ -146,7 +152,7 @@ const Items = ({ type, restaurantId, categoryId, cartItemId, orderItem, orderIte
             <div className="flex-grow ml-2 overflow-hidden">
               <p className="text-base font-medium leading-4 text-left truncate">{itemProps.name}</p>
               <div className="flex items-center space-x-1.5 text-sm text-placeholders mb-1">
-                <span className='truncate w-2/3'>{currentNotes || "Add notes"}</span>
+                <span className='truncate w-2/3'>{itemProps.note || "Add notes"}</span>
                 <Buttons context='edit' onClick={togglePopup} />
               </div>
               <div className="flex items-center mt-2">
@@ -154,12 +160,12 @@ const Items = ({ type, restaurantId, categoryId, cartItemId, orderItem, orderIte
               </div>
             </div>
             <div className="flex items-center">
-            <Buttons 
-              context='minus' 
-              count={counter} 
-              setCount={setCounter} 
-              onClick={() => handleDecreaseQuantity(itemProps.id)}
-            />
+              <Buttons 
+                context='minus' 
+                count={counter} 
+                setCount={setCounter} 
+                onClick={() => handleDecreaseQuantity(itemProps.id)}
+              />
               <p className="mx-2 text-xl">{itemProps.quantity}</p>
               <Buttons context='plus' count={counter} setCount={setCounter} onClick={() => handleAddToCart(itemProps)}/>
             </div>
@@ -168,14 +174,14 @@ const Items = ({ type, restaurantId, categoryId, cartItemId, orderItem, orderIte
             visible={popupVisible} 
             type='notes' 
             onClose={togglePopup} 
-            currentNotes={currentNotes}
+            currentNotes={itemProps.note}
             onUpdateNotes={(updatedNotes) => {
               dispatch(updateCartItemNote(cartItemId, updatedNotes));
               setCurrentNotes(updatedNotes);
             }} 
           />
         </>
-      );
+      );      
 
     case 'food_item_on_going':
     case 'food_item_history':

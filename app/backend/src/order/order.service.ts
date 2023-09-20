@@ -32,6 +32,8 @@ export class OrderService{
         @InjectRepository(MenuItem)
         private menuItemRepository: Repository<MenuItem>,
         private readonly ordersGateway: OrdersGateway,
+        @InjectRepository(OrderStatus)
+        private readonly orderStatusRepository: Repository<OrderStatus>
     ) {}
 
     async findAll(userId: number): Promise<Order[]> {
@@ -71,7 +73,7 @@ export class OrderService{
         order.pickup_type = pickup_type;
 
 
-        this.logger.debug(`Creating order with total price: ${order.total_price}`)
+        // this.logger.debug(`Creating order with total price: ${order.total_price}`)
         const savedOrder = await this.orderRepository.save(order);
 
         const createOrderResponseDto: CreateOrderResponseDto = {
@@ -151,8 +153,55 @@ export class OrderService{
         return orderStatuses[0];  // Return the most recent status
     }
 
+    async findAllOngoingOrdersForOwner(userId: number): Promise<OrderWithLatestStatus[]> {
+        // this.logger.log(`Fetching all ongoing orders for restaurant owner with user ID: ${userId}`);
+        const excludedStatuses = [Status.ORDER_COMPLETED, Status.ORDER_CANCELLED];
+        
+        // Get the restaurant ID for this user (assuming the user is an owner)
+        const ownerRestaurant = await this.restaurantRepository.findOne({ where: { owner: { id: userId } } });
+        if (!ownerRestaurant) {
+            throw new NotFoundException(`Restaurant not found for user ID: ${userId}`);
+        }
+    
+        // Fetch all ongoing orders for the restaurant
+        const ongoingOrders: OrderWithLatestStatus[] = await this.orderRepository.createQueryBuilder('order')
+            .leftJoinAndSelect('order.restaurant', 'restaurant')
+            .leftJoinAndSelect('order.orderItems', 'orderItems')
+            .leftJoinAndSelect('order.table', 'table')
+            .leftJoinAndSelect('orderItems.menuItem', 'menuItem')
+            .leftJoinAndSelect('order.orderStatus', 'orderStatus')
+            .where('restaurant.id = :restaurantId', { restaurantId: ownerRestaurant.id })
+            .andWhere(qb => {
+                const subQuery = qb.subQuery()
+                    .select('status.status')
+                    .from(OrderStatus, 'status')
+                    .where('status.orderId = order.id')
+                    .orderBy('status.timestamp', 'DESC')
+                    .limit(1)
+                    .getQuery();
+                return `(${subQuery}) NOT IN (:...statuses)`;
+            }, { statuses: excludedStatuses })
+            .getMany();
+        
+        // this.logger.log(`Found ${ongoingOrders.length} ongoing orders for restaurant owner with user ID: ${userId}`);
+    
+        // Create a map to store the latest order status for each order
+        const latestStatusMap: Map<number, OrderStatus> = new Map();
+        
+        // Use the getOrderStatus method to fetch the latest order status for each order
+        for (const order of ongoingOrders) {
+            const latestStatus = await this.getOrderStatus(order.id);
+            order.latestStatusDescription = latestStatus.status as Status;
+            this.ordersGateway.updateOrderStatus(userId.toString(), order.id.toString(), latestStatus.status);
+            latestStatusMap.set(order.id, latestStatus);
+        }        
+        
+        return ongoingOrders;
+    }
+    
+
     async findAllOngoingOrders(userId: number): Promise<Order[]> {
-        this.logger.log(`Fetching all ongoing orders for user ID: ${userId}`);
+        // this.logger.log(`Fetching all ongoing orders for user ID: ${userId}`);
         const excludedStatuses = [Status.ORDER_COMPLETED, Status.ORDER_CANCELLED];
         
         const ongoingOrders: OrderWithLatestStatus[] = await this.orderRepository.createQueryBuilder('order')
@@ -173,7 +222,7 @@ export class OrderService{
             }, { statuses: excludedStatuses })
             .getMany();
         
-        this.logger.log(`Found ${ongoingOrders.length} ongoing orders for user ID: ${userId}`);
+        // this.logger.log(`Found ${ongoingOrders.length} ongoing orders for user ID: ${userId}`);
     
         // Manually fetch images for each menu item
         for (const order of ongoingOrders) {
@@ -193,9 +242,9 @@ export class OrderService{
         for (const order of ongoingOrders) {
             const latestStatus = await this.getOrderStatus(order.id);
             order.latestStatusDescription = latestStatus.status as Status;
-            console.log(`For order ID: ${order.id}, emitting status: ${latestStatus.status}`);
+            // console.log(`For order ID: ${order.id}, emitting status: ${latestStatus.status}`);
             this.ordersGateway.updateOrderStatus(userId.toString(), order.id.toString(), latestStatus.status);
-            console.log(`Emitting orderStatusUpdate for order ID: ${order.id}`);
+            // console.log(`Emitting orderStatusUpdate for order ID: ${order.id}`);
             latestStatusMap.set(order.id, latestStatus);
         }        
     

@@ -35,7 +35,7 @@ const OnGoing = () => {
   };
 
   const handleStepCompleted = () => {
-    setPopupVisible(true); 
+    setPopupVisible(true);
   };
 
   const handleScanQRClick = () => {
@@ -43,9 +43,9 @@ const OnGoing = () => {
   };
 
   return (
-    <div>
+    <div className="custom-scrollbar">
       <div className='flex items-center justify-between w-full mb-5 px-5 pt-20'>
-        <Buttons context='back' onClick={handleOnGoingClick}/>
+        <Buttons context='back' onClick={handleOnGoingClick} />
         <h1 className='text-black text-2xl'>On Going</h1>
       </div>
 
@@ -55,16 +55,23 @@ const OnGoing = () => {
           <Buttons context="scan_qr" onClick={handleScanQRClick} className="mt-4"></Buttons>
         </div>
       ) : (
-        <Boxes type='on-going' className='mb-2.5' onOrderReceived={handleOrderReceivedClick} onStepCompleted={handleStepCompleted}/>
+        <div className="scroll-container">
+          <div className="scroll-container-inner on-going-container">
+            <Boxes type='on-going' className='mb-2.5' onOrderReceived={handleOrderReceivedClick} onStepCompleted={handleStepCompleted} />
+          </div>
+        </div>
       )}
 
       <h2 className='text-black text-2xl mb-5 pt-10 px-5 text-right'>History</h2>
-      
-      <Boxes type='history' className='mb-2.5'/>
+      <div className="scroll-container">
+        <div className="scroll-container-inner history-container">
+          <Boxes type='history' className='mb-2.5' />
+        </div>
+      </div>
 
       <Popups type="order_completed" visible={popupVisible} onClose={closePopup} />
     </div>
   );
-};
+}
 
 export default OnGoing;

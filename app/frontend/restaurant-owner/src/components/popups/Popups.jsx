@@ -1,7 +1,30 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Buttons } from '../../components';
+import { useDispatch } from 'react-redux';
+import { progressOrder } from '../../redux/actions/updateStatusActions';
 
-const Popups = ({ visible, type, onClose }) => {
+const formatPrice = (price) => {
+  return price ? price.toLocaleString('en-US') : '0';
+}
+
+const convertToVietnamTime = (utcTimestamp) => {
+  const dateUtc = new Date(utcTimestamp);
+  const options = {
+    timeZone: 'Asia/Ho_Chi_Minh',
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  };
+  return dateUtc.toLocaleString('en-US', options);
+};     
+
+const Popups = ({ visible, type, onClose, data }) => {
+  console.log("orderData:", data);
+  console.log("Popups component rendered with visible:", visible, "and type:", type);
   const [showPopup, setShowPopup] = useState(visible);
   const popupRef = useRef(null);
 
@@ -36,6 +59,13 @@ const Popups = ({ visible, type, onClose }) => {
       onClose();
     }
   }
+  const dispatch = useDispatch();
+
+  const handleAcceptOrder = () => {
+    const orderId = data.orderDetails.id; 
+    dispatch(progressOrder(orderId));     
+    handleOnClose();
+  };
 
   const data_1 = [
     { order_id: "#ABC123", timestamp: "20/12/2023 12:48", table: 15, total: "135,000 VND" },
@@ -238,7 +268,6 @@ const Popups = ({ visible, type, onClose }) => {
     'order_details_ready': (
       <>
         <PopupHeader title="Order Details" />
-        <div className="divide-y divide-dashed">
           <table className='text-left border-separate border-spacing-x-4 border-spacing-y-2'>
             <thead>
               <tr>
@@ -259,6 +288,7 @@ const Popups = ({ visible, type, onClose }) => {
               ))}
             </tbody>
           </table>
+          <div className="w-full border-t border-dashed my-2"></div>
           <table className="text-left border-separate border-spacing-x-4 border-spacing-y-2">
             <thead>
               <tr>
@@ -269,26 +299,24 @@ const Popups = ({ visible, type, onClose }) => {
               </tr>
             </thead>
             <tbody>
-              {data_2.map((val, key) => (
+              {data.orderDetails.orderItems ? data.orderDetails.orderItems.map((item, key) => (
                 <tr key={key}>
-                  <td>{val.quantity}</td>
-                  <td>{val.name}</td>
-                  <td>{val.price}</td>
-                  <td>{val.notes}</td>
+                  <td>{item.quantity}</td>
+                  <td>{item.menuItem.name}</td>
+                  <td>{formatPrice(item.price)}</td>  {/* Formatted price */}
+                  <td>{item.note}</td>
                 </tr>
-              ))}
+              )) : null}
             </tbody>
           </table>
-        </div>
         <PopupFooter buttons={[
-          { context: 'ready', onClick: handleOnClose }
+          { context: 'ready', onClick: handleAcceptOrder }
         ]} />
       </>
     ),
-    'order_details_inprogress': (
+    'order_details_in_progress': (
       <>
         <PopupHeader title="Order Details" />
-        <div className="divide-y divide-dashed">
           <table className='text-left border-separate border-spacing-x-4 border-spacing-y-2'>
             <thead>
               <tr>
@@ -299,16 +327,15 @@ const Popups = ({ visible, type, onClose }) => {
               </tr>
             </thead>
             <tbody>
-              {data_1.map((val, key) => (
-                <tr key={key}>
-                  <td>{val.order_id}</td>
-                  <td>{val.timestamp}</td>
-                  <td>{val.table}</td>
-                  <td>{val.total}</td>
-                </tr>
-              ))}
+              <tr>
+                  <td>#{data.orderDetails.unique_id}</td>
+                  <td>{data.orderDetails && data.orderDetails.orderStatus && data.orderDetails.orderStatus[0] ? convertToVietnamTime(data.orderDetails.orderStatus[0].timestamp) : ""}</td>{/* Converted latest status timestamp */}
+                  <td>{data.orderDetails.table.table_no}</td>
+                  <td>{formatPrice(data.orderDetails.total_price)}</td> {/* Formatted price */}
+              </tr>
             </tbody>
           </table>
+          <div className="w-full border-t border-dashed my-2"></div>
           <table className="text-left border-separate border-spacing-x-4 border-spacing-y-2">
             <thead>
               <tr>
@@ -319,20 +346,65 @@ const Popups = ({ visible, type, onClose }) => {
               </tr>
             </thead>
             <tbody>
-              {data_2.map((val, key) => (
+              {data.orderDetails.orderItems ? data.orderDetails.orderItems.map((item, key) => (
                 <tr key={key}>
-                  <td>{val.quantity}</td>
-                  <td>{val.name}</td>
-                  <td>{val.price}</td>
-                  <td>{val.notes}</td>
+                  <td>{item.quantity}</td>
+                  <td>{item.menuItem.name}</td>
+                  <td>{formatPrice(item.price)}</td>  {/* Formatted price */}
+                  <td>{item.note}</td>
                 </tr>
-              ))}
+              )) : null}
             </tbody>
           </table>
-        </div>
         <PopupFooter buttons={[
-          { context: 'decline', onClick: handleOnClose },
-          { context: 'accept', onClick: handleOnClose }
+          { context: 'in_progress', onClick: handleAcceptOrder }
+        ]} />
+      </>
+    ),
+    'order_details_confirmed': (
+      <>
+        <PopupHeader title="Order Details" />
+          <table className='text-left border-separate border-spacing-x-4 border-spacing-y-2'>
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Timestamp</th>
+                <th>Table</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                  <td>#{data.orderDetails.unique_id}</td>
+                  <td>{data.orderDetails && data.orderDetails.orderStatus && data.orderDetails.orderStatus[0] ? convertToVietnamTime(data.orderDetails.orderStatus[0].timestamp) : ""}</td>{/* Converted latest status timestamp */}
+                  <td>{data.orderDetails.table.table_no}</td>
+                  <td>{formatPrice(data.orderDetails.total_price)}</td> {/* Formatted price */}
+              </tr>
+            </tbody>
+          </table>
+          <div className="w-full border-t border-dashed my-2"></div>
+          <table className="text-left border-separate border-spacing-x-4 border-spacing-y-2">
+            <thead>
+              <tr>
+                <th>Quantity</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.orderDetails.orderItems ? data.orderDetails.orderItems.map((item, key) => (
+                <tr key={key}>
+                  <td>{item.quantity}</td>
+                  <td>{item.menuItem.name}</td>
+                  <td>{formatPrice(item.price)}</td>  {/* Formatted price */}
+                  <td>{item.note}</td>
+                </tr>
+              )) : null}
+            </tbody>
+          </table>
+        <PopupFooter buttons={[
+          { context: 'proceed', onClick: handleAcceptOrder }
         ]} />
       </>
     ),

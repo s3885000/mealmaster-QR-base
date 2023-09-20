@@ -215,39 +215,47 @@ export class PaymentService {
     async chargeAndRecordUser(userId: number, amountInDongs: number, cardId?: string): Promise<Stripe.PaymentIntent> {
         this.logger.debug(`Attempting to charge user with ID: ${userId} and amount: ${amountInDongs}`);
         const paymentIntent = await this.chargeUser(userId, amountInDongs, cardId);
-    
+        
         // Validate the payment
         if (!this.validatePayment(paymentIntent, amountInDongs)) {
             this.logger.error(`Payment validation failed for user ID: ${userId} and paymentIntent ID: ${paymentIntent.id}`);
             throw new Error('Payment validation failed');
         }
-    
+        
         // If the payment is successful, create an order from the cart
-        this.logger.debug(`Creating an order from the cart for user ID: ${userId}`);
+        this.logger.debug(`Checking for a COMPLETED cart for user ID: ${userId}`);
         const cart = await this.cartService.getCompletedCartByUserId(userId);
         if (!cart) {
             this.logger.error(`No COMPLETED cart found for user ID: ${userId}`);
             throw new NotFoundException('No COMPLETED cart found for the user.');
         }
+        
+        // Mark the cart as completed before transforming it into an order
+        this.logger.debug(`Marking cart with ID: ${cart.id} as COMPLETED`);
+        await this.cartService.completeCart(cart.id);
+        
+        this.logger.debug(`Transforming cart with ID: ${cart.id} to an order`);
         const order = await this.cartService.transformCartToOrder(cart.id);
-    
+        
         // If the payment is successful, create a payment record in your database
         this.logger.debug(`Creating a payment record for user ID: ${userId} and order ID: ${order.id}`);
         const paymentRecordDto = await this.createPaymentRecordFromIntent(order.id, userId, paymentIntent);
-
+    
         // Retrieve the actual Payment entity using the DTO's ID
         const paymentEntity = await this.paymentRepository.findOne({ where: { id: paymentRecordDto.id }});
         if (!paymentEntity) {
+            this.logger.error(`Failed to retrieve the Payment entity with ID: ${paymentRecordDto.id}`);
             throw new Error('Failed to retrieve the Payment entity after creation');
         }
         
         // Assign the Payment entity to the Order
         order.payment = paymentEntity;
+        this.logger.debug(`Assigning payment with ID: ${paymentEntity.id} to order with ID: ${order.id}`);
         
         await this.orderRepository.save(order);
         
-    
         return paymentIntent;
     }
+    
     
 }

@@ -30,6 +30,7 @@ module.exports = {
         placeholders: '#8D8D8D',
         gray: '#C9C9C9',
         error:'#E45851',
+        orange: '#FF9012',
       },
       fontFamily: {
         'montserrat': ['Montserrat'],

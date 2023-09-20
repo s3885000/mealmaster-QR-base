@@ -48,6 +48,10 @@ export class OrderController {
             return orderStatus;
         }
     }
+    @Get(':userId/ongoing-orders-owner')
+    async findAllOngoingOrdersForOwner(@Param('userId') userId: number): Promise<Order[]> {
+        return this.orderService.findAllOngoingOrdersForOwner(userId);
+    }
 
     @Get(':userId/ongoing-orders')
     async findAllOngoingOrders(@Param('userId') userId: number): Promise<Order[]> {

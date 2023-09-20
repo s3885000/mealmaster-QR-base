@@ -46,10 +46,10 @@ export class Order {
     pickup_type: PickupType;
 
     
-    @CreateDateColumn({ type: 'timestamp' })
+    @CreateDateColumn()
     create_at: Date;
 
-    @UpdateDateColumn({ type: 'timestamp' })
+    @UpdateDateColumn()
     update_at: Date;
 }
 

@@ -34,7 +34,7 @@ const MenuOverview = () => {
   };
 
   return (
-    <div className='MenuOverview flex flex-col'>
+    <div className='MenuOverview flex-col'>
       <Restaurant tableNo={tableNo}  restaurantId={restaurantId}/>
       <Categories setActiveCategoryId={setActiveCategoryId} setActiveCategoryName={setActiveCategoryName}/>
       { activeCategoryName && <h2 className="pl-6 pt-4 text-2xl not-italic font-medium">{activeCategoryName}</h2> }

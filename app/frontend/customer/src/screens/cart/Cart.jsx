@@ -41,6 +41,10 @@ const Cart = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    console.log("Cart items:", cartItems);
+  }, [cartItems]);
+
+  useEffect(() => {
     if (!paymentLoading && !paymentError && checkoutCompleted) {
         setPaymentSuccess(true);
         if (cartId) {
@@ -101,7 +105,24 @@ const Cart = () => {
     }
 
     const amountInDongs = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0) + (pickupType === PickupType.SERVE_TO_TABLE ? SERVE_TO_TABLE_FEE : 0);
-    dispatch(chargeUser(amountInDongs));
+    dispatch(chargeUser(amountInDongs))
+    .then(() => {
+      if (cartId) {
+        console.log('Attempting to complete cart with cartId:', cartId);
+        return dispatch(completeCart(cartId))
+      } else {
+        throw new Error('No cart ID found when trying to complete the cart.');
+      }
+    })
+    .then(() => {
+      dispatch(clearCart());
+
+      const decodedToken = decodeToken();
+      const userId = decodedToken?.sub;
+      if (userId) {
+        return dispatch(fetchOnGoingOrders(userId));
+      }
+    })
     setCheckoutCompleted(true);
 };
 
@@ -140,7 +161,7 @@ const Cart = () => {
 
           return (
             <Items
-              key={cartItem.id}
+              key={`${cartItem.id}-${cartItem.note}`}
               type='food_item_cart'
               cartItemId={cartItem.id}
               onAdd={() => handleAddToCart(menuItem)}
@@ -149,6 +170,7 @@ const Cart = () => {
                   dispatch(updateCartItemNote(cartItem.id, updatedNotes));
               }}
               {...menuItem}
+              note={cartItem.note}
               quantity={cartItem.quantity}
             />
           );

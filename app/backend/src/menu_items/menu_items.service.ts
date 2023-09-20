@@ -109,11 +109,11 @@ export class MenuItemsService {
           throw new NotFoundException(`Item with id ${id} not found!`);
         }
 
-        console.log("Existing category ID:", existingItem.category.id);
+        // console.log("Existing category ID:", existingItem.category.id);
     
         const {category_id, name, description, price, is_best_seller, status} = updateMenuItemDto;
 
-        console.log("Category ID from request:", category_id);
+        // console.log("Category ID from request:", category_id);
         
         if (category_id !== undefined) {
             const category = await this.categoryService.findOne(category_id);

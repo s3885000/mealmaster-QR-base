@@ -12,6 +12,7 @@ import { OwnerLoginDto } from 'src/user/dto/request/ownerLogin.dto';
 import { AnonymousGuard } from './guards/anonymous.guard';
 import { phoneNumberValidateDto } from 'src/user/dto/request/phoneNumberValidationDto.dto';
 import { UserService } from 'src/user/user.service';
+import { emailValidateDto } from 'src/user/dto/request/emailValidationDto.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -48,6 +49,13 @@ export class AuthController {
         return { valid: user !== null };
     }
     
+    //Validate email
+    @Post('validate-email')
+    @HttpCode(HttpStatus.OK)
+    async validateEmail(@Body(ValidationPipe) emailValidateDto: emailValidateDto): Promise<{ valid: boolean }> {
+        const user = await this.userService.findUserByEmail(emailValidateDto.email);
+        return { valid: user !== null };
+    }
 
     // Customer login
     @Post('login')

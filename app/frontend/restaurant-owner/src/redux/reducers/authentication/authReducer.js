@@ -1,18 +1,20 @@
 import {AUTH_LOGIN_REQUEST, CHECK_EMAIL_REQUEST, CHECK_EMAIL_SUCCESS, CHECK_EMAIL_FAILURE, AUTH_LOGIN_SUCCESS, AUTH_LOGIN_FAILURE, AUTH_LOGOUT, AUTH_SIGNUP_REQUEST, AUTH_SIGNUP_SUCCESS, AUTH_SIGNUP_FAILURE} from '../../actions/authentication/authActions';
 
 const initialState = {
-  isAuthenticated: false,
-  user: null,
-  emailExists: null,
-  loading: false,
-  error: null,
+    isAuthenticated: !!localStorage.getItem('accessToken'),
+    user: {
+        accessToken: localStorage.getItem('accessToken'),
+    },
+    emailExists: null,
+    loading: false,
+    error: null,
 };
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
       case AUTH_LOGIN_REQUEST:
       case CHECK_EMAIL_REQUEST:
-      case AUTH_SIGNUP_REQUEST:
+    //   case AUTH_SIGNUP_REQUEST:
           return {
               ...state,
               loading: true,
@@ -32,7 +34,7 @@ const authReducer = (state = initialState, action) => {
               error: action.payload,
           };
       case AUTH_LOGIN_SUCCESS:
-      case AUTH_SIGNUP_SUCCESS:
+    //   case AUTH_SIGNUP_SUCCESS:
           return {
               ...state,
               isAuthenticated: true,
@@ -40,7 +42,7 @@ const authReducer = (state = initialState, action) => {
               loading: false,
           };
       case AUTH_LOGIN_FAILURE:
-      case AUTH_SIGNUP_FAILURE:
+    //   case AUTH_SIGNUP_FAILURE:
           return {
               ...state,
               isAuthenticated: false,

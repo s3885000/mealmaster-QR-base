@@ -2,7 +2,9 @@
   margin: 0;
   padding: 0;
   font-family: 'Montserrat', sans-serif;
+  -webkit-tap-highlight-color: transparent;
 }
+
 
 #root {
   min-height: 100%;
@@ -24,6 +26,22 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+body, html {
+  overflow-y: auto;
+  height: 100%;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+html {
+  scrollbar-width: none; /* IE and Edge */
+  -ms-overflow-style: none; /* IE 10+ */
 }
 
 /* * {

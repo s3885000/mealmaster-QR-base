@@ -5,6 +5,7 @@ import { Dashboard, Login, OnGoing, PasswordRecovery, SignUp, Tables, Menu, Hist
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import './App.css';
+import { useAuthRedirect } from './hooks/redirectAfterLogin';
 
 const App = () => {
   const location = useLocation();
@@ -26,6 +27,8 @@ const App = () => {
 
     return () => clearTimeout(timer);
   }, []);
+
+  useAuthRedirect(location.pathname);
 
   return (
     <>

@@ -5,9 +5,13 @@ import { DownloadIcon, DragDropIcon, EditIcon, HideIcon, ViewIcon } from '../../
 import { FoodTwo } from '../../asset/images/restaurant_info/haidilao/food/index.js';
 import { Buttons, Popups } from '../../components';
 
+const formatPrice = (price) => {
+  return price ? price.toLocaleString('en-US') : '0';
+}
+
 const ItemContainer = ({ children, onClick }) => (
   <div 
-  className="flex w-5/6 justify-center min-w-[375px] md:min-w-[725px] lg:min-w-[910px] xl:min-w-[1295px] 2xl:min-w-[1400px] h-16 md:h-[70px] lg:h-[70px] bg-white rounded-md p-4"
+  className="flex w-5/6 justify-center min-w-[375px] md:min-w-[725px] lg:min-w-[890px] xl:min-w-[1295px] 2xl:min-w-[1400px] h-16 md:h-[70px] lg:h-[70px] bg-white rounded-md p-4"
     onClick={onClick}>
     {children}
   </div>
@@ -57,14 +61,19 @@ const foodItemTextColor = (iconState) => {
 
 const orderStatus = (status) => {
   switch(status) {
-    case 'active':
+    case 'ORDER_READY':
+      return 'text-primary'; 
+    case 'ORDER_IN_PROGRESS':
       return 'text-primary';
-    case 'in_progress':
-      return 'text-gray';
+    case 'ORDER_CONFIRMED':
+      return 'text-orange';
+    case 'ORDER_PENDING_ACCEPTANCE':
+      return 'text-gray'; 
     default:
       return '';
   }
 };
+
 
 const historyStatus = (status) => {
   switch(status) {
@@ -77,20 +86,45 @@ const historyStatus = (status) => {
   }
 };
 
-const Items = memo(({ type, state, index, onMove, isSelected = false, onCheckboxChange, onCategoryClick }) => {
+const Items = memo(({ type, state, index, onMove, isSelected = false, onCheckboxChange, onCategoryClick, data = {}, setSelectedOrder, selectedOrder }) => {
   const [iconState, setIconState] = useState('view');
   const [isEditTablePopupVisible, setIsEditTablePopupVisible] = useState(false);
   const [isEditCategoryPopupVisible, setIsEditCategoryPopupVisible] = useState(false);
   const [isEditFoodItemPopupVisible, setIsEditFoodItemPopupVisible] = useState(false);
   const [isDetailPopupVisible, setIsDetailPopupVisible] = useState(false);
   const [popupType, setPopupType] = useState('');
+
+  const showDetailPopupWrapper = (type, orderData) => {
+    let popupType = '';
+    switch (type) {
+      case 'ORDER_READY':
+        popupType = 'order_details_ready';
+        break;
+      case 'ORDER_IN_PROGRESS':
+        popupType = 'order_details_ready';
+        break;
+      case 'ORDER_CONFIRMED':
+        popupType = 'order_details_in_progress';
+        break;
+      case 'ORDER_PENDING_ACCEPTANCE':
+        popupType = 'order_details_confirmed';
+        break;
+      default:
+        popupType = '';
+    }
+    console.log("Setting popupType to:", popupType);
+  
+    setPopupType(popupType);
+    setIsDetailPopupVisible(true);
+    setSelectedOrder(orderData);
+};
+  
   
   const toggleIconState = () => {
     setIconState(prevState => (prevState === 'view' ? 'hide' : 'view'));
   };
 
   const showDetailPopup = (type) => {
-    console.log("showDetailPopup called with type:", type);
     setPopupType(type);
     setIsDetailPopupVisible(true);
   }
@@ -100,19 +134,36 @@ const Items = memo(({ type, state, index, onMove, isSelected = false, onCheckbox
     {isEditTablePopupVisible && <Popups visible={isEditTablePopupVisible} type="edit_table" onClose={() => setIsEditTablePopupVisible(false)} />}
     {isEditCategoryPopupVisible && <Popups visible={isEditCategoryPopupVisible} type="edit_category" onClose={() => setIsEditCategoryPopupVisible(false)} />}
     {isEditFoodItemPopupVisible && <Popups visible={isEditFoodItemPopupVisible} type="edit_food" onClose={() => setIsEditFoodItemPopupVisible(false)} />}
-    {isDetailPopupVisible && <Popups visible={isDetailPopupVisible} type={popupType} onClose={() => setIsDetailPopupVisible(false)} />}
+    {isDetailPopupVisible && <Popups visible={isDetailPopupVisible} type={popupType} data={{orderDetails: selectedOrder}} onClose={() => setIsDetailPopupVisible(false)} />}
     { (type === 'categories' || type === 'food_item') ? (
         <DraggableItem id={index} onMove={onMove} type={type}>
-            {renderSwitch(type, state, index, iconState, toggleIconState, isSelected, onCheckboxChange, onCategoryClick, setIsEditTablePopupVisible, setIsEditCategoryPopupVisible, setIsEditFoodItemPopupVisible, showDetailPopup)}
+            {renderSwitch(type, state, index, iconState, toggleIconState, isSelected, onCheckboxChange, onCategoryClick, setIsEditTablePopupVisible, setIsEditCategoryPopupVisible, setIsEditFoodItemPopupVisible, showDetailPopup, data, showDetailPopupWrapper)}
         </DraggableItem>
     ) : (
-        renderSwitch(type, state, index, iconState, toggleIconState, isSelected, onCheckboxChange, onCategoryClick, setIsEditTablePopupVisible, setIsEditCategoryPopupVisible, setIsEditFoodItemPopupVisible, showDetailPopup)
+        renderSwitch(type, state, index, iconState, toggleIconState, isSelected, onCheckboxChange, onCategoryClick, setIsEditTablePopupVisible, setIsEditCategoryPopupVisible, setIsEditFoodItemPopupVisible, showDetailPopup, data, showDetailPopupWrapper)
     )}
   </>
   );
 });
 
-const renderSwitch = (type, state, index, iconState, toggleIconState, isSelected, onCheckboxChange, onCategoryClick, setIsEditTablePopupVisible, setIsEditCategoryPopupVisible, setIsEditFoodItemPopupVisible, showDetailPopup) => {
+const renderSwitch = (type, state, index, iconState, toggleIconState, isSelected, onCheckboxChange, onCategoryClick, setIsEditTablePopupVisible, setIsEditCategoryPopupVisible, setIsEditFoodItemPopupVisible, showDetailPopup, data, showDetailPopupWrapper) => {
+    
+    // Function to convert UTC timestamp to local time in Vietnam
+    const convertToVietnamTime = (utcTimestamp) => {
+      const dateUtc = new Date(utcTimestamp);
+      const options = {
+        timeZone: 'Asia/Ho_Chi_Minh',
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+      };
+      return dateUtc.toLocaleString('en-US', options);
+    };     
+
     switch (type) {
         case 'tables':
             return (
@@ -195,41 +246,76 @@ const renderSwitch = (type, state, index, iconState, toggleIconState, isSelected
                     </div>
                 </ItemContainer>
             );
-        case 'orders':
-          const orderColor = orderStatus(state);
-            let popupToShow; 
-            if (state === 'active') {
-                popupToShow = 'order_details_ready';
-            } else if (state === 'in_progress') {
-                popupToShow = 'order_details_inprogress';
-            }
-  
-          return (
-              <ItemContainer>
-                  <div className={`flex-grow flex items-center space-x-3 md:space-x-5 lg:space-x-8`}>
-                      <span className={`text-sm md:text-base lg:text-lg font-bold ${orderColor}`}>Order ID: #ABC123</span>
-                      <span className="text-xs md:text-sm lg:text-base text-black">Timestamp: 20/12/2023 12:48</span>
-                      <span className="text-xs md:text-sm lg:text-base text-black">Table: 15</span>
-                      <span className="text-xs md:text-sm lg:text-base bold text-black">Item(s): 3</span> 
-                      <span className="text-xs md:text-sm lg:text-base text-black">Total: 1,500,000</span>
-                  </div>
-                  <Buttons context="details" onClick={() => showDetailPopup(popupToShow)}/>  
-              </ItemContainer>
-          );
+          case 'orders':
+            if (!data) return null; 
+            const orderColor = orderStatus(data.latestStatusDescription);
+            const localTimestamp = convertToVietnamTime(data.orderStatus[0].timestamp);
+        
+            // Mapping for pickup_type
+            const pickupTypeDisplay = {
+                'SELF_PICKUP': 'PickUp',
+                'SERVE_TO_TABLE': 'Serve'
+            };
+        
+            const displayPickupType = pickupTypeDisplay[data.pickup_type] || data.pickup_type;
+        
+            return (
+                <ItemContainer>
+                    <div className={`flex-grow flex items-center space-x-3 md:space-x-5 lg:space-x-8`}>
+                        <div className="flex flex-col w-40">
+                            <span className={`text-xs md:text-sm lg:text-base text-black font-bold ${orderColor}`}>Order ID:</span>
+                            <span className={`text-sm md:text-base lg:text-lg ${orderColor}`}>{data.unique_id}</span>
+                        </div>
+                        <div className="flex flex-col w-40">
+                            <span className="text-xs md:text-sm lg:text-base text-black font-bold">Timestamp:</span>
+                            <span className="text-xs md:text-sm lg:text-base text-black">{localTimestamp}</span>
+                        </div>
+                        <div className="flex flex-col w-20">
+                            <span className="text-xs md:text-sm lg:text-base text-black font-bold">Type:</span>
+                            <span className="text-xs md:text-sm lg:text-base text-black">{displayPickupType}</span>
+                        </div>
+                        <div className="flex flex-col w-20">
+                            <span className="text-xs md:text-sm lg:text-base text-black font-bold">Table:</span>
+                            <span className="text-xs md:text-sm lg:text-base text-black">{data.table.table_no}</span>
+                        </div>
+                        <div className="flex flex-col w-36">
+                            <span className="text-xs md:text-sm lg:text-base text-black font-bold">Total:</span>
+                            <span className="text-xs md:text-sm lg:text-base text-black">{formatPrice(data.total_price)}</span>
+                        </div>
+                    </div>
+                    {data.latestStatusDescription !== 'ORDER_READY' && <Buttons context="details" onClick={() => showDetailPopupWrapper(data.latestStatusDescription, data)} />}
+                </ItemContainer>
+              );
 
-        case 'history':
-          const historyColor = historyStatus(state);
-          return (
-            <ItemContainer>
-                <div className={`flex-grow flex items-center space-x-3 md:space-x-5 lg:space-x-8`}>
-                    <span className={`text-sm md:text-base lg:text-lg font-bold ${historyColor}`}>Order ID: #ABC123</span>
-                    <span className="text-xs md:text-sm lg:text-base text-black">Timestamp: 20/12/2023 12:48</span>
-                    <span className="text-xs md:text-sm lg:text-base text-black">Table: 15</span>
-                    <span className="text-xs md:text-sm lg:text-base text-black">Total: 1,500,000</span>
-                </div>
-                <Buttons context="details" onClick={() => showDetailPopup('history')}/>  
-            </ItemContainer>
-          );
+          case 'history':
+            const historyColor = historyStatus(state);
+            return (
+                <ItemContainer>
+                    <div className={`flex-grow flex items-center space-x-3 md:space-x-5 lg:space-x-8`}>
+                        <div className="flex flex-col w-40">
+                            <span className={`text-xs md:text-sm lg:text-base text-black font-bold ${historyColor}`}>Order ID:</span>
+                            <span className={`text-sm md:text-base lg:text-lg font-bold ${historyColor}`}>#ABC123</span>
+                        </div>
+                        <div className="flex flex-col w-40">
+                            <span className="text-xs md:text-sm lg:text-base text-black font-bold">Timestamp:</span>
+                            <span className="text-xs md:text-sm lg:text-base text-black">20/12/2023 12:48</span>
+                        </div>
+                        <div className="flex flex-col w-20">
+                            <span className="text-xs md:text-sm lg:text-base text-black font-bold">Type:</span>
+                            <span className="text-xs md:text-sm lg:text-base text-black">PickUp</span>
+                        </div>
+                        <div className="flex flex-col w-20">
+                            <span className="text-xs md:text-sm lg:text-base text-black font-bold">Table:</span>
+                            <span className="text-xs md:text-sm lg:text-base text-black">15</span>
+                        </div>
+                        <div className="flex flex-col w-36">
+                            <span className="text-xs md:text-sm lg:text-base text-black font-bold">Total:</span>
+                            <span className="text-xs md:text-sm lg:text-base text-black">1,500,000</span>
+                        </div>
+                    </div>
+                    <Buttons context="details" onClick={() => showDetailPopup('history')}/>  
+                </ItemContainer>
+            );          
         default:
             return null;
     }

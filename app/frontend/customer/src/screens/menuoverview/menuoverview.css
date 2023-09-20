@@ -1,7 +1,15 @@
-.menu-overview {
-    width: 299px;
-    height: 120px;
+.MenuOverview {
+    max-height: calc(100vh - 64px); /* Subtract the height of your navbar */
+    overflow-y: auto;
+    padding-bottom: 16px; /* Add padding to the bottom */
 }
 
+.MenuOverview::-webkit-scrollbar {
+    width: 0;
+}
 
+.MenuOverview {
+    -ms-overflow-style: none;  /* for Internet Explorer, Edge */
+    scrollbar-width: none;     /* for Firefox */
+}
   

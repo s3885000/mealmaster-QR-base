@@ -1,4 +1,5 @@
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
@@ -7,22 +8,37 @@ const api = axios.create({
   },
 });
 
-console.log("Axios baseURL:", api.defaults.baseURL);
+api.interceptors.request.use(
+    (config) => {
+      const token = localStorage.getItem('accessToken');
+      if (token) {
+        //console.log("Sending Token:", token);
+        config.headers['Authorization'] = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+);
+  
+export default api;
 
-export const checkEmailAPI = async (email) => {
-  const response = await api.get(`/auth/check-email`, { params: { email } });
-  return response.data;
-};
+// Function to decode the token and get user details
+export const decodeToken = () => {
+  const token = localStorage.getItem('accessToken');
+  if (!token) return null;
 
-export const loginUserAPI = async (email, password) => {
-  console.log("Sending login data:", { email, password }); 
-  const response = await api.post(`/auth/restaurant-owner/login`, { email, password });
-  return response.data;
-};
+  try {
+      const decoded = jwtDecode(token);
+      return {
+          ...decoded,
+          userId: decoded.sub // Map 'sub' to 'userId' for consistency
+      };
+  } catch (e) {
+      console.error("Failed to decode token:", e);
+      return null;
+  }
+}
 
-export const signupUserAPI = async (name, email, password) => {
-  console.log("Sending signup data:", { name, email, password }); 
-  const response = await api.post(`/auth/restaurant-owner/signup`, { name, email, password });
-  return response.data;
-};
 
